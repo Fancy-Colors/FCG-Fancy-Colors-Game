@@ -67,5 +67,5 @@ module.exports = {
 
     'plugin/declaration-block-no-ignored-properties': true,
   },
-  ignoreFiles: ['public/**/*.css', 'build/**/*.css'],
+  ignoreFiles: ['public/**/*.css', 'build/**/*.css', 'dist/**/*.css'],
 };
