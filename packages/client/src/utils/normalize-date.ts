@@ -1,3 +1,9 @@
+const MILLISECONDS = 1000;
+const MINS = 60;
+const SECONDS = 60;
+const HOURS = 24;
+const DAY = MILLISECONDS * MINS * SECONDS * HOURS;
+
 export function normalizeDate(d: string): string {
   //С API приходит строка вида: 2023-02-23T06:48:31+00:00
   const regEx =
@@ -24,7 +30,7 @@ export function normalizeDate(d: string): string {
   let dateToRender = '';
 
   if (
-    now.getTime() - date.getTime() < 1000 * 60 * 60 * 24 * 3 &&
+    now.getTime() - date.getTime() < DAY * 3 &&
     now.getDate() - date.getDate() <= 2
   ) {
     if (now.getDate() === date.getDate()) {
