@@ -8,6 +8,6 @@ type Props = {
 
 export const DateFormatted: FC<Props> = ({
   date = new Date().toISOString(),
-}: Props) => {
+}) => {
   return <time dateTime={date}>{normalizeDate(date)}</time>;
 };
