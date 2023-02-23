@@ -1,6 +1,21 @@
 :root {
-  --color-fg-default: #000;
-  --color-bg-default: #fff;
+  --color-primary-white: #fff;
+  --color-light-primary: #f5f8fa;
+  --color-light-secondary: #bdbdbd;
+  --color-medium: #6d7076;
+  --color-dark-primary: #0f101b;
+  --color-dark-secondary: #333739;
+  --color-accent-primary: #6644ec;
+  --color-accent-secondary: #ffe55f;
+  --color-error: #f00;
 
   --font-size-base: 14px;
+  --gap: 24px;
+  --column: calc((1440px - (11 * var(--gap))) / 12);
+}
+
+@media (max-width: 1440px) {
+  :root {
+    --column: calc((100vw - (11 * var(--gap))) / 12);
+  }
 }
