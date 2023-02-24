@@ -54,6 +54,6 @@
 
 ##### Представление
 
-![img_2.png](img_2.png)
+![image](https://user-images.githubusercontent.com/45194783/221287850-a8f64460-a4dd-4117-bed6-dd702f05b122.png)
 
-![img_1.png](img_1.png)
+![image](https://user-images.githubusercontent.com/45194783/221287814-ebe78d88-8e55-47d9-b289-50272865b93f.png)
