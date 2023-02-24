@@ -13,7 +13,7 @@ export const Avatar: FC<Props> = ({ avatar, first_name, label, size }) => {
   return (
     <div
       className={cn(styles.avatar, styles[size])}
-      style={{ backgroundImage: `url(${avatar})` || 'none' }}
+      style={{ backgroundImage: `url(${avatar})` }}
     >
       {!avatar && (
         <p>{first_name.length ? first_name[0].toUpperCase() : 'U'}</p>
