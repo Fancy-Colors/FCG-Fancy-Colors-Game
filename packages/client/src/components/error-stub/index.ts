@@ -1,3 +1,1 @@
-import { ErrorStub } from './error-stub';
-
-export { ErrorStub };
+export { ErrorStub } from './error-stub';
