@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Icon } from 'components/icon';
 import { Avatar } from 'components/avatar';
 
-const IconColor = '#6644EC';
+const ICON_COLOR = '#6644EC';
 
 type ProfileLinkProps = {
   label?: string;
@@ -25,13 +25,9 @@ export const ProfileLink = ({
   const sizeClass = size === 's' ? 'small' : 'large';
   return (
     <>
-      {size === 'l' ? (
-        <p className={cn(styles.label, 'text-main')}>{label}</p>
-      ) : (
-        ''
-      )}
+      {size === 'l' && <p className={cn(styles.label, 'text-main')}>{label}</p>}
       <div className={cn(styles.profileLink, styles[sizeClass])}>
-        {size === 'l' ? (
+        {size === 'l' && (
           <div className={styles.info}>
             <div className={styles.avatar}>
               <Avatar size="xs" name={name} avatar={avatar} />
@@ -41,11 +37,9 @@ export const ProfileLink = ({
               <div className={styles.email}>{email}</div>
             </div>
           </div>
-        ) : (
-          ''
         )}
-        <button className={styles.settings} onClick={onClick}>
-          <Icon size="medium" type="settings" color={IconColor} />
+        <button className={styles.settings} type="button" onClick={onClick}>
+          <Icon size="medium" type="settings" color={ICON_COLOR} />
         </button>
       </div>
     </>
