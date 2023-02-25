@@ -1,0 +1,76 @@
+import { FC } from 'react';
+import styles from './icon.module.pcss';
+import { ReactComponent as MainIcon } from 'assets/icons/main.svg';
+import { ReactComponent as LeaderBoardIcon } from 'assets/icons/leaderboard.svg';
+import { ReactComponent as ForumIcon } from 'assets/icons/forum.svg';
+import { ReactComponent as SettingsIcon } from 'assets/icons/settings.svg';
+import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
+import { ReactComponent as VKIcon } from 'assets/icons/vk.svg';
+import { ReactComponent as SearchIcon } from 'assets/icons/search.svg';
+import { ReactComponent as ArrowIcon } from 'assets/icons/arrow.svg';
+import { ReactComponent as CircleIcon } from 'assets/icons/circle.svg';
+import { ReactComponent as EnterIcon } from 'assets/icons/enter.svg';
+import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
+import { ReactComponent as GithubIcon } from 'assets/icons/github.svg';
+import { ReactComponent as MessageCountIcon } from 'assets/icons/message-count.svg';
+import { ReactComponent as SmileIcon } from 'assets/icons/smile.svg';
+import { ReactComponent as TelegramIcon } from 'assets/icons/telegram.svg';
+
+type Props = {
+  type:
+    | 'main'
+    | 'leaderboard'
+    | 'forum'
+    | 'settings'
+    | 'close'
+    | 'vk'
+    | 'search'
+    | 'arrow'
+    | 'circle'
+    | 'enter'
+    | 'exit'
+    | 'github'
+    | 'message'
+    | 'smile'
+    | 'telegram';
+  size: 'xs' | 'small' | 'medium' | 'large';
+  color: string;
+};
+
+export const Icon: FC<Props> = ({ type, size, color }) => {
+  switch (type) {
+    case 'main':
+      return <MainIcon className={styles[size]} fill={color} />;
+    case 'leaderboard':
+      return <LeaderBoardIcon className={styles[size]} fill={color} />;
+    case 'forum':
+      return <ForumIcon className={styles[size]} fill={color} />;
+    case 'settings':
+      return <SettingsIcon className={styles[size]} fill={color} />;
+    case 'close':
+      return <CloseIcon className={styles[size]} fill={color} />;
+    case 'vk':
+      return <VKIcon className={styles[size]} fill={color} />;
+    case 'search':
+      return <SearchIcon className={styles[size]} fill={color} />;
+    case 'arrow':
+      return <ArrowIcon className={styles[size]} fill={color} />;
+    case 'circle':
+      return <CircleIcon className={styles[size]} fill={color} />;
+    case 'enter':
+      return <EnterIcon className={styles[size]} fill={color} />;
+    case 'exit':
+      return <ExitIcon className={styles[size]} fill={color} />;
+    case 'github':
+      return <GithubIcon className={styles[size]} fill={color} />;
+    case 'message':
+      return <MessageCountIcon className={styles[size]} fill={color} />;
+    case 'smile':
+      return <SmileIcon className={styles[size]} fill={color} />;
+    case 'telegram':
+      return <TelegramIcon className={styles[size]} fill={color} />;
+
+    default:
+      return <span>NO ICON</span>;
+  }
+};
