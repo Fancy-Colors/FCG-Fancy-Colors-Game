@@ -1,0 +1,47 @@
+.profileLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 14px;
+}
+
+.profileLink.small {
+  padding-right: 0;
+}
+
+.label {
+  margin: 0 0 16px;
+  color: var(--color-medium);
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  margin-left: 8px;
+}
+
+.name {
+  margin-bottom: 4px;
+}
+
+.email {
+  color: var(--color-light-secondary);
+}
+
+.settings {
+  cursor: pointer;
+  transition: filter 0.3s ease;
+  border: none;
+  background: none;
+}
+
+.settings:hover {
+  filter: brightness(70%);
+}
