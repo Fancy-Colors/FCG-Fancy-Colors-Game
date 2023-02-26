@@ -3,7 +3,7 @@ import styles from './avatar.module.pcss';
 import cn from 'classnames';
 
 type Props = {
-  size: 'l' | 'm' | 's' | 'xs';
+  size: 'large' | 'medium' | 'small' | 'xs';
   avatar?: string;
   name: string;
   label?: string;
