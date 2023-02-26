@@ -680,6 +680,7 @@
   version "29.4.3"
   resolved "https://registry.yarnpkg.com/@jest/test-sequencer/-/test-sequencer-29.4.3.tgz#0862e876a22993385a0f3e7ea1cc126f208a2898"
   integrity sha512-yi/t2nES4GB4G0mjLc0RInCq/cNr9dNwJxcGg8sslajua5Kb4kmozAc+qPLzplhBgfw1vLItbjyHzUN92UXicw==
+
   dependencies:
     "@jest/test-result" "^29.4.3"
     graceful-fs "^4.2.9"
@@ -691,6 +692,7 @@
   resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-29.4.3.tgz#f7d17eac9cb5bb2e1222ea199c7c7e0835e0c037"
   integrity sha512-8u0+fBGWolDshsFgPQJESkDa72da/EVwvL+II0trN2DR66wMwiQ9/CihaGfHdlLGFzbBZwMykFtxuwFdZqlKwg==
   dependencies:
+
     "@babel/core" "^7.11.6"
     "@jest/types" "^29.4.3"
     "@jridgewell/trace-mapping" "^0.3.15"
