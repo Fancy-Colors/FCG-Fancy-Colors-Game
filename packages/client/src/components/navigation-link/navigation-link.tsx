@@ -11,7 +11,7 @@ type Props = {
   active: boolean;
   text: string;
   informer?: string;
-} & JSX.IntrinsicElements['button'];
+};
 
 export const NavigationLink: FC<Props> = ({
   iconType,
