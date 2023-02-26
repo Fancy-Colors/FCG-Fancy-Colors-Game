@@ -7,7 +7,7 @@ const ICON_COLOR = '#6644EC';
 
 type ProfileLinkProps = {
   label?: string;
-  size?: 's' | 'l';
+  size?: 'small' | 'large';
   name: string;
   email: string;
   avatar?: string;
@@ -16,18 +16,19 @@ type ProfileLinkProps = {
 
 export const ProfileLink = ({
   label = 'Профиль',
-  size = 'l',
+  size = 'large',
   name,
   email,
   avatar = '',
   onClick,
 }: ProfileLinkProps) => {
-  const sizeClass = size === 's' ? 'small' : 'large';
   return (
     <>
-      {size === 'l' && <p className={cn(styles.label, 'text-main')}>{label}</p>}
-      <div className={cn(styles.profileLink, styles[sizeClass])}>
-        {size === 'l' && (
+      {size === 'large' && (
+        <p className={cn(styles.label, 'text-main')}>{label}</p>
+      )}
+      <div className={cn(styles.profileLink, styles[size])}>
+        {size === 'large' && (
           <div className={styles.info}>
             <div className={styles.avatar}>
               <Avatar size="xs" name={name} avatar={avatar} />
