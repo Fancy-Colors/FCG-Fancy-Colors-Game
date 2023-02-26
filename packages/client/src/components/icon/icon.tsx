@@ -17,22 +17,7 @@ import { ReactComponent as SmileIcon } from 'assets/icons/smile.svg';
 import { ReactComponent as TelegramIcon } from 'assets/icons/telegram.svg';
 
 type Props = {
-  type:
-    | 'main'
-    | 'leaderboard'
-    | 'forum'
-    | 'settings'
-    | 'close'
-    | 'vk'
-    | 'search'
-    | 'arrow'
-    | 'circle'
-    | 'enter'
-    | 'exit'
-    | 'github'
-    | 'message'
-    | 'smile'
-    | 'telegram';
+  type: IconType;
   size: 'xs' | 'small' | 'medium' | 'large';
   color: string;
 };
