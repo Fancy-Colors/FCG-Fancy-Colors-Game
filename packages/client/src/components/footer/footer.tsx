@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const ICON_COLOR = '#0f101b';
 const COPYRIGHT = `@FC`;
-const COPYRIGHT_FULL = `@${new Date().getFullYear()}, Fancy Colors`;
+const COPYRIGHT_EXPANDED = `@${new Date().getFullYear()}, Fancy Colors`;
 
 type IconLink = {
   type: IconType;
@@ -14,18 +14,18 @@ type IconLink = {
 };
 
 type Props = {
-  size: 's' | 'l';
+  expanded: boolean;
   icons: IconLink[];
 };
 
-export const Footer: FC<Props> = ({ icons, size = 'l' }) => {
-  const footerClass = cn(styles.footer, styles[size], {
-    ['w-4']: size === 'l',
-    ['w-1']: size === 's',
+export const Footer: FC<Props> = ({ icons, expanded = true }) => {
+  const footerClass = cn(styles.footer, {
+    ['w-4 expanded']: expanded,
+    ['w-1']: !expanded,
   });
   return (
     <footer className={footerClass}>
-      {size === 'l' && (
+      {expanded && (
         <ul className={styles.icons}>
           {icons.map(({ type, link }) => (
             <li key={`social-link-${type}`}>
@@ -36,7 +36,7 @@ export const Footer: FC<Props> = ({ icons, size = 'l' }) => {
           ))}
         </ul>
       )}
-      <p className="text-main">{size === 'l' ? COPYRIGHT_FULL : COPYRIGHT}</p>
+      <p className="text-main">{expanded ? COPYRIGHT_EXPANDED : COPYRIGHT}</p>
     </footer>
   );
 };
