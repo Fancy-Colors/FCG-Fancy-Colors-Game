@@ -1,6 +1,55 @@
 pre-commit:
   parallel: true
   commands:
-    lint:
+    lint:misc:
+      glob: '*.{html,json,yml,md}'
+      exclude: 'package-lock.json'
+      run: yarn prettier --write --loglevel warn {staged_files} && git add {staged_files}
+    lint:css:
+      glob: '*.{css,pcss}'
+      run: >
+        yarn stylelint --fix {staged_files} &&
+        yarn prettier --write --loglevel warn {staged_files} &&
+        git add {staged_files}
+    lint:js:client:
+      root: 'packages/client/'
       glob: '*.{ts,tsx}'
-      run: yarn eslint {staged_files}
+      exclude: '^(.*)\.(spec|test)\.tsx?'
+      env:
+        PRE_COMMIT: true
+      run: >
+        yarn eslint --fix --max-warnings=0 {staged_files} &&
+        yarn prettier --write --loglevel warn {staged_files} &&
+        yarn jest --bail --findRelatedTests --passWithNoTests {staged_files} &&
+        git add {staged_files}
+    lint:js:server:
+      root: 'packages/server/'
+      glob: '*.{ts,tsx}'
+      exclude: '^(.*)\.(spec|test)\.tsx?'
+      env:
+        PRE_COMMIT: true
+      run: >
+        yarn eslint --fix --max-warnings=0 {staged_files} &&
+        yarn prettier --write --loglevel warn {staged_files} &&
+        yarn jest --bail --findRelatedTests --passWithNoTests {staged_files} &&
+        git add {staged_files}
+    test:unit:client:
+      root: 'packages/client/'
+      glob: '*.{spec,test}.{ts,tsx}'
+      env:
+        PRE_COMMIT: true
+      run: >
+        yarn eslint --fix {staged_files} &&
+        yarn prettier --write --loglevel warn {staged_files} &&
+        yarn jest {staged_files} &&
+        git add {staged_files}
+    test:unit:server:
+      root: 'packages/server/'
+      glob: '*.{spec,test}.{ts,tsx}'
+      env:
+        PRE_COMMIT: true
+      run: >
+        yarn eslint --fix {staged_files} &&
+        yarn prettier --write --loglevel warn {staged_files} &&
+        yarn jest {staged_files} &&
+        git add {staged_files}
