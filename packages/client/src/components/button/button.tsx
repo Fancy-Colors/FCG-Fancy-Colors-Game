@@ -1,5 +1,7 @@
+import { FC } from 'react';
 import styles from './button.module.pcss';
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 
 enum ButtonColor {
   gradient = 'gradient',
@@ -14,26 +16,21 @@ const ButtonColorChoice = {
 };
 
 type ButtonProps = {
-  type?: 'button' | 'submit';
   link?: string;
-  title: string;
   color?: keyof typeof ButtonColor;
   size?: 's' | 'm' | 'l';
   className?: string;
-  isLink?: boolean;
-  onClick?: () => void;
-};
+  children: JSX.Element | JSX.Element[] | string;
+} & JSX.IntrinsicElements['button'];
 
-export const Button = ({
-  type = 'submit',
+export const Button: FC<ButtonProps> = ({
   link,
-  title = '',
   color = ButtonColor.colored,
   size = 'm',
   className,
-  isLink = false,
-  onClick,
-}: ButtonProps) => {
+  children,
+  ...props
+}) => {
   const cnButton = cn(
     className,
     styles.button,
@@ -43,13 +40,13 @@ export const Button = ({
 
   return (
     <>
-      {isLink ? (
-        <a href={link} className={cnButton}>
-          <span className={styles.btn}>{title}</span>
-        </a>
+      {link ? (
+        <Link to={link} className={cnButton}>
+          <span className={styles.btn}>{children}</span>
+        </Link>
       ) : (
-        <button type={type} className={cnButton} onClick={onClick}>
-          <span className={styles.btn}>{title}</span>
+        <button className={cnButton} {...props}>
+          <span className={styles.btn}>{children}</span>
         </button>
       )}
     </>
