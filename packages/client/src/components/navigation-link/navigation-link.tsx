@@ -6,7 +6,7 @@ import { Icon } from 'components/icon';
 const ICON_COLOR = '#0f101b';
 
 type Props = {
-  size: 's' | 'l';
+  expanded: boolean;
   iconType: IconType;
   active: boolean;
   text: string;
@@ -18,16 +18,17 @@ export const NavigationLink: FC<Props> = ({
   active,
   text,
   informer,
-  size = 'l',
+  expanded = true,
 }) => {
   return (
     <div
       className={cn(styles.navigation, styles[size], {
         [styles.active]: active,
+        [styles.expanded]: expanded,
       })}
     >
       <Icon type={iconType} size="small" color={ICON_COLOR} />
-      {size === 'l' && (
+      {expanded && (
         <div className={styles.textAndInfoWrap}>
           <p className={cn(styles.text, 'text-main')}>{text}</p>
           {informer && <div className={styles.informer}>{informer}</div>}
