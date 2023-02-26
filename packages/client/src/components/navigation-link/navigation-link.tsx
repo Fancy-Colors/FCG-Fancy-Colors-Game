@@ -22,7 +22,7 @@ export const NavigationLink: FC<Props> = ({
 }) => {
   return (
     <div
-      className={cn(styles.navigation, styles[size], {
+      className={cn(styles.navigation, {
         [styles.active]: active,
         [styles.expanded]: expanded,
       })}
