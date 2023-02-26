@@ -22,8 +22,7 @@
       "styles/*": ["./src/styles/*"],
       "utils/*": ["./src/utils/*"],
       "src/*": ["./src/*"]
-    },
-    "typeRoots": ["node_modules/@types", "typings/*.d.ts"]
+    }
   },
   "include": ["src", "typings"],
   "references": [{ "path": "./tsconfig.node.json" }]
