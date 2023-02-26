@@ -8,17 +8,17 @@ const ICON_COLOR = '#0f101b';
 const COPYRIGHT = `@FC`;
 const COPYRIGHT_EXPANDED = `@${new Date().getFullYear()}, Fancy Colors`;
 
-type IconLink = {
-  type: IconType;
+type Link = {
+  icon: IconType;
   link: string;
 };
 
 type Props = {
   expanded: boolean;
-  icons: IconLink[];
+  links: Link[];
 };
 
-export const Footer: FC<Props> = ({ icons, expanded = true }) => {
+export const Footer: FC<Props> = ({ links, expanded = true }) => {
   const footerClass = cn(styles.footer, {
     ['w-4 expanded']: expanded,
     ['w-1']: !expanded,
@@ -27,11 +27,11 @@ export const Footer: FC<Props> = ({ icons, expanded = true }) => {
     <footer className={footerClass}>
       {expanded && (
         <ul className={styles.icons}>
-          {icons.map(({ type, link }) => (
-            <li key={`social-link-${type}`}>
-              <Link to={link} target="_blank">
-                <Icon type={type} size="medium" color={ICON_COLOR} />
-              </Link>
+          {links.map(({ icon, link }) => (
+            <li key={link}>
+              <a href={link} target="_blank" rel="noreferrer">
+                <Icon type={icon} size="medium" color={ICON_COLOR} />
+              </a>
             </li>
           ))}
         </ul>
