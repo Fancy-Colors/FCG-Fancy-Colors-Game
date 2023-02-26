@@ -7,7 +7,7 @@ const ICON_COLOR = '#6644EC';
 
 type ProfileLinkProps = {
   label?: string;
-  size?: 'small' | 'large';
+  expanded?: boolean;
   name: string;
   email: string;
   avatar?: string;
@@ -16,7 +16,7 @@ type ProfileLinkProps = {
 
 export const ProfileLink = ({
   label = 'Профиль',
-  size = 'large',
+  expanded = true,
   name,
   email,
   avatar = '',
@@ -24,11 +24,9 @@ export const ProfileLink = ({
 }: ProfileLinkProps) => {
   return (
     <>
-      {size === 'large' && (
-        <p className={cn(styles.label, 'text-main')}>{label}</p>
-      )}
-      <div className={cn(styles.profileLink, styles[size])}>
-        {size === 'large' && (
+      {expanded && <p className={cn(styles.label, 'text-main')}>{label}</p>}
+      <div className={cn(styles.profileLink, { [styles.expanded]: expanded })}>
+        {expanded && (
           <div className={styles.info}>
             <div className={styles.avatar}>
               <Avatar size="xs" name={name} avatar={avatar} />
