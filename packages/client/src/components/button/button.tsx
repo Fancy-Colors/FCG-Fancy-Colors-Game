@@ -18,7 +18,7 @@ const ButtonColorChoice = {
 type ButtonProps = {
   link?: string;
   color?: keyof typeof ButtonColor;
-  size?: 's' | 'm' | 'l';
+  size?: 'small' | 'medium' | 'large';
   className?: string;
   children: JSX.Element | JSX.Element[] | string;
 } & JSX.IntrinsicElements['button'];
@@ -26,7 +26,7 @@ type ButtonProps = {
 export const Button: FC<ButtonProps> = ({
   link,
   color = ButtonColor.colored,
-  size = 'm',
+  size = 'medium',
   className,
   children,
   ...props
