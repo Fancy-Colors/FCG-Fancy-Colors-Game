@@ -1,0 +1,61 @@
+.sideMenu {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  padding: 12px;
+  height: 168px;
+}
+
+.nav {
+  display: flex;
+  flex-flow: column;
+  gap: 24px;
+}
+
+.textMenu {
+  margin: 0;
+}
+
+.mainLinksWrap {
+  display: flex;
+  flex-flow: column;
+  gap: 24px;
+}
+
+.delimiter {
+  height: 1px;
+  background-color: black;
+  outline: none;
+}
+
+.menuToggler {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transform: rotate(-180deg);
+  transition: transform ease 200ms;
+  width: 100%;
+
+  &.expanded {
+    transform: rotate(0);
+    float: right;
+
+    & svg {
+      float: right;
+    }
+  }
+}
+
+.exit {
+  margin: 0 auto;
+  background-color: transparent;
+  border: none;
+  text-align: start;
+  display: block;
+  cursor: pointer;
+}
