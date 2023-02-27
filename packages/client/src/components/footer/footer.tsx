@@ -26,7 +26,7 @@ export const Footer: FC<Props> = ({ links, expanded = true }) => {
   return (
     <footer className={footerClass}>
       {expanded && (
-        <ul className={styles.icons}>
+        <ul className={cn(styles.icons, 'w-3')}>
           {links.map(({ icon, link }) => (
             <li key={link}>
               <a href={link} target="_blank" rel="noreferrer">
@@ -36,7 +36,14 @@ export const Footer: FC<Props> = ({ links, expanded = true }) => {
           ))}
         </ul>
       )}
-      <p className="text-main">{expanded ? COPYRIGHT_EXPANDED : COPYRIGHT}</p>
+      <p
+        className={cn('text-main', {
+          [styles.expanded]: expanded,
+          ['w-3']: expanded,
+        })}
+      >
+        {expanded ? COPYRIGHT_EXPANDED : COPYRIGHT}
+      </p>
     </footer>
   );
 };
