@@ -1,18 +1,20 @@
 import { FC } from 'react';
-import styles from './button.module.pcss';
-import cn from 'classnames';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import styles from './button.module.pcss';
 
 enum ButtonColor {
   gradient = 'gradient',
   colored = 'colored',
   light = 'light',
+  icon = 'icon',
 }
 
 const ButtonColorChoice = {
   [ButtonColor.gradient]: styles.gradient,
   [ButtonColor.colored]: styles.colored,
   [ButtonColor.light]: styles.light,
+  [ButtonColor.icon]: styles.icon,
 };
 
 type ButtonProps = {
