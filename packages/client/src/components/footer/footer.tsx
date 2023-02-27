@@ -2,7 +2,6 @@ import { FC } from 'react';
 import styles from './footer.module.pcss';
 import cn from 'classnames';
 import { Icon } from 'components/icon';
-import { Link } from 'react-router-dom';
 
 const ICON_COLOR = '#0f101b';
 const COPYRIGHT = `@FC`;
