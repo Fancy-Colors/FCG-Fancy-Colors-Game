@@ -6,14 +6,13 @@
   flex-flow: column;
   justify-content: center;
   gap: 12px;
-  padding: 4px;
-
-  &.expanded {
-    padding: 12px;
-  }
 
   & p {
-    margin: 0;
+    margin: 0 auto;
+
+    &.expanded {
+      text-align: left;
+    }
   }
 }
 
@@ -23,7 +22,7 @@
   align-items: center;
   justify-content: flex-start;
   padding-inline-start: 0;
-  margin: 0;
+  margin: 0 auto;
 
   & li {
     list-style-type: none;
