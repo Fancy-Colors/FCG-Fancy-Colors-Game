@@ -8,8 +8,9 @@ type Props = {
 export const TestPage: FC<Props> = ({ text }) => {
   return (
     <>
+      <div className="App">Вот тут будет жить ваше приложение :)</div>
       <div>{text}</div>
       <Outlet />
     </>
   );
-}
+};
