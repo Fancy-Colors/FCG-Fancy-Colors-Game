@@ -680,7 +680,6 @@
   version "29.4.3"
   resolved "https://registry.yarnpkg.com/@jest/test-sequencer/-/test-sequencer-29.4.3.tgz#0862e876a22993385a0f3e7ea1cc126f208a2898"
   integrity sha512-yi/t2nES4GB4G0mjLc0RInCq/cNr9dNwJxcGg8sslajua5Kb4kmozAc+qPLzplhBgfw1vLItbjyHzUN92UXicw==
-
   dependencies:
     "@jest/test-result" "^29.4.3"
     graceful-fs "^4.2.9"
