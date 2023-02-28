@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.control {
+  padding: 0 10px;
+}
+
+.page {
+  width: 30px;
+  padding: 0;
+
+  &.current {
+    background-color: var(--color-accent-primary, #6644ec);
+  }
+}
+
+.page,
+.control {
+  height: 30px;
+  min-width: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 0;
+  border-radius: 5px;
+  color: var(--color-primary-white, #fff);
+  background-color: var(--color-light-secondary, #bdbdbd);
+  cursor: pointer;
+}
+
+.results {
+  margin-left: 8px;
+  color: var(--color-medium, #6d7076);
+}
