@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
+import { ProtectedRoutes } from './utils/protected-routes';
 
 export enum Paths {
   main = '/',
@@ -17,6 +18,7 @@ export enum Paths {
 }
 
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
+// Тестовая страница пусть остается пока не будут добавлены все страницы
 
 function App() {
   return (
@@ -34,33 +36,37 @@ function App() {
             element={<TestPage text="Регистрация" />}
           />
           <Route path={Paths.login} element={<TestPage text="Логин" />} />
-          <Route path={Paths.profile} element={<TestPage text="Профиль" />} />
-          <Route
-            path={Paths.game}
-            element={<TestPage text="Страница игры" />}
-          />
-          <Route
-            path={Paths.leaderboard}
-            element={<TestPage text="Лидерборд" />}
-          />
-          <Route path={Paths.forum} element={<TestPage text="Форум" />}>
+
+          <Route element={<ProtectedRoutes />}>
+            <Route path={Paths.profile} element={<TestPage text="Профиль" />} />
             <Route
-              path={Paths.new_thread}
-              element={<TestPage text='Модалка "Создать тему"' />}
+              path={Paths.game}
+              element={<TestPage text="Страница игры" />}
+            />
+            <Route
+              path={Paths.leaderboard}
+              element={<TestPage text="Лидерборд" />}
+            />
+            <Route path={Paths.forum} element={<TestPage text="Форум" />}>
+              <Route
+                path={Paths.new_thread}
+                element={<TestPage text='Модалка "Создать тему"' />}
+              />
+            </Route>
+            <Route
+              path={Paths.thread}
+              element={<TestPage text="Тема форума" />}
+            />
+            <Route
+              path={Paths.error500}
+              element={<TestPage text="Ошибка 500" />}
+            />
+            <Route
+              path={Paths.error404}
+              element={<TestPage text="Ошибка 404" />}
             />
           </Route>
-          <Route
-            path={Paths.thread}
-            element={<TestPage text="Тема форума" />}
-          />
-          <Route
-            path={Paths.error500}
-            element={<TestPage text="Ошибка 500" />}
-          />
-          <Route
-            path={Paths.error404}
-            element={<TestPage text="Ошибка 404" />}
-          />
+
           <Route path="*" element={<TestPage text="Нет такой страницы" />} />
         </Routes>
       </div>
