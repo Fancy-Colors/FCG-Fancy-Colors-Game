@@ -1,0 +1,34 @@
+.footer {
+  border-top: 1px solid var(--color-dark-primary, #0f101b);
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  gap: 12px;
+
+  & p {
+    margin: 0 auto;
+
+    &.expanded {
+      text-align: left;
+    }
+  }
+}
+
+.icons {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  padding-inline-start: 0;
+  margin: 0 auto;
+
+  & li {
+    list-style-type: none;
+  }
+
+  & li:hover {
+    opacity: 0.7;
+  }
+}
