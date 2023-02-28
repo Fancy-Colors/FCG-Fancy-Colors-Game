@@ -1,0 +1,39 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tabItem {
+  position: relative;
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    border-bottom: 2px solid var(--color-accent-primary, #6644ec);
+    opacity: 0;
+  }
+
+  &.active::after {
+    opacity: 1;
+  }
+}
+
+.control {
+  padding: 6px 0;
+  border: 0;
+  background: 0 0;
+  font-size: 16px;
+  white-space: nowrap;
+  appearance: none;
+  cursor: pointer;
+  overflow: visible;
+}
