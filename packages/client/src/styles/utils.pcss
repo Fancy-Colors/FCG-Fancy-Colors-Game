@@ -1,1 +1,23 @@
-/* Утилитарные классы */
+/* stylelint-disable selector-class-pattern */
+
+.u-fancy-scrollbar {
+  --color-scrollbar-track: var(--color-light-secondary, #bdbdbd);
+  --color-scrollbar-thumb: var(--color-accent-primary, #6644ec);
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: overlay;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-scrollbar-track);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--color-scrollbar-thumb);
+  }
+}
