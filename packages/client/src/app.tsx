@@ -3,17 +3,17 @@ import { TestPage } from './pages/test';
 
 export enum Paths {
   main = '/',
-  howto = 'how-to',
-  register = 'sign-up',
-  login = 'login',
-  profile = 'profile',
-  game = 'game/:id',
-  leaderboard = 'leaderboard',
-  forum = 'forum',
-  new_thread = 'forum/new',
-  thread = 'forum/:id',
-  error500 = '500',
-  error404 = '404',
+  howto = '/how-to',
+  register = '/sign-up',
+  login = '/login',
+  profile = '/profile',
+  game = '/game/:id',
+  leaderboard = '/leaderboard',
+  forum = '/forum',
+  new_thread = '/forum/new',
+  thread = '/forum/:id',
+  error500 = '/500',
+  error404 = '/404',
 }
 
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
@@ -59,7 +59,7 @@ function App() {
           />
           <Route
             path={Paths.error404}
-            element={<TestPage text="Нет такой страницы" />}
+            element={<TestPage text="Ошибка 404" />}
           />
           <Route path="*" element={<TestPage text="Нет такой страницы" />} />
         </Routes>
