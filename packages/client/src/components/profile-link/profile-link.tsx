@@ -3,11 +3,12 @@ import cn from 'classnames';
 import { Icon } from 'components/icon';
 import { Avatar } from 'components/avatar';
 
-const ICON_COLOR = '#6644EC';
+const ICON_COLOR = '#0F101B';
 
 type ProfileLinkProps = {
   label?: string;
   expanded?: boolean;
+  active?: boolean;
   name: string;
   email: string;
   avatar?: string;
@@ -17,6 +18,7 @@ type ProfileLinkProps = {
 export const ProfileLink = ({
   label = 'Профиль',
   expanded = true,
+  active = false,
   name,
   email,
   avatar = '',
@@ -25,7 +27,14 @@ export const ProfileLink = ({
   return (
     <>
       {expanded && <p className={cn(styles.label, 'text-main')}>{label}</p>}
-      <div className={cn(styles.profileLink, { [styles.expanded]: expanded })}>
+      <button
+        type="button"
+        className={cn(styles.profileLink, {
+          [styles.collapsed]: !expanded,
+          [styles.active]: active,
+        })}
+        onClick={onClick}
+      >
         {expanded && (
           <div className={styles.info}>
             <div className={styles.avatar}>
@@ -37,10 +46,10 @@ export const ProfileLink = ({
             </div>
           </div>
         )}
-        <button className={styles.settings} type="button" onClick={onClick}>
+        <div className={styles.settings}>
           <Icon size="medium" type="settings" color={ICON_COLOR} />
-        </button>
-      </div>
+        </div>
+      </button>
     </>
   );
 };

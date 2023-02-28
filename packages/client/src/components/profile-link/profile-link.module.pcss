@@ -2,15 +2,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 14px;
+  transition: background-color 0.3s ease;
+  padding: 12px 14px 12px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
 
-  &.expanded {
+  &.collapsed {
     padding-right: 0;
+    justify-content: center;
+  }
+
+  &:hover,
+  &.active {
+    background: #f5f8fa;
+    border-radius: 4px;
   }
 }
 
 .label {
-  margin: 0 0 16px;
+  margin: 0 0 4px;
   color: var(--color-medium);
 }
 
@@ -33,15 +46,4 @@
 
 .email {
   color: var(--color-light-secondary);
-}
-
-.settings {
-  cursor: pointer;
-  transition: filter 0.3s ease;
-  border: none;
-  background: none;
-}
-
-.settings:hover {
-  filter: brightness(70%);
 }
