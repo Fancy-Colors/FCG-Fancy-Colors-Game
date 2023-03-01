@@ -1,0 +1,49 @@
+.profileLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+  padding: 12px 14px 12px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+
+  &.collapsed {
+    padding-right: 0;
+    justify-content: center;
+  }
+
+  &:hover,
+  &.active {
+    background: #f5f8fa;
+    border-radius: 4px;
+  }
+}
+
+.label {
+  margin: 0 0 4px;
+  color: var(--color-medium);
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  margin-left: 8px;
+}
+
+.name {
+  margin-bottom: 4px;
+}
+
+.email {
+  color: var(--color-light-secondary);
+}
