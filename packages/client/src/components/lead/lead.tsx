@@ -1,11 +1,11 @@
 import { FC, useRef } from 'react';
 import cn from 'classnames';
-import 'swiper/swiper-bundle.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper';
+import { Pagination } from 'swiper';
 import { Icon } from 'components/icon';
 import { TSwiper, TSlide } from './lead.types';
 import styles from './lead.module.pcss';
+import 'swiper/swiper-bundle.min.css';
 
 type Props = {
   slides: TSlide[];
@@ -39,9 +39,10 @@ export const Lead: FC<Props> = ({ slides }) => {
   return (
     <section className={styles.lead}>
       <Swiper
-        modules={[Pagination, Navigation]}
+        modules={[Pagination]}
         slidesPerView={1}
         pagination={{ clickable: true }}
+        loop
         onSwiper={(swiper) => {
           swiperRef.current = swiper as TSwiper;
         }}
