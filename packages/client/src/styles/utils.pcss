@@ -1,1 +1,26 @@
+/* stylelint-disable selector-class-pattern */
+
 /* Утилитарные классы */
+
+/* Кастомная стилизация свайпера */
+.swiper .swiper-pagination {
+  background-color: var(--color-accent-primary, #6644ec);
+  width: min-content;
+  display: flex;
+  padding: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+body .swiper .swiper-pagination-bullet {
+  background: var(--color-accent-secondary, #ffe55f);
+  opacity: 1;
+}
+
+body .swiper .swiper-pagination-bullet-active {
+  background: var(--color-light-primary, #f5f8fa);
+  opacity: 1;
+}
