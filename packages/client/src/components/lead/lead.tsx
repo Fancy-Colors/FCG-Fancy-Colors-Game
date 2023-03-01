@@ -1,11 +1,12 @@
 import { FC, useRef } from 'react';
+import 'swiper/swiper-bundle.min.css';
 import cn from 'classnames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import { Icon } from 'components/icon';
 import { TSwiper, TSlide } from './lead.types';
 import styles from './lead.module.pcss';
-import 'swiper/swiper-bundle.min.css';
+import { Button } from 'components/button';
 
 type Props = {
   slides: TSlide[];
@@ -54,23 +55,25 @@ export const Lead: FC<Props> = ({ slides }) => {
         ))}
       </Swiper>
 
-      <button
+      <Button
+        size="small"
         className={cn(styles.arrow, styles.left)}
         onClick={() => {
           swiperRef?.current?.slidePrev();
         }}
       >
         <Icon type="arrow" size="xs" color={ICON_COLOR} />
-      </button>
+      </Button>
 
-      <button
+      <Button
+        size="small"
         className={cn(styles.arrow, styles.right)}
         onClick={() => {
           swiperRef?.current?.slideNext();
         }}
       >
         <Icon type="arrow" size="xs" color={ICON_COLOR} />
-      </button>
+      </Button>
     </section>
   );
 };
