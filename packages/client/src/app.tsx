@@ -2,19 +2,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
 
-export enum Paths {
-  main = '/',
-  howto = '/how-to',
-  register = '/sign-up',
-  login = '/login',
-  profile = '/profile',
-  game = '/game/:id',
-  leaderboard = '/leaderboard',
-  forum = '/forum',
-  new_thread = '/forum/new',
-  thread = '/forum/:id',
-  error500 = '/500',
-  error404 = '/404',
+export enum RouterPaths {
+  MAIN = '/',
+  HOW_TO = '/how-to',
+  REGISTER = '/sign-up',
+  LOGIN = '/login',
+  PROFILE = '/profile',
+  GAME = '/game/:id',
+  LEADERBOARD = '/leaderboard',
+  FORUM = '/forum',
+  NEW_THREAD = '/forum/new',
+  THREAD = '/forum/:id',
+  ERROR_500 = '/500',
+  ERROR_404 = '/404',
 }
 
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
@@ -25,44 +25,47 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path={Paths.main} element={<TestPage text="Главная" />}>
+          <Route path={RouterPaths.MAIN} element={<TestPage text="Главная" />}>
             <Route
-              path={Paths.howto}
+              path={RouterPaths.HOW_TO}
               element={<TestPage text='Модалка "Как играть"' />}
             />
           </Route>
           <Route
-            path={Paths.register}
+            path={RouterPaths.REGISTER}
             element={<TestPage text="Регистрация" />}
           />
-          <Route path={Paths.login} element={<TestPage text="Логин" />} />
+          <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path={Paths.profile} element={<TestPage text="Профиль" />} />
             <Route
-              path={Paths.game}
+              path={RouterPaths.PROFILE}
+              element={<TestPage text="Профиль" />}
+            />
+            <Route
+              path={RouterPaths.GAME}
               element={<TestPage text="Страница игры" />}
             />
             <Route
-              path={Paths.leaderboard}
+              path={RouterPaths.LEADERBOARD}
               element={<TestPage text="Лидерборд" />}
             />
-            <Route path={Paths.forum} element={<TestPage text="Форум" />}>
+            <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
               <Route
-                path={Paths.new_thread}
+                path={RouterPaths.NEW_THREAD}
                 element={<TestPage text='Модалка "Создать тему"' />}
               />
             </Route>
             <Route
-              path={Paths.thread}
+              path={RouterPaths.THREAD}
               element={<TestPage text="Тема форума" />}
             />
             <Route
-              path={Paths.error500}
+              path={RouterPaths.ERROR_500}
               element={<TestPage text="Ошибка 500" />}
             />
             <Route
-              path={Paths.error404}
+              path={RouterPaths.ERROR_404}
               element={<TestPage text="Ошибка 404" />}
             />
           </Route>

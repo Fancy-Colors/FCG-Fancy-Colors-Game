@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { Paths } from '../app';
+import { RouterPaths } from '../app';
 
 const useAuth = () => {
   // потом брать из стора
@@ -9,5 +9,5 @@ const useAuth = () => {
 
 export const ProtectedRoutes = () => {
   const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to={Paths.login} />;
+  return isAuth ? <Outlet /> : <Navigate to={RouterPaths.LOGIN} />;
 };

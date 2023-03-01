@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { Paths } from '../app';
+import { RouterPaths } from '../app';
 
 type Props = {
   text: string;
@@ -13,28 +13,28 @@ export const TestPage: FC<Props> = ({ text }) => {
       <div>{text}</div>
       <nav>
         <ul>
-          <Link to={Paths.main}>
-            <li>Главная</li>
-          </Link>
-          <Link to={Paths.howto}>
-            <li>Как играть</li>
-          </Link>
-          <Link to={Paths.register}>
-            <li>Регистрация</li>
-          </Link>
-          <Link to={Paths.login}>
-            <li>Логин</li>
-          </Link>
+          <li>
+            <Link to={RouterPaths.MAIN}>Главная</Link>
+          </li>
+          <li>
+            <Link to={RouterPaths.HOW_TO}>Как играть</Link>
+          </li>
+          <li>
+            <Link to={RouterPaths.REGISTER}>Регистрация</Link>
+          </li>
+          <li>
+            <Link to={RouterPaths.LOGIN}>Логин</Link>
+          </li>
           {/* если в protected-routes.tsx user={loggedIn:false} следующие страницы не появятся */}
-          <Link to={Paths.forum}>
-            <li>Форум</li>
-          </Link>
-          <Link to={Paths.new_thread}>
-            <li>Создать тему</li>
-          </Link>
-          <Link to={Paths.thread}>
-            <li>Тема</li>
-          </Link>
+          <li>
+            <Link to={RouterPaths.FORUM}>Форум</Link>
+          </li>
+          <li>
+            <Link to={RouterPaths.NEW_THREAD}>Создать тему</Link>
+          </li>
+          <li>
+            <Link to={RouterPaths.THREAD}>Тема</Link>
+          </li>
         </ul>
       </nav>
       <Outlet />
