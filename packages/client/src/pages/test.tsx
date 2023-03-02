@@ -7,6 +7,7 @@ type Props = {
 };
 
 export const TestPage: FC<Props> = ({ text }) => {
+  const id = 'id';
   return (
     <>
       <div className="App">Вот тут будет жить ваше приложение :)</div>
@@ -27,13 +28,16 @@ export const TestPage: FC<Props> = ({ text }) => {
           </li>
           {/* если в protected-routes.tsx user={loggedIn:false} следующие страницы не появятся */}
           <li>
+            <Link to={`${RouterPaths.GAME}/${id}`}>Игра</Link>
+          </li>
+          <li>
             <Link to={RouterPaths.FORUM}>Форум</Link>
           </li>
           <li>
             <Link to={RouterPaths.NEW_THREAD}>Создать тему</Link>
           </li>
           <li>
-            <Link to={RouterPaths.THREAD}>Тема</Link>
+            <Link to={`${RouterPaths.FORUM}/${id}`}>Тема</Link>
           </li>
         </ul>
       </nav>

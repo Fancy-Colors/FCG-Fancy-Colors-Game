@@ -8,11 +8,10 @@ export enum RouterPaths {
   REGISTER = '/sign-up',
   LOGIN = '/login',
   PROFILE = '/profile',
-  GAME = '/game/:id',
+  GAME = '/game',
   LEADERBOARD = '/leaderboard',
   FORUM = '/forum',
   NEW_THREAD = '/forum/new',
-  THREAD = '/forum/:id',
   ERROR_500 = '/500',
   ERROR_404 = '/404',
 }
@@ -43,7 +42,7 @@ function App() {
               element={<TestPage text="Профиль" />}
             />
             <Route
-              path={RouterPaths.GAME}
+              path={`${RouterPaths.GAME}/:id`}
               element={<TestPage text="Страница игры" />}
             />
             <Route
@@ -57,7 +56,7 @@ function App() {
               />
             </Route>
             <Route
-              path={RouterPaths.THREAD}
+              path={`${RouterPaths.FORUM}/:id`}
               element={<TestPage text="Тема форума" />}
             />
             <Route
