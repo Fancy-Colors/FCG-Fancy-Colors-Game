@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { MainPage } from 'pages/main';
 
 export enum RouterPaths {
   MAIN = '/',
@@ -24,7 +25,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path={RouterPaths.MAIN} element={<TestPage text="Главная" />}>
+          <Route path={RouterPaths.MAIN} element={<MainPage />}>
             <Route
               path={RouterPaths.HOW_TO}
               element={<TestPage text='Модалка "Как играть"' />}
