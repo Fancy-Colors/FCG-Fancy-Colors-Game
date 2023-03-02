@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
 import { Icon } from '../icon';
@@ -10,6 +10,15 @@ type Props = {
 
 export const Modal: FC<Props> = ({ children }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.code === 'Escape') navigate(-1);
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, [navigate]);
 
   return (
     <div className={styles.overlay}>
