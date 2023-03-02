@@ -1,0 +1,50 @@
+.colorPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-height: 700px;
+  max-width: 120px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-y: auto;
+}
+
+.color {
+  --color-size: 60px;
+
+  position: relative;
+
+  height: var(--color-size);
+  width: var(--color-size);
+  line-height: var(--color-size);
+  border-radius: 50%;
+  padding: 0;
+  border: 0;
+
+  font-size: 32px;
+  color: var(--color-dark-primary, #0f101b);
+
+  cursor: pointer;
+  overflow: visible;
+  transition: transform 0.1s, opacity 0.1s;
+
+  &.selected {
+    transform: scale(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: calc(100% - 5px);
+  width: calc(100% - 5px);
+  transform: translate(-50%, -50%) rotate(-90deg);
+  stroke: currentcolor;
+}
