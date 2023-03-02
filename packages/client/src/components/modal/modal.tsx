@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '../button';
 import { Icon } from '../icon';
@@ -12,10 +12,28 @@ type Props = {
 const modalRoot = document.querySelector('#modals') as Element;
 
 export const Modal: FC<Props> = ({ children, onClose }) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  function handleEscClick(e: KeyboardEvent<HTMLDivElement>): void {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  }
+
   return (
     <>
       {createPortal(
-        <div className={styles.overlay}>
+        <div
+          role="button"
+          tabIndex={0}
+          className={styles.overlay}
+          onClick={(e) => handleOverlayClick(e)}
+          onKeyUp={(e) => handleEscClick(e)}
+        >
           <div className={styles.modal}>
             <div className={styles.header}>
               <Button color="icon" size="small" onClick={onClose}>
