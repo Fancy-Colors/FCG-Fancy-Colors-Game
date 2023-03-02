@@ -88,7 +88,7 @@ export const SideMenu: FC = () => {
           ['w-1']: !expanded,
         })}
       >
-        <Link to="main" onClick={() => setActiveLink('/')}>
+        <Link to="/" onClick={() => setActiveLink('/')}>
           <div className={styles.logo}>
             {expanded ? (
               <Logo width="100%" height="100%" fill={LOGO_COLOR} />
@@ -122,7 +122,11 @@ export const SideMenu: FC = () => {
         {expanded && (
           <>
             <div className={styles.delimiter} />
-            <Link to="/how-to" className="text-main">
+            <Link
+              to="/how-to"
+              className="text-main"
+              state={{ fromOwnHost: true }}
+            >
               Как играть в Fancy Colors?
             </Link>
           </>

@@ -18,11 +18,11 @@ export const Modal: FC<Props> = ({ children, onClose }) => {
     }
   };
 
-  function handleEscClick(e: KeyboardEvent<HTMLDivElement>): void {
+  const handleEscClick = (e: KeyboardEvent): void => {
     if (e.key === 'Escape') {
       onClose();
     }
-  }
+  };
 
   return (
     <>
@@ -32,7 +32,7 @@ export const Modal: FC<Props> = ({ children, onClose }) => {
           tabIndex={0}
           className={styles.overlay}
           onClick={(e) => handleOverlayClick(e)}
-          onKeyUp={(e) => handleEscClick(e)}
+          onKeyDown={(e) => handleEscClick(e)}
         >
           <div className={styles.modal}>
             <div className={styles.header}>

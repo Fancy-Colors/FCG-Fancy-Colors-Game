@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
-import { MainPage } from 'pages/main';
+import { MainPage } from './pages/main';
+import { HowToModal } from './modals/how-to-modal';
 
 export enum RouterPaths {
   MAIN = '/',
@@ -26,10 +27,7 @@ function App() {
       <div className="app">
         <Routes>
           <Route path={RouterPaths.MAIN} element={<MainPage />}>
-            <Route
-              path={RouterPaths.HOW_TO}
-              element={<TestPage text='Модалка "Как играть"' />}
-            />
+            <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
           </Route>
           <Route
             path={RouterPaths.REGISTER}
@@ -37,14 +35,14 @@ function App() {
           />
           <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
 
+          <Route
+            path={`${RouterPaths.GAME}/:id`}
+            element={<TestPage text="Страница игры" />}
+          />
           <Route element={<ProtectedRoutes />}>
             <Route
               path={RouterPaths.PROFILE}
               element={<TestPage text="Профиль" />}
-            />
-            <Route
-              path={`${RouterPaths.GAME}/:id`}
-              element={<TestPage text="Страница игры" />}
             />
             <Route
               path={RouterPaths.LEADERBOARD}
