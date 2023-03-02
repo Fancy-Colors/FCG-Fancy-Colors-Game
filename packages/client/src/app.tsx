@@ -22,7 +22,7 @@ export enum RouterPaths {
 function App() {
   return (
     <BrowserRouter>
-      <div>
+      <div className="app">
         <Routes>
           <Route path={RouterPaths.MAIN} element={<TestPage text="Главная" />}>
             <Route
