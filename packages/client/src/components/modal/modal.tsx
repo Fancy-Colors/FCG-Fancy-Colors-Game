@@ -1,35 +1,24 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import styles from './modal.module.pcss';
 
 type Props = {
   children: JSX.Element | JSX.Element[] | string;
+  onClose: () => void;
 };
 
 const modalRoot = document.querySelector('#modals') as Element;
 
-export const Modal: FC<Props> = ({ children }) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.code === 'Escape') navigate(-1);
-    };
-
-    document.addEventListener('keydown', handleEscapeKey);
-    return () => document.removeEventListener('keydown', handleEscapeKey);
-  }, [navigate]);
-
+export const Modal: FC<Props> = ({ children, onClose }) => {
   return (
     <>
       {createPortal(
         <div className={styles.overlay}>
           <div className={styles.modal}>
             <div className={styles.header}>
-              <Button color="icon" size="small" onClick={() => navigate(-1)}>
+              <Button color="icon" size="small" onClick={onClose}>
                 <Icon size="xs" type="close" color="#6644EC" />
               </Button>
             </div>
