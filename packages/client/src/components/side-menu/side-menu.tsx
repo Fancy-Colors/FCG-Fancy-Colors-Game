@@ -9,7 +9,13 @@ import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
 
-type LinkType = 'forum' | 'main' | 'profile' | 'forum' | 'leaderboard' | '';
+type LinkType =
+  | '/forum'
+  | '/'
+  | '/profile'
+  | '/how-to'
+  | '/leaderboard'
+  | '/game';
 type Link = {
   iconType: IconType;
   link: LinkType;
@@ -22,17 +28,17 @@ const LOGO_COLOR = '#6644ec';
 const LINKS: Link[] = [
   {
     iconType: 'main',
-    link: 'main',
+    link: '/',
     text: 'Главная',
   },
   {
     iconType: 'leaderboard',
-    link: 'leaderboard',
+    link: '/leaderboard',
     text: 'Лидерборд',
   },
   {
     iconType: 'forum',
-    link: 'forum',
+    link: '/forum',
     text: 'Форум',
     informer: '23',
   },
@@ -40,7 +46,7 @@ const LINKS: Link[] = [
 const EXIT: Link = {
   iconType: 'exit',
   text: 'Выйти',
-  link: '',
+  link: '/',
 };
 const PROFILE = {
   label: 'Профиль',
@@ -82,7 +88,7 @@ export const SideMenu: FC = () => {
           ['w-1']: !expanded,
         })}
       >
-        <Link to="main" onClick={() => setActiveLink('main')}>
+        <Link to="main" onClick={() => setActiveLink('/')}>
           <div className={styles.logo}>
             {expanded ? (
               <Logo width="100%" height="100%" fill={LOGO_COLOR} />
@@ -109,14 +115,14 @@ export const SideMenu: FC = () => {
 
         {expanded && <div className={styles.delimiter} />}
 
-        <Link to="profile" onClick={() => setActiveLink('profile')}>
+        <Link to="profile" onClick={() => setActiveLink('/profile')}>
           <ProfileLink {...PROFILE} expanded={expanded} />
         </Link>
 
         {expanded && (
           <>
             <div className={styles.delimiter} />
-            <Link to="main/howto" className="text-main">
+            <Link to="/how-to" className="text-main">
               Как играть в Fancy Colors?
             </Link>
           </>
