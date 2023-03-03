@@ -1,6 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { RouterPaths } from '../app';
-
+import { RouterPaths } from 'src/app.types';
 const useAuth = () => {
   // потом брать из стора
   const user = { loggedIn: false };

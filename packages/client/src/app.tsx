@@ -3,21 +3,7 @@ import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
-
-export enum RouterPaths {
-  MAIN = '/',
-  HOW_TO = '/how-to',
-  REGISTER = '/sign-up',
-  LOGIN = '/login',
-  PROFILE = '/profile',
-  GAME = '/game',
-  LEADERBOARD = '/leaderboard',
-  FORUM = '/forum',
-  NEW_THREAD = '/forum/new',
-  ERROR_500 = '/500',
-  ERROR_404 = '/404',
-}
-
+import { RouterPaths } from './app.types';
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
 // Тестовая страница пусть остается пока не будут добавлены все страницы
 

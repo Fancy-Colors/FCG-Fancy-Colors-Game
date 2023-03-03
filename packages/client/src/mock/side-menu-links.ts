@@ -1,5 +1,4 @@
-import { RouterPaths } from 'src/app';
-
+import { RouterPaths } from 'src/app.types';
 export type LinkType = {
   iconType: IconType;
   link: RouterPaths;

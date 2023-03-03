@@ -36,7 +36,7 @@ export const MainPage: FC = () => {
                 return (
                   <li className={styles.card} key={item.id}>
                     <article className={styles.cardContent}>
-                      <GameCard {...item} key={item.id} />
+                      <GameCard {...item} />
                     </article>
                   </li>
                 );
