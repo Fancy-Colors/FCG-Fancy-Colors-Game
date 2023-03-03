@@ -4,6 +4,7 @@ import { ProtectedRoutes } from './utils/protected-routes';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { RouterPaths } from './app.types';
+import { GamePage } from 'pages/game';
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
 // Тестовая страница пусть остается пока не будут добавлены все страницы
 
@@ -21,10 +22,7 @@ function App() {
           />
           <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
 
-          <Route
-            path={`${RouterPaths.GAME}/:id`}
-            element={<TestPage text="Страница игры" />}
-          />
+          <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
           <Route element={<ProtectedRoutes />}>
             <Route
               path={RouterPaths.PROFILE}

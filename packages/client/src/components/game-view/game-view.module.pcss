@@ -1,0 +1,22 @@
+.gridCols {
+  display: grid;
+
+  /*   пока не grid-template-columns: 80px 1fr; - для реализации MVP на широких экранах
+ */
+
+  grid-template-columns: 80px 800px;
+  gap: 24px;
+}
+
+.points {
+  display: flex;
+  margin-bottom: 24px;
+  justify-content: space-between;
+}
+
+.gameField {
+  width: 100%;
+  padding-bottom: 100%;
+  display: block;
+  border: red 1px solid;
+}
