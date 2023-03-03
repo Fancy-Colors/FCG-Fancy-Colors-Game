@@ -4,10 +4,10 @@ import cn from 'classnames';
 import { SideMenu } from 'components/side-menu';
 import { Outlet } from 'react-router';
 import { Lead } from 'components/lead';
-import { leadSlides } from 'src/mock/leadSlides';
+import { leadSlides } from 'src/mock/lead-slides';
 import { Tabs } from 'components/tabs';
 import { tabs } from 'src/mock/tabs';
-import { GameCardType, gameCards } from 'src/mock/gameCards';
+import { GameCardType, gameCards } from 'src/mock/game-cards';
 import { GameCard } from 'components/game-card';
 
 export const MainPage: FC = () => {
