@@ -15,7 +15,7 @@ export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
       className={cn(styles.avatar, styles[size])}
       style={{ backgroundImage: `url(${avatar})` }}
     >
-      {!avatar && <p>{name.length ? name[0].toUpperCase() : 'U'}</p>}
+      {!avatar && <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>}
       {label && <span className={cn(styles.label, 'text-menu')}>{label}</span>}
     </div>
   );

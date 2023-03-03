@@ -3,18 +3,18 @@ import { Link, LinkProps } from 'react-router-dom';
 import cn from 'classnames';
 import styles from './button.module.pcss';
 
-enum ButtonColor {
-  gradient = 'gradient',
-  colored = 'colored',
-  light = 'light',
-  icon = 'icon',
+export enum ButtonColor {
+  GRADIENT = 'GRADIENT',
+  COLORED = 'COLORED',
+  LIGHT = 'LIGHT',
+  ICON = 'ICON',
 }
 
-const ButtonColorChoice = {
-  [ButtonColor.gradient]: styles.gradient,
-  [ButtonColor.colored]: styles.colored,
-  [ButtonColor.light]: styles.light,
-  [ButtonColor.icon]: styles.icon,
+const buttonColorChoice = {
+  [ButtonColor.GRADIENT]: styles.gradient,
+  [ButtonColor.COLORED]: styles.colored,
+  [ButtonColor.LIGHT]: styles.light,
+  [ButtonColor.ICON]: styles.icon,
 };
 
 type Props = {
@@ -33,7 +33,7 @@ type ButtonAsButton = Props & JSX.IntrinsicElements['button'];
 
 export const Button: FC<ButtonAsButton> = ({
   type = 'button',
-  color = ButtonColor.colored,
+  color = ButtonColor.COLORED,
   size = 'medium',
   className,
   children,
@@ -43,7 +43,7 @@ export const Button: FC<ButtonAsButton> = ({
     className,
     styles.button,
     styles[size],
-    ButtonColorChoice[color] ?? styles.colored
+    buttonColorChoice[color] ?? styles.colored
   );
 
   return (
@@ -55,7 +55,7 @@ export const Button: FC<ButtonAsButton> = ({
 
 export const ButtonLink: FC<ButtonAsLink> = ({
   to,
-  color = ButtonColor.colored,
+  color = ButtonColor.COLORED,
   size = 'medium',
   className,
   children,
@@ -65,7 +65,7 @@ export const ButtonLink: FC<ButtonAsLink> = ({
     className,
     styles.button,
     styles[size],
-    ButtonColorChoice[color] ?? styles.colored
+    buttonColorChoice[color] ?? styles.colored
   );
 
   return (
