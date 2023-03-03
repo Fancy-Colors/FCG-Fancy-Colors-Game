@@ -45,10 +45,10 @@ module.exports = {
     'selector-max-specificity': '1,3,3', // id,class,type
     'selector-max-compound-selectors': 3,
     'selector-class-pattern': [
-      '^[a-z][a-zA-Z]+$',
+      '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
       {
         message: (selector) =>
-          `Expected class selector "${selector}" to be camelCase`,
+          `Expected class selector "${selector}" to be kebab-case`,
       },
     ],
     'selector-id-pattern': [
@@ -68,4 +68,18 @@ module.exports = {
     'plugin/declaration-block-no-ignored-properties': true,
   },
   ignoreFiles: ['public/**/*.css', 'build/**/*.css', 'dist/**/*.css'],
+  overrides: [
+    {
+      files: ['*.module.{css,pcss}'],
+      rules: {
+        'selector-class-pattern': [
+          '^[a-z][a-zA-Z]+$',
+          {
+            message: (selector) =>
+              `Expected class selector "${selector}" to be camelCase`,
+          },
+        ],
+      },
+    },
+  ],
 };
