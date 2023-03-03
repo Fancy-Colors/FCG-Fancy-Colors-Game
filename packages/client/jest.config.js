@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,7 +24,7 @@ export default {
               options: {
                 metaObjectReplacement: {
                   env: {
-                    VITE_API_BASE_URL: process.env.VITE_API_BASE_URL,
+                    VITE_API_BASE_URL: process.env.VITE_API_BASE_URL || '',
                   },
                 },
               },
