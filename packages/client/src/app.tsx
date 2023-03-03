@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
 import { MainPage } from './pages/main';
-import { HowToModal } from './modals/how-to-modal';
+import { HowToModal } from './components/how-to-modal';
 
 export enum RouterPaths {
   MAIN = '/',
