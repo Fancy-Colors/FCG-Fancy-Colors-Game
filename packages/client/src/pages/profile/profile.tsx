@@ -18,7 +18,7 @@ import { userApi } from 'api/user';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
 
-type ProfileFormValues = {
+type ProfileFormFields = {
   email: string;
   firstName: string;
   login: string;
@@ -37,10 +37,10 @@ const ProfileForm = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<ProfileFormValues>({ defaultValues });
+  } = useForm<ProfileFormFields>({ defaultValues });
 
   // TODO: Перенести бизнес логику в сервисы/контроллеры
-  const onSubmit: SubmitHandler<ProfileFormValues> = async (formValues) => {
+  const onSubmit: SubmitHandler<ProfileFormFields> = async (formValues) => {
     /* eslint-disable @typescript-eslint/naming-convention */
     const response = await userApi.update({
       first_name: formValues.firstName,
@@ -160,7 +160,7 @@ const ProfileForm = () => {
   );
 };
 
-type PasswordFormValues = {
+type PasswordFormFields = {
   oldPassword: string;
   newPassword: string;
   newPasswordRepeat: string;
@@ -173,9 +173,9 @@ const PasswordForm = () => {
     handleSubmit,
     getValues,
     reset,
-  } = useForm<PasswordFormValues>();
+  } = useForm<PasswordFormFields>();
 
-  const onSubmit: SubmitHandler<PasswordFormValues> = async ({
+  const onSubmit: SubmitHandler<PasswordFormFields> = async ({
     oldPassword,
     newPassword,
   }) => {
