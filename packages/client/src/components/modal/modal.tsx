@@ -18,7 +18,7 @@ export const Modal: FC<Props> = ({ children, onClose }) => {
         <div className={styles.overlay}>
           <div className={styles.modal}>
             <div className={styles.header}>
-              <Button color="icon" size="small" onClick={onClose}>
+              <Button color="ICON" size="small" onClick={onClose}>
                 <Icon size="xs" type="close" color="#6644EC" />
               </Button>
             </div>
