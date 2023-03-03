@@ -8,68 +8,10 @@ import { Footer } from 'components/footer';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
-
-type LinkType =
-  | '/forum'
-  | '/'
-  | '/profile'
-  | '/how-to'
-  | '/leaderboard'
-  | '/game';
-type Link = {
-  iconType: IconType;
-  link: LinkType;
-  text: string;
-  informer?: string;
-};
+import { LINKS, EXIT, PROFILE, SOCIAL_LINKS } from 'src/mock/side-menu-links';
 
 // пока что хардкод...
 const LOGO_COLOR = '#6644ec';
-const LINKS: Link[] = [
-  {
-    iconType: 'main',
-    link: '/',
-    text: 'Главная',
-  },
-  {
-    iconType: 'leaderboard',
-    link: '/leaderboard',
-    text: 'Лидерборд',
-  },
-  {
-    iconType: 'forum',
-    link: '/forum',
-    text: 'Форум',
-    informer: '23',
-  },
-];
-const EXIT: Link = {
-  iconType: 'exit',
-  text: 'Выйти',
-  link: '/',
-};
-const PROFILE = {
-  label: 'Профиль',
-  link: 'profile' as LinkType,
-  email: 'johnson@ya.ru',
-  name: 'Иван Джонсон',
-  avatar:
-    'https://avatars.mds.yandex.net/i?id=2a00000179f132be486a8a744b50b9b49ec1-5025855-images-thumbs&n=13&exp=1',
-};
-const SOCIAL_LINKS = [
-  {
-    icon: 'github' as IconType,
-    link: 'https://github.com/Fancy-Colors',
-  },
-  {
-    icon: 'vk' as IconType,
-    link: '#',
-  },
-  {
-    icon: 'telegram' as IconType,
-    link: 'https://t.me',
-  },
-];
 
 export const SideMenu: FC = () => {
   const [activeLink, setActiveLink] = useState(LINKS[0].link);
