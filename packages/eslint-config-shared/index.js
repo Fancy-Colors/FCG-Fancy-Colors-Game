@@ -36,6 +36,7 @@ module.exports = {
   ],
   rules: {
     // Typescript
+    '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/ban-ts-comment': 'error',
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-require-imports': 'error',
@@ -66,7 +67,6 @@ module.exports = {
     'no-useless-return': 'error',
     'no-useless-rename': 'error',
     'no-useless-concat': 'error',
-    'no-useless-constructor': 'error',
     'no-lonely-if': 'error',
     'func-names': ['error', 'as-needed'],
     'new-cap': 'error',
