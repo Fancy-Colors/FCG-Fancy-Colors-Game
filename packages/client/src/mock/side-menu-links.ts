@@ -1,14 +1,8 @@
-export type RoutesType =
-  | '/forum'
-  | '/'
-  | '/profile'
-  | '/how-to'
-  | '/leaderboard'
-  | '/game';
+import { RouterPaths } from 'src/app';
 
 export type LinkType = {
   iconType: IconType;
-  link: RoutesType;
+  link: RouterPaths;
   text: string;
   informer?: string;
 };
@@ -16,17 +10,17 @@ export type LinkType = {
 export const LINKS: LinkType[] = [
   {
     iconType: 'main',
-    link: '/',
+    link: RouterPaths.MAIN,
     text: 'Главная',
   },
   {
     iconType: 'leaderboard',
-    link: '/leaderboard',
+    link: RouterPaths.LEADERBOARD,
     text: 'Лидерборд',
   },
   {
     iconType: 'forum',
-    link: '/forum',
+    link: RouterPaths.FORUM,
     text: 'Форум',
     informer: '23',
   },
@@ -34,11 +28,11 @@ export const LINKS: LinkType[] = [
 export const EXIT: LinkType = {
   iconType: 'exit',
   text: 'Выйти',
-  link: '/',
+  link: RouterPaths.MAIN,
 };
 export const PROFILE = {
   label: 'Профиль',
-  link: 'profile' as RoutesType,
+  link: RouterPaths.PROFILE,
   email: 'johnson@ya.ru',
   name: 'Иван Джонсон',
   avatar:
