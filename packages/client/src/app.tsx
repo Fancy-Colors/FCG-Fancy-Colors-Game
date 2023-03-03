@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { Profile } from 'pages/profile';
 
 export enum RouterPaths {
   MAIN = '/',
@@ -45,10 +46,7 @@ const router = createBrowserRouter(
       <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
 
       <Route element={<ProtectedRoutes />}>
-        <Route
-          path={RouterPaths.PROFILE}
-          element={<TestPage text="Профиль" />}
-        />
+        <Route path={RouterPaths.PROFILE} element={<Profile />} />
         <Route
           path={`${RouterPaths.GAME}/:id`}
           element={<TestPage text="Страница игры" />}

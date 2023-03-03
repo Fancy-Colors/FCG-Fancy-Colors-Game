@@ -10,10 +10,12 @@ type Props = {
 };
 
 export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/resources${avatar}`;
+
   return (
     <div
       className={cn(styles.avatar, styles[size])}
-      style={{ backgroundImage: `url(${avatar})` }}
+      style={{ backgroundImage: `url(${url})` }}
     >
       {!avatar && <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>}
       {label && <span className={cn(styles.label, 'text-menu')}>{label}</span>}

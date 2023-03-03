@@ -1,9 +1,9 @@
 import { Button } from 'components/button';
-import { FC, useRef } from 'react';
+import { ChangeEventHandler, FC, useRef } from 'react';
 import styles from './upload-field.module.pcss';
 
 type Props = {
-  onChange?: () => void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   hint?: JSX.Element | string;
   children: JSX.Element | string;
 } & JSX.IntrinsicElements['input'];
@@ -22,15 +22,13 @@ export const UploadField: FC<Props> = ({
 
   return (
     <div className={styles.uploadField}>
-      <label className={styles.wrapper}>
-        <input
-          ref={inputRef}
-          onChange={onChange}
-          className="u-visually-hidden"
-          type="file"
-          {...props}
-        />
-      </label>
+      <input
+        ref={inputRef}
+        onChange={onChange}
+        className="u-visually-hidden"
+        type="file"
+        {...props}
+      />
       <Button onClick={handleClick} className={styles.button} type="button">
         {children}
       </Button>
