@@ -22,6 +22,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const [activeId, setActiveId] = useState<number>(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState<number>(1);
+  const [transformOrigin, setTransformOrigin] = useState({ y: 400, x: 400 });
 
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -74,7 +75,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     }
     const context = canvasElement.getContext('2d');
     if (!context) {
-      throw new Error('cannot get 2d conyext from Element');
+      throw new Error('cannot get 2d context from Element');
     }
 
     setCtx(context);
@@ -106,13 +107,20 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (e.deltaY > 0) {
       newZoom = Math.max(1, zoom - 0.05);
     } else {
-      newZoom = Math.min(3, zoom + 0.05);
+      newZoom = Math.min(2, zoom + 0.05);
     }
 
+    const { top, left } = ref.current.getBoundingClientRect();
+
+    setTransformOrigin({
+      x: e.clientX - left,
+      y: e.clientY - top,
+    });
     setZoom(newZoom);
   };
 
   requestAnimationFrame(draw);
+
   return (
     <div>
       <div className={cn(styles.points)}>
@@ -134,7 +142,10 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
             ref={ref}
             width={400}
             height={400}
-            style={{ transform: `scale(${zoom})` }}
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: `${transformOrigin.x}px ${transformOrigin.y}px`,
+            }}
           />
         </div>
       </div>
