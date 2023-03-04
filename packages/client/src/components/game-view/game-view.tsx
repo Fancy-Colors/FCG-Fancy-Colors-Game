@@ -32,15 +32,12 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
-    ctx.save();
-    ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, 400, 400);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
       renderPath(ctx, path);
     });
-    ctx.restore();
-  }, [ctx, zoom]);
+  }, [ctx]);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
   // activeId, при этом оборачивание в useCallback не сработает
@@ -107,10 +104,11 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     }
     let newZoom;
     if (e.deltaY > 0) {
-      newZoom = Math.max(1, zoom - 0.1);
+      newZoom = Math.max(1, zoom - 0.05);
     } else {
-      newZoom = Math.min(5, zoom + 0.1);
+      newZoom = Math.min(3, zoom + 0.05);
     }
+
     setZoom(newZoom);
   };
 
@@ -136,6 +134,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
             ref={ref}
             width={400}
             height={400}
+            style={{ transform: `scale(${zoom})` }}
           />
         </div>
       </div>
