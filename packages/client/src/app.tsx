@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { Leaderboard } from './pages/leaderboard';
 
 export enum RouterPaths {
   MAIN = '/',
@@ -45,10 +46,7 @@ function App() {
               path={`${RouterPaths.GAME}/:id`}
               element={<TestPage text="Страница игры" />}
             />
-            <Route
-              path={RouterPaths.LEADERBOARD}
-              element={<TestPage text="Лидерборд" />}
-            />
+            <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
             <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
               <Route
                 path={RouterPaths.NEW_THREAD}

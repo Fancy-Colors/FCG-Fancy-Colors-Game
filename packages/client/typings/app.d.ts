@@ -14,7 +14,8 @@ declare global {
     | 'github'
     | 'message'
     | 'smile'
-    | 'telegram';
+    | 'telegram'
+    | 'star';
 }
 
 export {};
