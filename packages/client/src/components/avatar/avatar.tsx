@@ -9,12 +9,16 @@ type Props = {
   label?: string;
 };
 
+const IMAGE_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/resources`;
+
 export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
-  const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/resources${avatar}`;
+  const imageUrl = avatar
+    ? `${IMAGE_BASE_URL}${encodeURIComponent(avatar)}`
+    : null;
 
   return (
     <div className={cn(styles.avatar, styles[size])}>
-      {avatar ? (
+      {imageUrl ? (
         <img
           className={styles.image}
           src={imageUrl}
