@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -6,17 +6,15 @@ type Props = {
 
 type State = {
   error: Error | null;
-  errorInfo: ErrorInfo | null;
 };
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     error: null,
-    errorInfo: null,
   };
 
-  static getDerivedStateFromError(error: Error, errorInfo: ErrorInfo) {
-    return { error, errorInfo };
+  static getDerivedStateFromError(error: Error) {
+    return { error };
   }
 
   public render() {
