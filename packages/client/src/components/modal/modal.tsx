@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { createPortal } from 'react-dom';
-import { Button } from '../button';
+import { Button, ButtonColor } from '../button';
 import { Icon } from '../icon';
 import styles from './modal.module.pcss';
 
@@ -18,7 +18,7 @@ export const Modal: FC<Props> = ({ children, onClose }) => {
         <div className={styles.overlay}>
           <div className={styles.modal}>
             <div className={styles.header}>
-              <Button color="icon" size="small" onClick={onClose}>
+              <Button color={ButtonColor.ICON} size="small" onClick={onClose}>
                 <Icon size="xs" type="close" color="#6644EC" />
               </Button>
             </div>
