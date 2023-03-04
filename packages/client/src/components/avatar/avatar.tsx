@@ -10,14 +10,20 @@ type Props = {
 };
 
 export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
-  const url = `${import.meta.env.VITE_API_BASE_URL}/resources${avatar}`;
+  const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/resources${avatar}`;
 
   return (
-    <div
-      className={cn(styles.avatar, styles[size])}
-      style={{ backgroundImage: `url(${url})` }}
-    >
-      {!avatar && <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>}
+    <div className={cn(styles.avatar, styles[size])}>
+      {avatar ? (
+        <img
+          className={styles.image}
+          src={imageUrl}
+          alt={`Аватар @${name}`}
+          draggable="false"
+        />
+      ) : (
+        <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>
+      )}
       {label && <span className={cn(styles.label, 'text-menu')}>{label}</span>}
     </div>
   );

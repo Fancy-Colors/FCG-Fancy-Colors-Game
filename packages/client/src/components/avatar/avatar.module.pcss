@@ -2,13 +2,22 @@
   position: relative;
   border-radius: 50%;
   background-color: var(--color-accent-secondary, #ffe55f);
-  background-size: cover;
-  background-position: center;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
   color: var(--color-dark-secondary, #333739);
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }
 
 .label {

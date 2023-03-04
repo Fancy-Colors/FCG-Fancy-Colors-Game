@@ -83,7 +83,7 @@ const ProfileForm = () => {
         <div className={styles.row}>
           <div className={styles.column}>
             <div className={styles.avatar}>
-              <Avatar avatar={avatar} size="large" name="R" />
+              <Avatar avatar={avatar} size="large" name={user!.login} />
             </div>
           </div>
           <div className={styles.column}>
