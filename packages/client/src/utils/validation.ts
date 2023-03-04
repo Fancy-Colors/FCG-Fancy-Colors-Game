@@ -33,6 +33,14 @@ export const onlyLetters = (value: string, allowedChars: string[] = []) => {
   return RE.test(value);
 };
 
+export const onlyLatinLetters = (
+  value: string,
+  allowedChars: string[] = []
+) => {
+  const RE = new RegExp(`^[A-Za-z${allowedChars.join('')}]+$`);
+  return RE.test(value);
+};
+
 export const hasNumber = (value: string) => {
   return /\d/.test(value);
 };
@@ -81,8 +89,8 @@ export const validateLogin = (value = '') => {
     return 'Поле должно быть от 3 до 20 символов';
   }
 
-  if (!onlyLetters(value, [...allowedChars, '\\d'])) {
-    return 'Поле не может содержать спецсимволы';
+  if (!onlyLatinLetters(value, [...allowedChars, '\\d'])) {
+    return 'Поле должно содержать только латиницу и не может содержать спецсимволы';
   }
 
   if (isNumber(value, allowedChars)) {

@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import cn from 'classnames';
 import styles from './text-field.module.pcss';
 
 type Props = {
@@ -10,7 +11,7 @@ export const TextField = forwardRef<HTMLInputElement, Props>(
     return (
       <>
         <input className={styles.textField} ref={ref} {...props} />
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p className={cn(styles.error, 'text-caption')}>{error}</p>}
       </>
     );
   }
