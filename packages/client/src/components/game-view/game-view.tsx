@@ -12,16 +12,15 @@ import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { gameData } from './utils/game-data';
 import { formColors } from './utils/form-colors';
-import patternImage from '../../assets/squares.png';
+// import { useDebounce } from 'components/hooks/use-debounce';
 
 const HARD_CODE_POINTS = '2440';
 const HARD_CODE_TIME = '2м:39с';
 
 export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
-  const [colors, setColors] = useState(formColors(gameData));
+  const [colors, setColors] = useState(() => formColors(gameData));
   const [activeId, setActiveId] = useState<number>(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [pattern, setPattern] = useState<CanvasPattern | null>(null);
   const [zoom, setZoom] = useState<number>(1);
 
   const ref = useRef<HTMLCanvasElement>(null);
@@ -36,12 +35,12 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     ctx.save();
     ctx.scale(zoom, zoom);
     ctx.clearRect(0, 0, 400, 400);
-    renderPath(ctx, gameData.numbers, pattern);
+    renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
-      renderPath(ctx, path, pattern);
+      renderPath(ctx, path);
     });
     ctx.restore();
-  }, [ctx, pattern, zoom]);
+  }, [ctx, zoom]);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
   // activeId, при этом оборачивание в useCallback не сработает
@@ -83,14 +82,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
 
     setCtx(context);
 
-    const img = new Image();
-    img.src = patternImage;
-    img.onload = () => {
-      setPattern(context.createPattern(img, 'repeat'));
-    };
-
     canvasElement.addEventListener('click', pathClickHandler);
-    requestAnimationFrame(draw);
 
     return () => canvasElement.removeEventListener('click', pathClickHandler);
   }, [pathClickHandler, draw]);
@@ -113,7 +105,6 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (e.target !== ref.current) {
       return;
     }
-
     let newZoom;
     if (e.deltaY > 0) {
       newZoom = Math.max(1, zoom - 0.1);
@@ -123,6 +114,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     setZoom(newZoom);
   };
 
+  requestAnimationFrame(draw);
   return (
     <div>
       <div className={cn(styles.points)}>
