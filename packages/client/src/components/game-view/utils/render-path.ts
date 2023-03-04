@@ -1,5 +1,3 @@
-import patternImage from '../../../assets/squares.png';
-
 export type TPath = {
   path: Path2D;
   color: string;
@@ -11,7 +9,8 @@ export type TPath = {
 
 export const renderPath = (
   ctx: CanvasRenderingContext2D,
-  pathArg: TPath
+  pathArg: TPath,
+  pattern: CanvasPattern | null
 ): void => {
   const { path, color, chosen, completed } = pathArg;
 
@@ -22,19 +21,15 @@ export const renderPath = (
   }
 
   if (chosen) {
-    const img = new Image();
-    img.src = patternImage;
-
-    img.onload = () => {
-      const pattern = ctx.createPattern(img, 'repeat');
-      if (pattern) {
-        ctx.fillStyle = pattern;
-      }
-      ctx.fill(path);
-    };
+    if (pattern) {
+      ctx.fillStyle = pattern;
+    }
+    ctx.fill(path);
     return;
   }
 
-  ctx.setLineDash([4, 4]);
+  ctx.fillStyle = 'transparent';
+
+  ctx.setLineDash([1, 4]);
   ctx.stroke(path);
 };

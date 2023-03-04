@@ -1,6 +1,6 @@
-import { TGameData } from './mockGameData';
+import { TGameData } from './game-data';
 
-export type ColorMapType = {
+export type ColorType = {
   id: number;
   color: string;
   progress: number;
@@ -8,16 +8,8 @@ export type ColorMapType = {
   completed: number;
 };
 
-export type PickerColorType = {
-  id: number;
-  color: string;
-  progress: number;
-};
-
-export const useGameData = (
-  gameData: TGameData
-): [PickerColorType[], Map<number, ColorMapType>] => {
-  const colors = new Map<number, ColorMapType>();
+export const formColors = (gameData: TGameData): ColorType[] => {
+  const colors = new Map<number, ColorType>();
 
   // не через reduce для меньшей когнитивной сложности
   gameData.paths.forEach((pathItem) => {
@@ -40,15 +32,7 @@ export const useGameData = (
     }
   });
 
-  const pickerColors: PickerColorType[] = Array.from(colors.values()).map(
-    (item) => {
-      return {
-        id: item.id,
-        color: item.color,
-        progress: item.progress,
-      };
-    }
-  );
+  const colorsArr: ColorType[] = Array.from(colors.values());
 
-  return [pickerColors, colors];
+  return colorsArr;
 };

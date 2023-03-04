@@ -10,7 +10,7 @@ export const GamePage: FC = () => {
     <section className={styles.section}>
       <SideMenu />
       <div className={styles.content}>
-        <GameView id={id} />
+        <GameView gameId={id} />
       </div>
     </section>
   );
