@@ -8,7 +8,7 @@ import { hasApiError } from 'utils/has-api-error';
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  error?: string | null;
+  error: string | null;
   signIn: (login: string, password: string) => Promise<void>;
   signUp: (payload: SignUpPayload) => Promise<void>;
   logout: () => void;
