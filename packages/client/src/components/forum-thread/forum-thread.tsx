@@ -17,7 +17,7 @@ export const ForumThread = () => {
     <main className={style.container}>
       <article className={style.panel}>
         <Link to={RouterPaths.FORUM} className={style.link}>
-          <Icon type={'arrow'} size={'xs'} color={'#6644ECFF'} />
+          <Icon type="arrow" size="xs" color="#6644ECFF" />
           <span className={style.text}>К темам</span>
         </Link>
         <div className={style.thread}>
