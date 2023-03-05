@@ -42,5 +42,6 @@ export default {
     '^styles/(.*)$': '<rootDir>/src/styles/$1',
     '^api/(.*)$': '<rootDir>/src/api/$1',
     '^assets/(.*)$': '<rootDir>/src/assets/$1',
+    '\\.(pcss)$': 'identity-obj-proxy',
   },
 };
