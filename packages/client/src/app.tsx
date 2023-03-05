@@ -13,9 +13,6 @@ import { HowToModal } from './components/how-to-modal';
 import { GamePage } from 'pages/game';
 import { RouterPaths } from './app.types';
 
-// если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
-// Тестовая страница пусть остается пока не будут добавлены все страницы
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
