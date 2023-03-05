@@ -1,7 +1,7 @@
 import { authApi, SignUpPayload } from 'api/auth';
 import { createContext, useContext, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RouterPaths } from 'src/app';
+import { RouterPaths } from 'src/app.types';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
 
