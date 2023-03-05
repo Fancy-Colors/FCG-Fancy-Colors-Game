@@ -8,21 +8,9 @@ import {
 } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
-
-export enum RouterPaths {
-  MAIN = '/',
-  HOW_TO = '/how-to',
-  REGISTER = '/sign-up',
-  LOGIN = '/login',
-  PROFILE = '/profile',
-  GAME = '/game',
-  LEADERBOARD = '/leaderboard',
-  FORUM = '/forum',
-  NEW_THREAD = '/forum/new',
-  ERROR_500 = '/500',
-  ERROR_404 = '/404',
-}
-
+import { MainPage } from './pages/main';
+import { HowToModal } from './components/how-to-modal';
+import { RouterPaths } from './app.types';
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
 // Тестовая страница пусть остается пока не будут добавлены все страницы
 
@@ -32,18 +20,14 @@ const router = createBrowserRouter(
       element={<AuthLayout />}
       loader={() => defer({ userPromise: getCurrentUser() })}
     >
-      <Route path={RouterPaths.MAIN} element={<TestPage text="Главная" />}>
-        <Route
-          path={RouterPaths.HOW_TO}
-          element={<TestPage text='Модалка "Как играть"' />}
-        />
+      <Route path={RouterPaths.MAIN} element={<MainPage />}>
+        <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
       </Route>
       <Route
         path={RouterPaths.REGISTER}
         element={<TestPage text="Регистрация" />}
       />
       <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
-
       <Route element={<ProtectedRoutes />}>
         <Route
           path={RouterPaths.PROFILE}
@@ -76,7 +60,6 @@ const router = createBrowserRouter(
           element={<TestPage text="Ошибка 404" />}
         />
       </Route>
-
       <Route path="*" element={<TestPage text="Нет такой страницы" />} />
     </Route>
   )
