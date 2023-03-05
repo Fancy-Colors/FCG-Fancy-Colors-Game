@@ -4,6 +4,7 @@
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--color-primary-white, #fff);
 }
 
 .logo {
@@ -21,15 +22,18 @@
   margin: 0;
 }
 
-.mainLinksWrap {
-  display: flex;
-  flex-flow: column;
-  gap: 24px;
-}
-
 .delimiter {
   height: 1px;
   background-color: var(--color-dark-primary, #0f101b);
+}
+
+.howToText {
+  text-align: center;
+  color: var(--color-dark-primary, #0f101b);
+
+  &[data-expanded='true'] {
+    text-align: start;
+  }
 }
 
 .menuToggler {

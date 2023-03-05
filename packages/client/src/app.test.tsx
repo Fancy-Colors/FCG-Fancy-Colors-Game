@@ -1,7 +1,6 @@
-import App from './app';
 import { render, screen } from '@testing-library/react';
-
-const appContent = 'Вот тут будет жить ваше приложение :)';
+import { Button } from './components/button';
+const appContent = 'Меню';
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
@@ -9,6 +8,6 @@ global.fetch = jest.fn(() =>
 );
 
 test('Example test', async () => {
-  render(<App />);
+  await render(<Button>{appContent}</Button>);
   expect(screen.getByText(appContent)).toBeDefined();
 });
