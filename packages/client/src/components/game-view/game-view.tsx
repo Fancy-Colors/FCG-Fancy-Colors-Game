@@ -49,9 +49,14 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (!refField.current || !refCanvas.current) {
       return;
     }
+
+    const availableWidth = Math.min(
+      refField.current.getBoundingClientRect().width,
+      refField.current.getBoundingClientRect().width
+    );
+
     const scale =
-      refField?.current?.getBoundingClientRect().width /
-      refCanvas.current?.getBoundingClientRect().width;
+      availableWidth / refCanvas.current?.getBoundingClientRect().width;
     setFieldScale(scale);
   }, []);
 
@@ -76,13 +81,14 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
         });
 
         setColors(renewedColors);
+        draw();
         break;
       }
     }
   };
 
   // сохраняем в стейт контекст, паттерн заливки, вешаем слушатель клика и запускаем
-  // функцию рисования через requestAnimationFrame
+  // функцию рисования
   useEffect(() => {
     const canvasElement = refCanvas.current;
     if (!canvasElement) {
@@ -96,7 +102,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     setCtx(context);
 
     canvasElement.addEventListener('click', pathClickHandler);
-
+    draw();
     return () => canvasElement.removeEventListener('click', pathClickHandler);
   }, [pathClickHandler, draw]);
 
@@ -109,6 +115,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
         item.chosen = false;
       }
     });
+    draw();
   }, [activeId, draw]);
 
   // слушаем колесико мыши и, если мышка над канвасом,
@@ -132,9 +139,8 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       y: e.clientY - top,
     });
     setZoom(newZoom);
+    draw();
   };
-
-  requestAnimationFrame(draw);
 
   return (
     <div>
