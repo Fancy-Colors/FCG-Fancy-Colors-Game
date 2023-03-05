@@ -4,6 +4,7 @@ import { Avatar } from 'components/avatar';
 
 import style from './forum-message.module.pcss';
 import { Icon } from 'components/icon';
+import { DateFormatted } from 'components/date-formatted';
 
 type ForumMessageProps = {
   id: number;
@@ -32,7 +33,9 @@ export const ForumMessage: FC<ForumMessageProps> = ({
         <h4 className={style.logo}>{name}</h4>
       </div>
       <div className={style.content}>
-        <time className={style.date}>{date}</time>
+        <div className={style.date}>
+          <DateFormatted date={date} />
+        </div>
         <div className={style.text}>
           <p>{text}</p>
         </div>
