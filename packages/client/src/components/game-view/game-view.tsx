@@ -16,17 +16,21 @@ import { formColors } from './utils/form-colors';
 
 const HARD_CODE_POINTS = '2440';
 const HARD_CODE_TIME = '2м:39с';
+const CANVAS_SIZE = 400;
 
 export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const [colors, setColors] = useState(() => formColors(gameData));
   const [activeId, setActiveId] = useState<number>(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState<number>(1);
-  const [transformOrigin, setTransformOrigin] = useState({ y: 400, x: 400 });
-  const [fieldScale, setFieldScale] = useState<number>(1);
+  const [transformOrigin, setTransformOrigin] = useState({
+    y: CANVAS_SIZE,
+    x: CANVAS_SIZE,
+  });
 
   const refCanvas = useRef<HTMLCanvasElement>(null);
   const refField = useRef<HTMLDivElement>(null);
+  const refResizable = useRef<HTMLDivElement>(null);
 
   if (!colors || !gameId) {
     throw new Error('!');
@@ -35,7 +39,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
-    ctx.clearRect(0, 0, 400, 400);
+    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
       renderPath(ctx, path);
@@ -43,21 +47,29 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   }, [ctx]);
 
   // увеличиваем средствами css=GPU родителя канвас для того чтобы он занимал всю
-  // игровую область
-  // TODO повесить слушателя window resize через throttle
-  useEffect(() => {
+  // игровую область и слушаем ресайз окна
+  const resizeField = () => {
     if (!refField.current || !refCanvas.current) {
       return;
     }
+    const { width, height, top } = refField.current.getBoundingClientRect();
 
     const availableWidth = Math.min(
-      refField.current.getBoundingClientRect().width,
-      refField.current.getBoundingClientRect().width
+      width,
+      height,
+      document.documentElement.clientHeight - top - 24
     );
 
-    const scale =
-      availableWidth / refCanvas.current?.getBoundingClientRect().width;
-    setFieldScale(scale);
+    const scale = availableWidth / CANVAS_SIZE;
+
+    if (!refResizable?.current) return;
+    refResizable.current.style.transform = `scale(${scale})`;
+  };
+
+  useEffect(() => {
+    resizeField();
+    window.addEventListener('resize', resizeField);
+    return () => window.removeEventListener('resize', resizeField);
   }, []);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
@@ -129,7 +141,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (e.deltaY > 0) {
       newZoom = Math.max(1, zoom - 0.05);
     } else {
-      newZoom = Math.min(1.6, zoom + 0.05);
+      newZoom = Math.min(1.5, zoom + 0.05);
     }
 
     const { top, left } = refCanvas.current.getBoundingClientRect();
@@ -158,12 +170,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           onSelect={(key) => setActiveId(key)}
         />
         <div ref={refField} className={styles.gameField}>
-          <div
-            className={styles.canvasWrap}
-            style={{
-              transform: `scale(${fieldScale})`,
-            }}
-          >
+          <div ref={refResizable} className={styles.canvasWrap}>
             <canvas
               style={{
                 transform: `scale(${zoom})`,
@@ -171,8 +178,8 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
               }}
               onWheel={handleWheelEvent}
               ref={refCanvas}
-              width={400}
-              height={400}
+              width={CANVAS_SIZE}
+              height={CANVAS_SIZE}
             />
           </div>
         </div>
