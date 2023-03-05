@@ -1,0 +1,85 @@
+.name {
+  color: var(--color-dark-primary);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.login {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.leader {
+  display: flex;
+
+  &.row {
+    padding: 3px 24px;
+    align-items: center;
+    gap: var(--gap);
+    margin: 10px 0;
+
+    .place {
+      width: 36px;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+      color: var(--color-accent-primary);
+    }
+
+    .login {
+      width: 150px;
+    }
+
+    .name {
+      flex-grow: 1;
+    }
+
+    &.active {
+      background: var(--color-accent-secondary);
+    }
+  }
+
+  &.card {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    .avatar {
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .place {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      bottom: 0;
+      right: 0;
+      background: var(--color-accent-primary);
+      border-radius: 50%;
+      border: 1px solid var(--color-primary-white);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--color-primary-white);
+    }
+
+    .login {
+      color: var(--color-accent-primary);
+    }
+
+    .name {
+      margin-bottom: 4px;
+    }
+
+    .points {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

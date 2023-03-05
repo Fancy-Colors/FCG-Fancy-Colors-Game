@@ -14,6 +14,7 @@ export default defineConfig({
       pages: path.resolve(__dirname, './src/pages'),
       utils: path.resolve(__dirname, './src/utils'),
       assets: path.resolve(__dirname, './src/assets'),
+      api: path.resolve(__dirname, './src/api'),
       styles: path.resolve(__dirname, './src/styles'),
     },
   },
@@ -21,6 +22,7 @@ export default defineConfig({
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
   define: {
+    /* eslint-disable @typescript-eslint/naming-convention */
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   plugins: [
@@ -30,7 +32,6 @@ export default defineConfig({
       svgrOptions: {
         typescript: true,
         replaceAttrValues: {
-          '#000': 'currentColor',
           black: 'currentColor',
         },
       },
