@@ -6,7 +6,7 @@ import style from './forum-message.module.pcss';
 import { Icon } from 'components/icon';
 import { DateFormatted } from 'components/date-formatted';
 
-type ForumMessageProps = {
+export type ForumMessageProps = {
   id: number;
   avatar?: string;
   name: string;
