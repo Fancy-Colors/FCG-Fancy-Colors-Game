@@ -12,6 +12,7 @@ type AuthContextType = {
   signIn: (login: string, password: string) => Promise<void>;
   signUp: (payload: SignUpPayload) => Promise<void>;
   logout: () => void;
+  setUser: (user: User | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -94,6 +95,7 @@ export function AuthProvider({
       signIn,
       signUp,
       logout,
+      setUser,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [user, loading, error]

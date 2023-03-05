@@ -49,8 +49,13 @@ module.exports = {
     // Typescript
     '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/ban-ts-comment': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { ignoreRestSiblings: true },
+    ],
     '@typescript-eslint/naming-convention': [
       'error',
       {

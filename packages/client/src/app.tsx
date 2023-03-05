@@ -8,13 +8,13 @@ import {
 } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { Profile } from 'pages/profile';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { RouterPaths } from './app.types';
 import { MainLayout } from 'components/main-layout';
-import { Error404, Error500 } from 'pages/error/error';
-// если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
-// Тестовая страница пусть остается пока не будут добавлены все страницы
+import { Error404, Error500 } from 'pages/error';
+import { Leaderboard } from 'pages/leaderboard';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,18 +32,12 @@ const router = createBrowserRouter(
           <Route path={RouterPaths.MAIN} element={<MainPage />}>
             <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
           </Route>
-          <Route
-            path={RouterPaths.PROFILE}
-            element={<TestPage text="Профиль" />}
-          />
+          <Route path={RouterPaths.PROFILE} element={<Profile />} />
           <Route
             path={`${RouterPaths.GAME}/:id`}
             element={<TestPage text="Страница игры" />}
           />
-          <Route
-            path={RouterPaths.LEADERBOARD}
-            element={<TestPage text="Лидерборд" />}
-          />
+          <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
           <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
             <Route
               path={RouterPaths.NEW_THREAD}
