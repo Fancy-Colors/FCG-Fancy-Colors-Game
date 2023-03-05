@@ -7,18 +7,21 @@ import { ForumMessage } from 'components/forum-message';
 import style from './forum-thread.module.pcss';
 import { Icon } from 'components/icon';
 
-const ForumThread = () => {
+export const ForumThread = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onClickReply = (id: number) => {
+    //console.log(id)
+  };
+
   return (
     <main className={style.container}>
       <article className={style.panel}>
-        <div className={style.backBox}>
-          <Link to={RouterPaths.FORUM} className={style.backBoxLink}>
-            <Icon type={'arrow'} size={'xs'} color={'#6644ECFF'} />
-            <span className={style.backBoxText}>К темам</span>
-          </Link>
-        </div>
+        <Link to={RouterPaths.FORUM} className={style.link}>
+          <Icon type={'arrow'} size={'xs'} color={'#6644ECFF'} />
+          <span className={style.text}>К темам</span>
+        </Link>
         <div className={style.thread}>
-          <div className={style.threadHeader}>{thread.title}</div>
+          <div className={style.title}>{thread.title}</div>
           <div>
             {thread.messages.map((m) => (
               <ForumMessage
@@ -27,6 +30,7 @@ const ForumThread = () => {
                 text={m.text}
                 id={m.id}
                 key={m.id}
+                handleReply={onClickReply}
               />
             ))}
           </div>
@@ -35,5 +39,3 @@ const ForumThread = () => {
     </main>
   );
 };
-
-export { ForumThread };

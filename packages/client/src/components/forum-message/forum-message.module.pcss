@@ -1,5 +1,3 @@
-@import 'src/styles/variables.pcss';
-
 .message {
   display: flex;
   flex-wrap: nowrap;
@@ -8,49 +6,54 @@
   min-height: 90px;
   border-bottom: 1px solid var(--color-light-secondary);
   box-sizing: border-box;
+}
 
-  &Avatar {
-    flex-basis: 170px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: var(--color-accent-primary);
+.avatar {
+  flex-basis: 170px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--color-accent-primary);
+}
 
-    &Logo {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 20px;
-      margin-top: 12px;
-    }
-  }
+.logo {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  margin-top: 12px;
+}
 
-  &Content {
-    flex: 7;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+.content {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
-    &Date {
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
-      color: var(--color-medium);
-    }
+.date {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--color-medium);
+}
 
-    &Text {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 22px;
-      margin-top: 10px;
-    }
+.text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-top: 10px;
+}
 
-    &Action {
-      flex-basis: 30px;
-      flex-grow: 0;
-    }
-  }
+.action {
+  flex-basis: 30px;
+  flex-grow: 0;
+}
+
+.reply {
+  background: none;
+  border: none;
 }

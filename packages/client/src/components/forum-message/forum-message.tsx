@@ -11,23 +11,37 @@ export type ForumMessageProps = {
   name: string;
   date: string;
   text: string;
+  handleReply: (id: number) => void;
 };
-const ForumMessage: FC<ForumMessageProps> = ({ avatar, name, date, text }) => {
+export const ForumMessage: FC<ForumMessageProps> = ({
+  id,
+  avatar,
+  name,
+  date,
+  text,
+  handleReply,
+}) => {
+  const onClickHandler = () => {
+    handleReply(id);
+  };
+
   return (
     <section className={style.message}>
-      <div className={style.messageAvatar}>
-        <Avatar avatar={avatar} name={name} size={'small'} />
-        <h4 className={style.messageAvatarLogo}>{name}</h4>
+      <div className={style.avatar}>
+        <Avatar avatar={avatar} name={name} size="small" />
+        <h4 className={style.logo}>{name}</h4>
       </div>
-      <div className={style.messageContent}>
-        <h5 className={style.messageContentDate}>{date}</h5>
-        <div className={style.messageContentText}>{text}</div>
+      <div className={style.content}>
+        <time className={style.date}>{date}</time>
+        <div className={style.text}>
+          <p>{text}</p>
+        </div>
       </div>
-      <div className={style.messageContentAction}>
-        <Icon type={'enter'} size={'xs'} color={'#6d7076'} />
+      <div className={style.action}>
+        <button className={style.reply} type="button" onClick={onClickHandler}>
+          <Icon type="enter" size="xs" color={'#6d7076'} />
+        </button>
       </div>
     </section>
   );
 };
-
-export { ForumMessage };
