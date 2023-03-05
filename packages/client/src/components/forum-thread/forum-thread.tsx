@@ -21,7 +21,7 @@ export const ForumThread = () => {
           <span className={style.text}>К темам</span>
         </Link>
         <div className={style.thread}>
-          <div className={style.title}>{thread.title}</div>
+          <h3 className={style.title}>{thread.title}</h3>
           <div>
             {thread.messages.map((m) => (
               <ForumMessage

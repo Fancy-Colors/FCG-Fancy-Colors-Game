@@ -6,11 +6,12 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from 'react-router-dom';
-import { TestPage } from './pages/test';
-import { ProtectedRoutes } from './utils/protected-routes';
-import { MainPage } from './pages/main';
-import { HowToModal } from './components/how-to-modal';
+import { TestPage } from 'pages/test';
+import { ProtectedRoutes } from 'utils/protected-routes';
+import { MainPage } from 'pages/main';
+import { HowToModal } from 'components/how-to-modal';
 import { RouterPaths } from './app.types';
+import { ForumThread } from 'components/forum-thread';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,10 +43,7 @@ const router = createBrowserRouter(
             element={<TestPage text='Модалка "Создать тему"' />}
           />
         </Route>
-        <Route
-          path={`${RouterPaths.FORUM}/:id`}
-          element={<TestPage text="Тема форума" />}
-        />
+        <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
         <Route
           path={RouterPaths.ERROR_500}
           element={<TestPage text="Ошибка 500" />}
