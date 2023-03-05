@@ -2,6 +2,7 @@ import { Component, ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
+  component?: ReactNode;
 };
 
 type State = {
@@ -19,7 +20,11 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.error) {
-      return <p>Произошла ошибка :(</p>;
+      if (this.props.component) {
+        return this.props.component;
+      } else {
+        return <p>Произошла ошибка :(</p>;
+      }
     }
 
     return this.props.children;
