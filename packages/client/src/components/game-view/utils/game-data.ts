@@ -3,12 +3,12 @@ import { TPath } from './render-path';
 export type TGameData = {
   numbers: TPath;
   paths: TPath[];
-  game_id: string;
+  gameId: string;
   tags: string[];
 };
 
 export const gameData: TGameData = {
-  game_id: 'gf23-23',
+  gameId: 'gf23-23',
   tags: ['art'],
   numbers: {
     id: 'NUMS',
