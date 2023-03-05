@@ -12,6 +12,7 @@ import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { RouterPaths } from './app.types';
 import { MainLayout } from 'components/main-layout';
+import { Error404, Error500 } from 'pages/error/error';
 // если у страницы есть дочерний роут - не забудьте при верстке указать компонент <Outlet />
 // Тестовая страница пусть остается пока не будут добавлены все страницы
 
@@ -55,14 +56,8 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
-      <Route
-        path={RouterPaths.ERROR_500}
-        element={<TestPage text="Ошибка 500" />}
-      />
-      <Route
-        path={RouterPaths.ERROR_404}
-        element={<TestPage text="Ошибка 404" />}
-      />
+      <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
+      <Route path={RouterPaths.ERROR_404} element={<Error404 />} />
       <Route path="*" element={<TestPage text="Нет такой страницы" />} />
     </Route>
   )

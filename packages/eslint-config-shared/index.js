@@ -34,7 +34,12 @@ module.exports = {
       },
     },
     {
-      files: ['stylelint.config.cjs', '.eslintrc.cjs'],
+      files: [
+        'stylelint.config.cjs',
+        '.eslintrc.cjs',
+        'vite.config.ts',
+        'jest.config.js',
+      ],
       rules: {
         '@typescript-eslint/naming-convention': 'off',
       },

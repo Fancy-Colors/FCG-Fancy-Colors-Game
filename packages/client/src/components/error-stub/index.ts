@@ -1,1 +1,1 @@
-export { ErrorStub } from './error-stub';
+export { ErrorStub, type ErrorStubProps } from './error-stub';
