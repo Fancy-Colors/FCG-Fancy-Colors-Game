@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { MainPage } from './pages/main';
+import { HowToModal } from './components/how-to-modal';
+import { GamePage } from 'pages/game';
 
 export enum RouterPaths {
   MAIN = '/',
@@ -32,11 +35,8 @@ const router = createBrowserRouter(
       element={<AuthLayout />}
       loader={() => defer({ userPromise: getCurrentUser() })}
     >
-      <Route path={RouterPaths.MAIN} element={<TestPage text="Главная" />}>
-        <Route
-          path={RouterPaths.HOW_TO}
-          element={<TestPage text='Модалка "Как играть"' />}
-        />
+      <Route path={RouterPaths.MAIN} element={<MainPage />}>
+        <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
       </Route>
       <Route
         path={RouterPaths.REGISTER}
@@ -49,10 +49,7 @@ const router = createBrowserRouter(
           path={RouterPaths.PROFILE}
           element={<TestPage text="profile" />}
         />
-        <Route
-          path={`${RouterPaths.GAME}/:id`}
-          element={<TestPage text="Страница игры" />}
-        />
+        <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
         <Route
           path={RouterPaths.LEADERBOARD}
           element={<TestPage text="Лидерборд" />}
