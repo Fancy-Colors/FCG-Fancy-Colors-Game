@@ -23,8 +23,10 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState<number>(1);
   const [transformOrigin, setTransformOrigin] = useState({ y: 400, x: 400 });
+  const [fieldScale, setFieldScale] = useState<number>(1);
 
-  const ref = useRef<HTMLCanvasElement>(null);
+  const refCanvas = useRef<HTMLCanvasElement>(null);
+  const refField = useRef<HTMLDivElement>(null);
 
   if (!colors || !gameId) {
     throw new Error('!');
@@ -39,6 +41,19 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       renderPath(ctx, path);
     });
   }, [ctx]);
+
+  // увеличиваем средствами css=GPU родителя канвас для того чтобы он занимал всю
+  // игровую область
+  // TODO повесить слушателя window resize через throttle
+  useEffect(() => {
+    if (!refField.current || !refCanvas.current) {
+      return;
+    }
+    const scale =
+      refField?.current?.getBoundingClientRect().width /
+      refCanvas.current?.getBoundingClientRect().width;
+    setFieldScale(scale);
+  }, []);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
   // activeId, при этом оборачивание в useCallback не сработает
@@ -69,7 +84,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // сохраняем в стейт контекст, паттерн заливки, вешаем слушатель клика и запускаем
   // функцию рисования через requestAnimationFrame
   useEffect(() => {
-    const canvasElement = ref.current;
+    const canvasElement = refCanvas.current;
     if (!canvasElement) {
       throw new Error('no canvas HTML element found');
     }
@@ -100,7 +115,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // приближаем / отдаляем картинку через стейт zoom
   const handleWheelEvent: WheelEventHandler<HTMLCanvasElement> = (e) => {
     e.stopPropagation();
-    if (e.target !== ref.current) {
+    if (e.target !== refCanvas.current) {
       return;
     }
     let newZoom;
@@ -110,7 +125,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       newZoom = Math.min(1.6, zoom + 0.05);
     }
 
-    const { top, left } = ref.current.getBoundingClientRect();
+    const { top, left } = refCanvas.current.getBoundingClientRect();
 
     setTransformOrigin({
       x: e.clientX - left,
@@ -136,17 +151,24 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           selected={activeId}
           onSelect={(key) => setActiveId(key)}
         />
-        <div className={styles.gameField}>
-          <canvas
-            onWheel={handleWheelEvent}
-            ref={ref}
-            width={400}
-            height={400}
+        <div ref={refField} className={styles.gameField}>
+          <div
+            className={styles.canvasWrap}
             style={{
-              transform: `scale(${zoom})`,
-              transformOrigin: `${transformOrigin.x}px ${transformOrigin.y}px`,
+              transform: `scale(${fieldScale})`,
             }}
-          />
+          >
+            <canvas
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: `${transformOrigin.x}px ${transformOrigin.y}px`,
+              }}
+              onWheel={handleWheelEvent}
+              ref={refCanvas}
+              width={400}
+              height={400}
+            />
+          </div>
         </div>
       </div>
     </div>

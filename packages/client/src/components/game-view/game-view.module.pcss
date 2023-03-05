@@ -11,9 +11,19 @@
 }
 
 .gameField {
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  padding-bottom: 100%;
   display: block;
   background-color: #fff;
+  position: relative;
+}
+
+.canvasWrap {
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  transform-origin: 0 0;
 }
