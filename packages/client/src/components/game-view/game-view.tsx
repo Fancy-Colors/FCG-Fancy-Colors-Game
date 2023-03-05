@@ -20,7 +20,7 @@ const CANVAS_SIZE = 400;
 
 export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const [colors, setColors] = useState(() => formColors(gameData));
-  const [activeId, setActiveId] = useState<number>(-1);
+  const [activeColorId, setActiveColorId] = useState<number>(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState<number>(1);
   const [transformOrigin, setTransformOrigin] = useState({
@@ -73,19 +73,19 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   }, []);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
-  // activeId, при этом оборачивание в useCallback не сработает
+  // activeColorId, при этом оборачивание в useCallback не сработает
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const pathClickHandler = (e: MouseEvent) => {
-    if (!ctx || activeId < 0) return;
+    if (!ctx || activeColorId < 0) return;
     for (const pathItem of gameData.paths) {
       if (ctx.isPointInPath(pathItem.path, e.offsetX, e.offsetY)) {
-        if (activeId !== pathItem.colorID || pathItem.completed) {
+        if (activeColorId !== pathItem.colorID || pathItem.completed) {
           break;
         }
         pathItem.completed = true;
 
         const renewedColors = colors.map((color) => {
-          if (color.id === activeId && color.completed !== color.items) {
+          if (color.id === activeColorId && color.completed !== color.items) {
             color.completed += 1;
             color.progress = Math.floor((color.completed / color.items) * 100);
           }
@@ -121,14 +121,14 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // слушаем смену цвета
   useEffect(() => {
     gameData.paths.forEach((item) => {
-      if (item.colorID === activeId) {
+      if (item.colorID === activeColorId) {
         item.chosen = true;
       } else {
         item.chosen = false;
       }
     });
     draw();
-  }, [activeId, draw]);
+  }, [activeColorId, draw]);
 
   // слушаем колесико мыши и, если мышка над канвасом,
   // приближаем / отдаляем картинку через стейт zoom
@@ -166,8 +166,8 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           colors={colors.map(({ progress, id, color }) => {
             return { id, progress, color };
           })}
-          selected={activeId}
-          onSelect={(key) => setActiveId(key)}
+          selected={activeColorId}
+          onSelect={(key) => setActiveColorId(key)}
         />
         <div ref={refField} className={styles.gameField}>
           <div ref={refResizable} className={styles.canvasWrap}>
