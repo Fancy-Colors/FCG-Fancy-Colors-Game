@@ -107,7 +107,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (e.deltaY > 0) {
       newZoom = Math.max(1, zoom - 0.05);
     } else {
-      newZoom = Math.min(2, zoom + 0.05);
+      newZoom = Math.min(1.6, zoom + 0.05);
     }
 
     const { top, left } = ref.current.getBoundingClientRect();
