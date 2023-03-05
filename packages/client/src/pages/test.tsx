@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { RouterPaths } from '../app';
-
+import { RouterPaths } from 'src/app.types';
 type Props = {
   text: string;
 };

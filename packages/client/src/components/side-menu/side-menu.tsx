@@ -2,72 +2,21 @@ import { FC, useState } from 'react';
 import styles from './side-menu.module.pcss';
 import cn from 'classnames';
 import { NavigationLink } from 'components/navigation-link';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ProfileLink } from 'components/profile-link';
 import { Footer } from 'components/footer';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
+import { RouterPaths } from 'src/app.types';
 
-type LinkType = 'forum' | 'main' | 'profile' | 'forum' | 'leaderboard' | '';
-type Link = {
-  iconType: IconType;
-  link: LinkType;
-  text: string;
-  informer?: string;
-};
+import { LINKS, EXIT, PROFILE, SOCIAL_LINKS } from 'src/mock/side-menu-links';
 
 // пока что хардкод...
 const LOGO_COLOR = '#6644ec';
-const LINKS: Link[] = [
-  {
-    iconType: 'main',
-    link: 'main',
-    text: 'Главная',
-  },
-  {
-    iconType: 'leaderboard',
-    link: 'leaderboard',
-    text: 'Лидерборд',
-  },
-  {
-    iconType: 'forum',
-    link: 'forum',
-    text: 'Форум',
-    informer: '23',
-  },
-];
-const EXIT: Link = {
-  iconType: 'exit',
-  text: 'Выйти',
-  link: '',
-};
-const PROFILE = {
-  label: 'Профиль',
-  link: 'profile' as LinkType,
-  email: 'johnson@ya.ru',
-  name: 'Иван Джонсон',
-  avatar:
-    'https://avatars.mds.yandex.net/i?id=2a00000179f132be486a8a744b50b9b49ec1-5025855-images-thumbs&n=13&exp=1',
-};
-const SOCIAL_LINKS = [
-  {
-    icon: 'github' as IconType,
-    link: 'https://github.com/Fancy-Colors',
-  },
-  {
-    icon: 'vk' as IconType,
-    link: '#',
-  },
-  {
-    icon: 'telegram' as IconType,
-    link: 'https://t.me',
-  },
-];
 
 export const SideMenu: FC = () => {
-  const [activeLink, setActiveLink] = useState(LINKS[0].link);
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState<boolean>(true);
 
   return (
     <section
@@ -82,7 +31,7 @@ export const SideMenu: FC = () => {
           ['w-1']: !expanded,
         })}
       >
-        <Link to="main" onClick={() => setActiveLink('main')}>
+        <Link to={RouterPaths.MAIN}>
           <div className={styles.logo}>
             {expanded ? (
               <Logo width="100%" height="100%" fill={LOGO_COLOR} />
@@ -92,35 +41,48 @@ export const SideMenu: FC = () => {
           </div>
         </Link>
 
-        <div className={styles.mainLinksWrap}>
-          {expanded && <p className={cn(styles.textMenu, 'text-menu')}>Меню</p>}
-          {LINKS.map(({ iconType, text, link, informer }) => (
-            <Link key={iconType} to={link} onClick={() => setActiveLink(link)}>
-              <NavigationLink
-                text={text}
-                iconType={iconType}
-                active={link === activeLink}
-                expanded={expanded}
-                informer={informer}
-              />
-            </Link>
-          ))}
-        </div>
+        {expanded && <p className={cn(styles.textMenu, 'text-menu')}>Меню</p>}
+        {LINKS.map(({ iconType, text, link, informer }) => (
+          <NavLink key={iconType} to={link}>
+            {({ isActive }) => {
+              return (
+                <NavigationLink
+                  text={text}
+                  iconType={iconType}
+                  active={isActive}
+                  expanded={expanded}
+                  informer={informer}
+                />
+              );
+            }}
+          </NavLink>
+        ))}
 
         {expanded && <div className={styles.delimiter} />}
 
-        <Link to="profile" onClick={() => setActiveLink('profile')}>
-          <ProfileLink {...PROFILE} expanded={expanded} />
+        <NavLink to={PROFILE.link}>
+          {({ isActive }) => {
+            return (
+              <ProfileLink {...PROFILE} active={isActive} expanded={expanded} />
+            );
+          }}
+        </NavLink>
+
+        {expanded && <div className={styles.delimiter} />}
+
+        <Link
+          to={RouterPaths.HOW_TO}
+          className="text-main"
+          state={{ fromOwnHost: true }}
+        >
+          <p
+            className={cn(styles.howToText, 'text-menu')}
+            data-expanded={expanded}
+          >
+            {expanded ? 'Как играть в Fancy Colors?' : '?'}
+          </p>
         </Link>
 
-        {expanded && (
-          <>
-            <div className={styles.delimiter} />
-            <Link to="main/howto" className="text-main">
-              Как играть в Fancy Colors?
-            </Link>
-          </>
-        )}
         <button
           type="button"
           className={cn(styles.menuToggler, { [styles.expanded]: expanded })}
@@ -131,6 +93,7 @@ export const SideMenu: FC = () => {
       </nav>
       <div>
         <button
+          /* onClick={логика выхода...} */
           className={cn(styles.exit, {
             ['w-3']: expanded,
             ['w-1']: !expanded,
@@ -139,7 +102,7 @@ export const SideMenu: FC = () => {
           <NavigationLink
             text={EXIT.text}
             iconType={EXIT.iconType}
-            active={EXIT.link === activeLink}
+            active={false}
             expanded={expanded}
           />
         </button>
