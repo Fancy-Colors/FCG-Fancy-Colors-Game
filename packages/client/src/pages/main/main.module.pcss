@@ -1,30 +1,21 @@
-.main {
-  display: flex;
-  flex-flow: nowrap;
-  gap: 24px;
-}
-
 .content {
-  width: 100%;
-  max-height: 100vh;
+  height: 100%;
   padding: 24px;
   display: flex;
   flex-flow: column;
   gap: 24px;
   overflow: hidden;
-  background-color: var(--color-light-primary-opacity, #f5f8fa88);
 }
 
 .gameSection {
-  width: 100%;
   display: flex;
   flex-flow: column;
   gap: 24px;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
 .chooseGame {
-  width: 100%;
-  height: calc(100vh - 24px * 5 - 400px);
   padding-right: 48px;
 }
 
@@ -32,7 +23,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  width: 100%;
   padding: 0 12px 0 0;
 }
 
