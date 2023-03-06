@@ -44,7 +44,7 @@ export const ForumMessage: FC<ForumMessageProps> = ({
       </div>
       <div className={style.action}>
         <Button color={ButtonColor.ICON} size="small" onClick={onClickHandler}>
-          <Icon type="enter" size="xs" color={'#6d7076'} />
+          <Icon type="enter" size="xs" color="#6d7076" />
         </Button>
       </div>
     </section>
