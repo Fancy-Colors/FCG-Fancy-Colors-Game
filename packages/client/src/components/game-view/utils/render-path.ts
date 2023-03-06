@@ -35,6 +35,7 @@ export const renderPath = (
 
   ctx.fillStyle = 'transparent';
 
-  ctx.setLineDash([1, 4]);
+  // ctx.setLineDash([1, 4]);
+  ctx.lineWidth = 4;
   ctx.stroke(path);
 };
