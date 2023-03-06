@@ -173,7 +173,11 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           onSelect={(key) => setActiveColorId(key)}
         />
         <div ref={fieldRef} className={styles.gameField}>
-          <div ref={resizableRef} className={styles.canvasWrap}>
+          <div
+            ref={resizableRef}
+            className={styles.canvasWrap}
+            style={{ width: `${CANVAS_SIZE}px`, height: `${CANVAS_SIZE}px` }}
+          >
             <canvas
               style={{
                 transform: `scale(${zoom})`,
