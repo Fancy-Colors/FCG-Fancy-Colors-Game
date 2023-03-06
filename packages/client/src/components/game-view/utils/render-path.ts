@@ -1,7 +1,7 @@
-import i from '../../../assets/squares.png';
+import image from 'assets/canvas-fill-pattern.png';
 
 const img = new Image();
-img.src = i;
+img.src = image;
 
 export type TPath = {
   path: Path2D;
@@ -9,7 +9,7 @@ export type TPath = {
   chosen: boolean;
   completed: boolean;
   id: string;
-  colorID: number;
+  colorId: number;
 };
 
 export const renderPath = (
