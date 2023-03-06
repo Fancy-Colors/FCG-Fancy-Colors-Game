@@ -5,6 +5,8 @@ import { Avatar } from 'components/avatar';
 import style from './forum-message.module.pcss';
 import { Icon } from 'components/icon';
 import { DateFormatted } from 'components/date-formatted';
+import { Button, ButtonColor } from 'components/button';
+import cn from 'classnames';
 
 export type ForumMessageProps = {
   id: number;
@@ -33,7 +35,7 @@ export const ForumMessage: FC<ForumMessageProps> = ({
         <h4 className={style.logo}>{name}</h4>
       </div>
       <div className={style.content}>
-        <div className={style.date}>
+        <div className={cn('text-main', style.date)}>
           <DateFormatted date={date} />
         </div>
         <div className={style.text}>
@@ -41,9 +43,9 @@ export const ForumMessage: FC<ForumMessageProps> = ({
         </div>
       </div>
       <div className={style.action}>
-        <button className={style.reply} type="button" onClick={onClickHandler}>
+        <Button color={ButtonColor.ICON} size="small" onClick={onClickHandler}>
           <Icon type="enter" size="xs" color={'#6d7076'} />
-        </button>
+        </Button>
       </div>
     </section>
   );
