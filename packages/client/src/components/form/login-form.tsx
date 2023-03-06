@@ -9,21 +9,6 @@ import { validateLogin, validatePassword } from '../../utils/validation';
 import { RouterPaths } from '../../app.types';
 import styles from './form.module.pcss';
 
-const LOGIN_FIELDS = [
-  {
-    placeholder: 'Логин',
-    name: 'login',
-    type: 'text',
-    validate: validateLogin,
-  },
-  {
-    placeholder: 'Пароль',
-    name: 'password',
-    type: 'password',
-    validate: validatePassword,
-  },
-];
-
 export const LoginForm: FC = ({ ...props }) => {
   const { signIn } = useAuth();
 
@@ -43,18 +28,26 @@ export const LoginForm: FC = ({ ...props }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)} {...props}>
-      {LOGIN_FIELDS.map((field) => (
-        <TextField
-          placeholder={field.placeholder}
-          type={field.type}
-          key={field.name}
-          {...register(field.name, {
-            required: 'Обязательное поле',
-            validate: field.validate,
-          })}
-          error={errors[field.name]?.message as string}
-        />
-      ))}
+      <TextField
+        placeholder="Логин"
+        type="text"
+        key="login"
+        {...register('login', {
+          required: 'Обязательное поле',
+          validate: validateLogin,
+        })}
+        error={errors.login?.message as string}
+      />
+      <TextField
+        placeholder="Пароль"
+        type="password"
+        key="password"
+        {...register('password', {
+          required: 'Обязательное поле',
+          validate: validatePassword,
+        })}
+        error={errors.password?.message as string}
+      />
       <Button size="large" color={ButtonColor.GRADIENT} type="submit">
         Вход
       </Button>
