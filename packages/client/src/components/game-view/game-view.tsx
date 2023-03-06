@@ -9,12 +9,12 @@ import {
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
-import { gameData } from './utils/game-data';
+import { gameDataAleksa as gameData } from './utils/game-data';
 import { formColors } from './utils/form-colors';
 
 const HARD_CODE_POINTS = '2440';
 const HARD_CODE_TIME = '2м:39с';
-const CANVAS_SIZE = 400;
+const CANVAS_SIZE = 4000;
 
 export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const [colors, setColors] = useState(() => formColors(gameData));
@@ -137,7 +137,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     if (e.deltaY > 0) {
       newZoom = Math.max(1, zoom - 0.05);
     } else {
-      newZoom = Math.min(1.8, zoom + 0.05);
+      newZoom = Math.min(2, zoom + 0.05);
     }
 
     const { top, left, width } = canvasRef.current.getBoundingClientRect();
