@@ -1,0 +1,51 @@
+.panel {
+  --panel-offset-top: 75px;
+
+  padding: var(--panel-offset-top) 95px 65px;
+  max-width: 930px;
+  margin: 200px auto;
+  border-radius: 12px;
+  background-color: var(--color-light-primary);
+}
+
+.avatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - var(--panel-offset-top)));
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  gap: 50px;
+}
+
+.offsetBefore::before {
+  content: '';
+  display: block;
+  height: 40px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 30px;
+  width: calc(50% - 25px);
+}
+
+.submit {
+  align-self: flex-end;
+}

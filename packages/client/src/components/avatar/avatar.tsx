@@ -9,13 +9,25 @@ type Props = {
   label?: string;
 };
 
+const IMAGE_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/resources`;
+
 export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
+  const imageUrl = avatar
+    ? `${IMAGE_BASE_URL}${encodeURIComponent(avatar)}`
+    : null;
+
   return (
-    <div
-      className={cn(styles.avatar, styles[size])}
-      style={{ backgroundImage: `url(${avatar})` }}
-    >
-      {!avatar && <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>}
+    <div className={cn(styles.avatar, styles[size])}>
+      {imageUrl ? (
+        <img
+          className={styles.image}
+          src={imageUrl}
+          alt={`Аватар @${name}`}
+          draggable="false"
+        />
+      ) : (
+        <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>
+      )}
       {label && <span className={cn(styles.label, 'text-menu')}>{label}</span>}
     </div>
   );
