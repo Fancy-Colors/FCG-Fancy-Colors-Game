@@ -11,6 +11,7 @@ import { ProtectedRoutes } from './utils/protected-routes';
 import { Profile } from 'pages/profile';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
+import { GamePage } from 'pages/game';
 import { RouterPaths } from './app.types';
 
 const router = createBrowserRouter(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
           path={`${RouterPaths.GAME}/:id`}
           element={<TestPage text="Страница игры" />}
         />
+        <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
         <Route
           path={RouterPaths.LEADERBOARD}
           element={<TestPage text="Лидерборд" />}
