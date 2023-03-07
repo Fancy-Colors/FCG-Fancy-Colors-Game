@@ -16,14 +16,12 @@ export const LoginForm: FC = ({ ...props }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     mode: 'onBlur',
   });
 
   const onSubmit: SubmitHandler<FieldValues> = ({ login, password }) => {
     signIn(login, password);
-    reset();
   };
 
   return (
@@ -31,7 +29,6 @@ export const LoginForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Логин"
         type="text"
-        key="login"
         {...register('login', {
           required: 'Обязательное поле',
           validate: validateLogin,
@@ -41,7 +38,6 @@ export const LoginForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Пароль"
         type="password"
-        key="password"
         {...register('password', {
           required: 'Обязательное поле',
           validate: validatePassword,

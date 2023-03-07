@@ -23,7 +23,6 @@ export const RegisterForm: FC = ({ ...props }) => {
     handleSubmit,
     formState: { errors },
     getValues,
-    reset,
   } = useForm({
     mode: 'onBlur',
   });
@@ -38,7 +37,6 @@ export const RegisterForm: FC = ({ ...props }) => {
   }) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     signUp({ first_name, second_name, login, email, password, phone });
-    reset();
   };
 
   return (
@@ -51,7 +49,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Почта"
         type="email"
-        key="email"
         {...register('email', {
           required: 'Обязательное поле',
           validate: validateEmail,
@@ -61,7 +58,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Логин"
         type="text"
-        key="login"
         {...register('login', {
           required: 'Обязательное поле',
           validate: validateLogin,
@@ -71,7 +67,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Имя"
         type="text"
-        key="first_name"
         {...register('first_name', {
           required: 'Обязательное поле',
           validate: validateName,
@@ -81,7 +76,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Фамилия"
         type="text"
-        key="second_name"
         {...register('second_name', {
           required: 'Обязательное поле',
           validate: validateName,
@@ -91,7 +85,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Телефон"
         type="telephone"
-        key="phone"
         {...register('phone', {
           required: 'Обязательное поле',
           validate: validatePhone,
@@ -101,7 +94,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Пароль"
         type="password"
-        key="password"
         {...register('password', {
           required: 'Обязательное поле',
           validate: validatePassword,
@@ -111,7 +103,6 @@ export const RegisterForm: FC = ({ ...props }) => {
       <TextField
         placeholder="Пароль (ещё раз)"
         type="password"
-        key="confirm_password"
         {...register('confirm_password', {
           required: 'Обязательное поле',
           validate: (value = '') => {
