@@ -17,7 +17,7 @@ import styles from './form.module.pcss';
 
 type Props = JSX.IntrinsicElements['form'];
 
-export const RegisterForm: FC<Props> = ({ ...props }) => {
+export const RegisterForm: FC<Props> = (props) => {
   const { signUp } = useAuth();
 
   const {
