@@ -34,7 +34,7 @@ module.exports = {
       },
     },
     {
-      files: ['stylelint.config.cjs', '.eslintrc.cjs'],
+      files: ['stylelint.config.cjs', '.eslintrc.cjs', 'vite.config.ts'],
       rules: {
         '@typescript-eslint/naming-convention': 'off',
       },
@@ -42,9 +42,15 @@ module.exports = {
   ],
   rules: {
     // Typescript
+    '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/ban-ts-comment': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { ignoreRestSiblings: true },
+    ],
     '@typescript-eslint/naming-convention': [
       'error',
       {
@@ -104,7 +110,6 @@ module.exports = {
     'no-useless-return': 'error',
     'no-useless-rename': 'error',
     'no-useless-concat': 'error',
-    'no-useless-constructor': 'error',
     'no-lonely-if': 'error',
     'func-names': ['error', 'as-needed'],
     'new-cap': 'error',

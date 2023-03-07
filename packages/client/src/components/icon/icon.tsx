@@ -15,6 +15,7 @@ import { ReactComponent as GithubIcon } from 'assets/icons/github.svg';
 import { ReactComponent as MessageCountIcon } from 'assets/icons/message-count.svg';
 import { ReactComponent as SmileIcon } from 'assets/icons/smile.svg';
 import { ReactComponent as TelegramIcon } from 'assets/icons/telegram.svg';
+import { ReactComponent as StarIcon } from 'assets/icons/star.svg';
 
 type Props = {
   type: IconType;
@@ -54,6 +55,8 @@ export const Icon: FC<Props> = ({ type, size, color }) => {
       return <SmileIcon className={styles[size]} fill={color} />;
     case 'telegram':
       return <TelegramIcon className={styles[size]} fill={color} />;
+    case 'star':
+      return <StarIcon className={styles[size]} fill={color} />;
 
     default:
       return <span>NO ICON</span>;
