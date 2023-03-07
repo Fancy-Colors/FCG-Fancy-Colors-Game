@@ -9,7 +9,9 @@ import { validateLogin, validatePassword } from '../../utils/validation';
 import { RouterPaths } from '../../app.types';
 import styles from './form.module.pcss';
 
-export const LoginForm: FC = ({ ...props }) => {
+type Props = JSX.IntrinsicElements['form'];
+
+export const LoginForm: FC<Props> = ({ ...props }) => {
   const { signIn } = useAuth();
 
   const {

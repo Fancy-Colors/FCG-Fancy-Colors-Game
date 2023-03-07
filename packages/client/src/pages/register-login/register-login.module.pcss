@@ -1,14 +1,26 @@
-.main {
-  width: 100%;
+.container {
+  padding: 24px;
   height: 100vh;
-  background-color: var(--color-primary-white, '#fff');
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.panel {
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  display: grid;
   min-width: 400px;
 }
 
 .content {
+  margin: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: grid;
+  align-items: center;
   width: 100%;
-  max-width: 345px;
+  max-width: 340px;
 }

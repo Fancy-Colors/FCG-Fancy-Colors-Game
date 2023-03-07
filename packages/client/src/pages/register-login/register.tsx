@@ -6,12 +6,20 @@ import styles from './register-login.module.pcss';
 
 export const RegisterPage: FC = () => {
   return (
-    <main className={cn(styles.main, 'w-6')}>
-      <div className={styles.content}>
-        <div>
-          <Logo width="100%" height="100%" fill="#6644ec" />
+    <main className="app">
+      <div className={cn(styles.container, 'w-12')}>
+        <div className={styles.panel}>
+          <div className={cn(styles.content, 'u-fancy-scrollbar')}>
+            <div className={styles.form}>
+              <div>
+                <div>
+                  <Logo width="100%" height="100%" fill="#6644ec" />
+                </div>
+                <RegisterForm />
+              </div>
+            </div>
+          </div>
         </div>
-        <RegisterForm />
       </div>
     </main>
   );
