@@ -7,7 +7,7 @@ const CURRENT_USER_LOGIN = 'user_login';
 
 export const Leaderboard = () => {
   return (
-    <div className={cn(styles.leaderboard, 'u-page')}>
+    <div className={cn(styles.leaderboard, 'u-page', 'u-fancy-scrollbar')}>
       <div className={styles.topLeaders}>
         {LEADERS.length > 1 && <Leader {...LEADERS[1]} size="small" />}
         {LEADERS.length > 0 && <Leader {...LEADERS[0]} size="medium" />}
