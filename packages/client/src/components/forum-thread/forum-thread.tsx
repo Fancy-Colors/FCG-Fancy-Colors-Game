@@ -6,11 +6,24 @@ import { ForumMessage } from 'components/forum-message';
 
 import style from './forum-thread.module.pcss';
 import { Icon } from 'components/icon';
+import { Pagination } from 'components/pagination';
+import { useEffect, useState } from 'react';
 
 export const ForumThread = () => {
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(20);
+
+  useEffect(() => {
+    setCount(30);
+  }, [page]);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onClickReply = (id: number) => {
     //console.log(id)
+  };
+
+  const handlePageChange = (num: number) => {
+    setPage(num);
   };
 
   return (
@@ -34,6 +47,11 @@ export const ForumThread = () => {
               />
             ))}
           </div>
+          <Pagination
+            currentPage={page}
+            pages={count}
+            onChange={handlePageChange}
+          />
         </div>
       </article>
     </main>
