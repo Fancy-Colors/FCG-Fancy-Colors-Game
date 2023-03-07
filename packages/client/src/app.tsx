@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { TestPage } from './pages/test';
 import { ProtectedRoutes } from './utils/protected-routes';
+import { Profile } from 'pages/profile';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { GamePage } from 'pages/game';
@@ -27,11 +28,11 @@ const router = createBrowserRouter(
         element={<TestPage text="Регистрация" />}
       />
       <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
-
       <Route element={<ProtectedRoutes />}>
+        <Route path={RouterPaths.PROFILE} element={<Profile />} />
         <Route
-          path={RouterPaths.PROFILE}
-          element={<TestPage text="profile" />}
+          path={`${RouterPaths.GAME}/:id`}
+          element={<TestPage text="Страница игры" />}
         />
         <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
         <Route
@@ -57,7 +58,6 @@ const router = createBrowserRouter(
           element={<TestPage text="Ошибка 404" />}
         />
       </Route>
-
       <Route path="*" element={<TestPage text="Нет такой страницы" />} />
     </Route>
   )
