@@ -15,7 +15,7 @@ export const threads: ForumItemProps[] = [
     date: '2023-03-05T12:00:09.337Z',
     name: 'Login',
     messageCount: '50+',
-    id: 1,
+    id: 2,
   },
   {
     title: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
@@ -23,7 +23,7 @@ export const threads: ForumItemProps[] = [
     date: '2023-03-05T12:00:09.337Z',
     name: 'Login',
     messageCount: '50+',
-    id: 1,
+    id: 3,
   },
   {
     title: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
@@ -31,7 +31,7 @@ export const threads: ForumItemProps[] = [
     date: '2023-03-05T12:00:09.337Z',
     name: 'Login',
     messageCount: '50+',
-    id: 1,
+    id: 4,
   },
   {
     title: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
