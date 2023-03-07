@@ -74,24 +74,27 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const pathClickHandler = (e: MouseEvent) => {
     if (!ctx || activeColorId < 0) return;
     for (const pathItem of gameData.paths) {
-      if (ctx.isPointInPath(pathItem.path, e.offsetX, e.offsetY)) {
-        if (activeColorId !== pathItem.colorId || pathItem.completed) {
-          break;
-        }
-        pathItem.completed = true;
+      if (!ctx.isPointInPath(pathItem.path, e.offsetX, e.offsetY)) {
+        continue;
+      }
 
-        const renewedColors = colors.map((color) => {
-          if (color.id === activeColorId && color.completed !== color.items) {
-            color.completed += 1;
-            color.progress = Math.floor((color.completed / color.items) * 100);
-          }
-          return color;
-        });
-
-        setColors(renewedColors);
-        draw();
+      if (activeColorId !== pathItem.colorId || pathItem.completed) {
         break;
       }
+
+      pathItem.completed = true;
+
+      const renewedColors = colors.map((color) => {
+        if (color.id === activeColorId && color.completed !== color.items) {
+          color.completed += 1;
+          color.progress = Math.floor((color.completed / color.items) * 100);
+        }
+        return color;
+      });
+
+      setColors(renewedColors);
+      draw();
+      break;
     }
   };
 
