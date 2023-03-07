@@ -37,6 +37,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
+    ctx.lineWidth = 4;
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {

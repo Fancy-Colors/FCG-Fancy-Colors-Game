@@ -8,7 +8,7 @@ export type ColorType = {
   completed: number;
 };
 
-export const formColors = (gameData: TGameData): ColorType[] => {
+export const formColors = (gameData: TGameData) => {
   const colors = new Map<number, ColorType>();
 
   // не через reduce для меньшей когнитивной сложности
@@ -32,7 +32,5 @@ export const formColors = (gameData: TGameData): ColorType[] => {
     }
   });
 
-  const colorsArr: ColorType[] = Array.from(colors.values());
-
-  return colorsArr;
+  return Array.from(colors.values());
 };
