@@ -138,17 +138,15 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
     }
     let newZoom;
     if (e.deltaY > 0) {
-      newZoom = Math.max(1, zoom - 0.05);
+      newZoom = Math.max(1, zoom - 0.1);
     } else {
-      newZoom = Math.min(2, zoom + 0.05);
+      newZoom = Math.min(2, zoom + 0.1); // макс зум - х2
     }
 
     const { top, left, width } = canvasRef.current.getBoundingClientRect();
 
     const calculateTransformOrigin = (coord: number) => {
-      const coordPosition =
-        (Math.floor(coord * 100) / Math.floor(width * 100)) * 100;
-      // debugger;
+      const coordPosition = (Math.floor(coord) / Math.floor(width)) * 100;
       return coordPosition > 65 ? 100 : coordPosition < 35 ? 0 : 50;
     };
 
