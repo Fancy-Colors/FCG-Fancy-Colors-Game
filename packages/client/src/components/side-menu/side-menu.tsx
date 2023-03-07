@@ -122,7 +122,7 @@ export const SideMenu: FC = () => {
           >
             <NavigationLink
               text="Войти"
-              iconType={'user'}
+              iconType="user"
               active={false}
               expanded={expanded}
             />
