@@ -4,9 +4,9 @@ import { TextField } from 'components/text-field';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import cn from 'classnames';
-import { useAuth } from '../hooks/use-auth';
-import { validateLogin, validatePassword } from '../../utils/validation';
-import { RouterPaths } from '../../app.types';
+import { useAuth } from 'components/hooks/use-auth';
+import { validateLogin, validatePassword } from 'utils/validation';
+import { RouterPaths } from 'src/app.types';
 import styles from './form.module.pcss';
 
 type Props = JSX.IntrinsicElements['form'];

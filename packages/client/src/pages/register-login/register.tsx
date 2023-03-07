@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { RegisterForm } from '../../components/form';
+import { ReactComponent as Logo } from 'assets/logo.svg';
+import { RegisterForm } from 'components/form';
 import cn from 'classnames';
 import styles from './register-login.module.pcss';
 

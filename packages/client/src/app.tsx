@@ -6,14 +6,14 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from 'react-router-dom';
-import { TestPage } from './pages/test';
-import { ProtectedRoutes } from './utils/protected-routes';
+import { TestPage } from 'pages/test';
+import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
-import { MainPage } from './pages/main';
-import { Leaderboard } from './pages/leaderboard';
-import { HowToModal } from './components/how-to-modal';
-import { RouterPaths } from './app.types';
+import { MainPage } from 'pages/main';
 import { LoginPage, RegisterPage } from 'pages/register-login';
+import { Leaderboard } from 'pages/leaderboard';
+import { HowToModal } from 'components/how-to-modal';
+import { RouterPaths } from 'src/app.types';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
