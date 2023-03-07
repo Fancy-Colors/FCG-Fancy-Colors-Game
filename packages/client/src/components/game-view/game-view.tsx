@@ -155,7 +155,6 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       y: calculateTransformOrigin(e.clientY - top),
     });
     setZoom(newZoom);
-    draw();
   };
 
   return (
