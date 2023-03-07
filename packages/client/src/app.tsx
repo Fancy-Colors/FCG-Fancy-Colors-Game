@@ -12,6 +12,7 @@ import { Profile } from 'pages/profile';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { RouterPaths } from './app.types';
+import { Forum } from 'pages/forum';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +38,7 @@ const router = createBrowserRouter(
           path={RouterPaths.LEADERBOARD}
           element={<TestPage text="Лидерборд" />}
         />
-        <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
+        <Route path={RouterPaths.FORUM} element={<Forum />}>
           <Route
             path={RouterPaths.NEW_THREAD}
             element={<TestPage text='Модалка "Создать тему"' />}
