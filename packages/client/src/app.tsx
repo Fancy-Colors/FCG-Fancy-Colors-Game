@@ -44,10 +44,6 @@ const router = createBrowserRouter(
         <Route element={<ProtectedRoutes />}>
           <Route path={RouterPaths.PROFILE} element={<Profile />} />
           <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
-          <Route
-            path={`${RouterPaths.GAME}/:id`}
-            element={<TestPage text="Страница игры" />}
-          />
         </Route>
       </Route>
       <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
