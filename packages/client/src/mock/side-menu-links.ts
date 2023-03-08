@@ -18,7 +18,7 @@ export const LINKS: LinkType[] = [
     text: 'Лидерборд',
   },
   {
-    iconType: 'forum',
+    iconType: 'attach',
     link: RouterPaths.FORUM,
     text: 'Форум',
     informer: '23',
