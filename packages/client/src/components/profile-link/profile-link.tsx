@@ -10,7 +10,6 @@ type ProfileLinkProps = {
   expanded?: boolean;
   active?: boolean;
   user: User;
-  onClick?: () => void;
 };
 
 export const ProfileLink = ({

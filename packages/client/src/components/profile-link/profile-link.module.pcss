@@ -32,14 +32,23 @@
 .info {
   display: flex;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .content {
   margin-left: 8px;
+  overflow-x: hidden;
 }
 
 .name {
   margin-bottom: 4px;
+}
+
+.name,
+.email {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .email {
