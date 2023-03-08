@@ -16,7 +16,7 @@ import { RouterPaths } from './app.types';
 import { MainLayout } from 'components/main-layout';
 import { Error404, Error500 } from 'pages/error';
 import { Leaderboard } from 'pages/leaderboard';
-import { ForumThread } from 'components/forum-thread';
+import { ForumThread } from 'pages/forum-thread';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

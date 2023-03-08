@@ -29,7 +29,7 @@ export const ForumMessage: FC<ForumMessageProps> = ({
   };
 
   return (
-    <section className={style.message}>
+    <article className={style.message}>
       <div className={style.avatar}>
         <Avatar avatar={avatar} name={name} size="small" />
         <h4 className={style.logo}>{name}</h4>
@@ -47,6 +47,6 @@ export const ForumMessage: FC<ForumMessageProps> = ({
           <Icon type="enter" size="xs" color="#6d7076" />
         </Button>
       </div>
-    </section>
+    </article>
   );
 };
