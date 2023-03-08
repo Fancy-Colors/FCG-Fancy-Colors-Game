@@ -2,7 +2,7 @@ declare global {
   export type IconType =
     | 'main'
     | 'leaderboard'
-    | 'attach'
+    | 'forum'
     | 'settings'
     | 'close'
     | 'vk'

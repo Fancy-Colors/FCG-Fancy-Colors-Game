@@ -33,7 +33,7 @@ export const MessageComposer = () => {
           <Icon type="smile" size="large" color="var(--color-dark-primary)" />
         </Button>
         <Button type="button" size="small" color={ButtonColor.ICON}>
-          <Icon type="attach" size="large" color="var(--color-dark-primary)" />
+          <Icon type="forum" size="large" color="var(--color-dark-primary)" />
         </Button>
         <Button type="submit">Отправить</Button>
       </div>
