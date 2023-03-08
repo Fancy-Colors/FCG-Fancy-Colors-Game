@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styles from './icon.module.pcss';
 import { ReactComponent as MainIcon } from 'assets/icons/main.svg';
 import { ReactComponent as LeaderBoardIcon } from 'assets/icons/leaderboard.svg';
-import { ReactComponent as ForumIcon } from 'assets/icons/forum.svg';
+import { ReactComponent as AttachIcon } from 'assets/icons/attach.svg';
 import { ReactComponent as SettingsIcon } from 'assets/icons/settings.svg';
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { ReactComponent as VKIcon } from 'assets/icons/vk.svg';
@@ -29,8 +29,8 @@ export const Icon: FC<Props> = ({ type, size, color }) => {
       return <MainIcon className={styles[size]} fill={color} />;
     case 'leaderboard':
       return <LeaderBoardIcon className={styles[size]} fill={color} />;
-    case 'forum':
-      return <ForumIcon className={styles[size]} fill={color} />;
+    case 'attach':
+      return <AttachIcon className={styles[size]} fill={color} />;
     case 'settings':
       return <SettingsIcon className={styles[size]} fill={color} />;
     case 'close':
