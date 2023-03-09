@@ -9,11 +9,13 @@ import {
 import { TestPage } from 'pages/test';
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
-import { MainPage } from 'pages/main';
+import { MainPage } from './pages/main';
+import { HowToModal } from './components/how-to-modal';
+import { GamePage } from 'pages/game';
+import { RouterPaths } from './app.types';
+import { ForumThread } from 'components/forum-thread';
 import { LoginPage, RegisterPage } from 'pages/auth';
 import { Leaderboard } from 'pages/leaderboard';
-import { HowToModal } from 'components/how-to-modal';
-import { RouterPaths } from 'src/app.types';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +34,7 @@ const router = createBrowserRouter(
           path={`${RouterPaths.GAME}/:id`}
           element={<TestPage text="Страница игры" />}
         />
+        <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
           <Route
@@ -39,10 +42,7 @@ const router = createBrowserRouter(
             element={<TestPage text='Модалка "Создать тему"' />}
           />
         </Route>
-        <Route
-          path={`${RouterPaths.FORUM}/:id`}
-          element={<TestPage text="Тема форума" />}
-        />
+        <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
         <Route
           path={RouterPaths.ERROR_500}
           element={<TestPage text="Ошибка 500" />}
