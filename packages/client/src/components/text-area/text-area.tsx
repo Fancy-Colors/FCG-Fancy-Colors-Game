@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { forwardRef } from 'react';
 import styles from './text-area.module.pcss';
 
@@ -8,7 +8,7 @@ export const TextArea = forwardRef<
 >((props, ref) => (
   <div className={styles.wrapper}>
     <textarea
-      className={classNames(styles.textarea, 'u-fancy-scrollbar')}
+      className={cn(styles.textarea, 'u-fancy-scrollbar')}
       ref={ref}
       {...props}
     />
