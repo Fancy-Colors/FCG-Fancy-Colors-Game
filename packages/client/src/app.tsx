@@ -18,6 +18,7 @@ import { MainLayout } from 'components/main-layout';
 import { Error404, Error500 } from 'pages/error';
 import { Leaderboard } from 'pages/leaderboard';
 import { ForumThread } from 'pages/forum-thread';
+import { NewThreadModal } from 'components/modal-new-thread';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,10 +34,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
-          <Route
-            path={RouterPaths.NEW_THREAD}
-            element={<TestPage text='Модалка "Создать тему"' />}
-          />
+          <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
         </Route>
         <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
         <Route element={<ProtectedRoutes />}>
