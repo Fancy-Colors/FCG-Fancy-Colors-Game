@@ -26,7 +26,9 @@ export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
           draggable="false"
         />
       ) : (
-        <p>{name.length > 0 ? name[0].toUpperCase() : 'U'}</p>
+        <span className={styles.letter}>
+          {name.length > 0 ? name[0].toUpperCase() : 'U'}
+        </span>
       )}
       {label && <span className={cn(styles.label, 'text-menu')}>{label}</span>}
     </div>
