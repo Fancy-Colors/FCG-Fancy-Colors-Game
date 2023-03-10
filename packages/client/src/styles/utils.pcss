@@ -14,6 +14,7 @@
 .u-fancy-scrollbar {
   --color-scrollbar-track: var(--color-light-secondary, #bdbdbd);
   --color-scrollbar-thumb: var(--color-accent-primary, #6644ec);
+  --scroll-bar-radius: 4px;
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -24,13 +25,26 @@
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
+    border-radius: var(--scroll-bar-radius);
     background-color: var(--color-scrollbar-track);
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
+    border-radius: var(--scroll-bar-radius);
     background-color: var(--color-scrollbar-thumb);
   }
+}
+
+.u-page {
+  background-color: var(--color-light-primary-opacity);
+  border-radius: 12px;
+  width: 100%;
+  max-height: calc(100vh - 48px);
+}
+
+.u-container {
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 /* Кастомная стилизация свайпера */

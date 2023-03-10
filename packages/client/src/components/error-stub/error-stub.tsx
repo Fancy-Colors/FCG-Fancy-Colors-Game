@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import style from './error-stub.module.pcss';
 
-type ErrorStubProps = {
+export type ErrorStubProps = {
   title: string;
   message: string;
   children?: JSX.Element | JSX.Element[];

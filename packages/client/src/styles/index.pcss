@@ -34,6 +34,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+#root {
+  height: 100vh;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/bg-image.png');
+    background-size: cover;
+    background-position: 50% 50%;
+    opacity: 0.6;
+    z-index: -1;
+  }
+}
+
 img,
 video {
   user-select: none;

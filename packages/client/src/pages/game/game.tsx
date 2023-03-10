@@ -1,17 +1,14 @@
 import { FC } from 'react';
 import styles from './game.module.pcss';
-import { SideMenu } from 'components/side-menu';
 import { useParams } from 'react-router-dom';
 import { GameView } from 'components/game-view';
+import cn from 'classnames';
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
   return (
-    <section className={styles.section}>
-      <SideMenu />
-      <div className={styles.content}>
-        <GameView gameId={id} />
-      </div>
-    </section>
+    <div className={cn(styles.content, 'u-page')}>
+      <GameView gameId={id} />
+    </div>
   );
 };
