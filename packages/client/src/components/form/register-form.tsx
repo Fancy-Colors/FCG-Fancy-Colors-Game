@@ -4,18 +4,20 @@ import { TextField } from 'components/text-field';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import cn from 'classnames';
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from 'components/hooks/use-auth';
 import {
   validateEmail,
   validateLogin,
   validateName,
   validatePassword,
   validatePhone,
-} from '../../utils/validation';
-import { RouterPaths } from '../../app.types';
+} from 'utils/validation';
+import { RouterPaths } from 'src/app.types';
 import styles from './form.module.pcss';
 
-export const RegisterForm: FC = ({ ...props }) => {
+type Props = JSX.IntrinsicElements['form'];
+
+export const RegisterForm: FC<Props> = (props) => {
   const { signUp } = useAuth();
 
   const {
@@ -40,12 +42,7 @@ export const RegisterForm: FC = ({ ...props }) => {
   };
 
   return (
-    <form
-      id="register-form"
-      className={styles.form}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} {...props}>
       <TextField
         placeholder="Почта"
         type="email"

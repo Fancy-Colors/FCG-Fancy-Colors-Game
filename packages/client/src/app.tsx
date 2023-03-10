@@ -6,13 +6,14 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from 'react-router-dom';
-import { TestPage } from './pages/test';
-import { ProtectedRoutes } from './utils/protected-routes';
+import { TestPage } from 'pages/test';
+import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
 import { MainPage } from './pages/main';
 import { HowToModal } from './components/how-to-modal';
 import { GamePage } from 'pages/game';
 import { RouterPaths } from './app.types';
+import { LoginPage, RegisterPage } from 'pages/auth';
 import { MainLayout } from 'components/main-layout';
 import { Error404, Error500 } from 'pages/error';
 import { Leaderboard } from 'pages/leaderboard';
@@ -24,11 +25,8 @@ const router = createBrowserRouter(
       element={<AuthLayout />}
       loader={() => defer({ userPromise: getCurrentUser() })}
     >
-      <Route
-        path={RouterPaths.REGISTER}
-        element={<TestPage text="Регистрация" />}
-      />
-      <Route path={RouterPaths.LOGIN} element={<TestPage text="Логин" />} />
+      <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
+      <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
       <Route element={<MainLayout />}>
         <Route path={RouterPaths.MAIN} element={<MainPage />}>
           <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
