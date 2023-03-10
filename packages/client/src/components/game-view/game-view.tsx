@@ -11,12 +11,16 @@ import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { gameDataAleksa as gameData } from './utils/game-data';
 import { formColors } from './utils/form-colors';
+import { GameCompletedData } from 'pages/game/game';
 
-const HARD_CODE_POINTS = '2440';
+const HARD_CODE_POINTS = 2440;
 const HARD_CODE_TIME = '2м:39с';
 const CANVAS_SIZE = 4000;
 
-export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
+export const GameView: FC<{
+  gameId?: string;
+  setGameCompleted: (p: GameCompletedData) => void;
+}> = ({ gameId, setGameCompleted }) => {
   const [colors, setColors] = useState(() => formColors(gameData));
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -85,6 +89,8 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
 
       pathItem.completed = true;
 
+      // put it here!
+
       const renewedColors = colors.map((color) => {
         if (color.id === activeColorId && color.completed !== color.items) {
           color.completed += 1;
@@ -95,6 +101,18 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
 
       setColors(renewedColors);
       draw();
+
+      // проверяем не закончена ли игра
+      if (gameData.paths.every((i) => i.completed)) {
+        setGameCompleted({
+          gameData,
+          movesHistory: [],
+          score: HARD_CODE_POINTS,
+          time: HARD_CODE_TIME,
+        });
+        return;
+      }
+
       break;
     }
   };
@@ -159,7 +177,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   };
 
   return (
-    <div>
+    <>
       <div className={styles.points}>
         <p className="text-menu">{HARD_CODE_POINTS}</p>
         <p className="text-menu">{HARD_CODE_TIME}</p>
@@ -192,6 +210,6 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
