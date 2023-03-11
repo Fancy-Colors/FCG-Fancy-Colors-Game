@@ -1,0 +1,27 @@
+.game {
+  display: grid;
+  grid-template-columns: 98px 1fr;
+  gap: 24px;
+}
+
+.points {
+  display: flex;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+
+.gameField {
+  width: 100%;
+  padding-bottom: 100%;
+  display: block;
+  position: relative;
+}
+
+.canvasWrap {
+  background-color: var(--color-primary-white, #fff);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}

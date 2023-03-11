@@ -22,6 +22,7 @@ export default defineConfig({
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
   define: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   plugins: [
@@ -31,6 +32,7 @@ export default defineConfig({
       svgrOptions: {
         typescript: true,
         replaceAttrValues: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           '#000': 'currentColor',
           black: 'currentColor',
         },

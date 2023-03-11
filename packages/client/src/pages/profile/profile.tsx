@@ -242,9 +242,9 @@ const PasswordForm = () => {
 
 export const Profile = () => {
   return (
-    <main className={styles.panel}>
+    <div className={cn(styles.profile, 'u-page')}>
       <ProfileForm />
       <PasswordForm />
-    </main>
+    </div>
   );
 };

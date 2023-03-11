@@ -9,14 +9,16 @@ import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
 import { RouterPaths } from 'src/app.types';
+import { useAuth } from 'components/hooks/use-auth';
 
-import { LINKS, EXIT, PROFILE, SOCIAL_LINKS } from 'src/mock/side-menu-links';
+import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
 
 // пока что хардкод...
 const LOGO_COLOR = '#6644ec';
 
 export const SideMenu: FC = () => {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const { logout, user } = useAuth();
+  const [expanded, setExpanded] = useState(true);
 
   return (
     <section
@@ -44,29 +46,32 @@ export const SideMenu: FC = () => {
         {expanded && <p className={cn(styles.textMenu, 'text-menu')}>Меню</p>}
         {LINKS.map(({ iconType, text, link, informer }) => (
           <NavLink key={iconType} to={link}>
-            {({ isActive }) => {
-              return (
-                <NavigationLink
-                  text={text}
-                  iconType={iconType}
-                  active={isActive}
-                  expanded={expanded}
-                  informer={informer}
-                />
-              );
-            }}
+            {({ isActive }) => (
+              <NavigationLink
+                text={text}
+                iconType={iconType}
+                active={isActive}
+                expanded={expanded}
+                informer={informer}
+              />
+            )}
           </NavLink>
         ))}
 
-        {expanded && <div className={styles.delimiter} />}
-
-        <NavLink to={PROFILE.link}>
-          {({ isActive }) => {
-            return (
-              <ProfileLink {...PROFILE} active={isActive} expanded={expanded} />
-            );
-          }}
-        </NavLink>
+        {user && (
+          <>
+            {expanded && <div className={styles.delimiter} />}
+            <NavLink to={RouterPaths.PROFILE}>
+              {({ isActive }) => (
+                <ProfileLink
+                  user={user}
+                  active={isActive}
+                  expanded={expanded}
+                />
+              )}
+            </NavLink>
+          </>
+        )}
 
         {expanded && <div className={styles.delimiter} />}
 
@@ -92,20 +97,37 @@ export const SideMenu: FC = () => {
         </button>
       </nav>
       <div>
-        <button
-          /* onClick={логика выхода...} */
-          className={cn(styles.exit, {
-            ['w-3']: expanded,
-            ['w-1']: !expanded,
-          })}
-        >
-          <NavigationLink
-            text={EXIT.text}
-            iconType={EXIT.iconType}
-            active={false}
-            expanded={expanded}
-          />
-        </button>
+        {user ? (
+          <button
+            onClick={logout}
+            className={cn(styles.authLink, {
+              ['w-3']: expanded,
+              ['w-1']: !expanded,
+            })}
+          >
+            <NavigationLink
+              text="Выйти"
+              iconType="exit"
+              active={false}
+              expanded={expanded}
+            />
+          </button>
+        ) : (
+          <Link
+            to={RouterPaths.LOGIN}
+            className={cn(styles.authLink, {
+              ['w-3']: expanded,
+              ['w-1']: !expanded,
+            })}
+          >
+            <NavigationLink
+              text="Войти"
+              iconType="user"
+              active={false}
+              expanded={expanded}
+            />
+          </Link>
+        )}
         <Footer expanded={expanded} links={SOCIAL_LINKS} />
       </div>
     </section>
