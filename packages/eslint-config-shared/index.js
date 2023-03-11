@@ -94,7 +94,7 @@ module.exports = {
 
     // Suggestions
     'object-shorthand': 'error',
-    'prefer-arrow-callback': 'error',
+    'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     'prefer-spread': 'error',
     'prefer-destructuring': [
       'error',

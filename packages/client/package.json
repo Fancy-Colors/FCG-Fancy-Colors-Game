@@ -27,7 +27,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.43.2",
     "react-router-dom": "6.8.1",
-    "swiper": "9.1.0"
+    "swiper": "9.1.0",
+    "colorjs.io": "0.4.3"
   },
   "devDependencies": {
     "@testing-library/react": "14.0.0",
