@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Modal } from 'components/modal';
 import { TextField } from 'components/text-field';
 import { TextArea } from 'components/text-area';
@@ -10,7 +10,15 @@ import styles from './new-thread-modal.module.pcss';
 
 const MAX_POST_LENGTH = 1000;
 
-export const NewThreadModal: FC = (props) => {
+type FormField = {
+  name: string;
+  message: string;
+  error: string;
+};
+
+type Props = JSX.IntrinsicElements['form'];
+
+export const NewThreadModal: FC<Props> = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,11 +26,11 @@ export const NewThreadModal: FC = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormField>({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = () => {
+  const onSubmit: SubmitHandler<FormField> = () => {
     // API форума. Cоздание темы
   };
 
@@ -37,7 +45,7 @@ export const NewThreadModal: FC = (props) => {
   };
 
   return (
-    <Modal onClose={() => onClose()}>
+    <Modal onClose={onClose}>
       <form
         className={styles.form}
         onSubmit={handleSubmit(onSubmit)}
@@ -46,10 +54,10 @@ export const NewThreadModal: FC = (props) => {
         <TextField
           placeholder="Название темы"
           type="text"
-          {...register('thread', {
+          {...register('name', {
             required: 'Обязательное поле',
           })}
-          error={errors.thread?.message as string}
+          error={errors.name?.message}
         />
         <TextArea
           placeholder="Сообщение"
