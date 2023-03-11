@@ -1,4 +1,4 @@
-import { FC, KeyboardEventHandler } from 'react';
+import { FC, useEffect } from 'react';
 import { useFullScreen } from 'components/hooks';
 import { Button } from 'components/button';
 import styles from './fullscreen-button.module.pcss';
@@ -8,18 +8,18 @@ export const FullScreenButton: FC<{ fsRef: Nullable<HTMLElement> }> = ({
 }) => {
   const { isFullScreen, toggleFullScreen } = useFullScreen(fsRef);
 
-  const handleKeyDown: KeyboardEventHandler<HTMLButtonElement> = (e) => {
-    if (e.key === 'f') {
-      toggleFullScreen();
-    }
-  };
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleFullScreen]);
 
   return (
-    <Button
-      onClick={toggleFullScreen}
-      onKeyDown={handleKeyDown}
-      className={styles.button}
-    >
+    <Button onClick={toggleFullScreen} className={styles.button}>
       {isFullScreen ? 'свернуть' : 'развернуть на весь экран'}
     </Button>
   );
