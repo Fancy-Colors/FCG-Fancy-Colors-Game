@@ -13,7 +13,6 @@ const MAX_POST_LENGTH = 1000;
 type FormField = {
   name: string;
   message: string;
-  error: string;
 };
 
 type Props = JSX.IntrinsicElements['form'];
