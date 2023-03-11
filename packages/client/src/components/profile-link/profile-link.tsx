@@ -9,31 +9,26 @@ type ProfileLinkProps = {
   label?: string;
   expanded?: boolean;
   active?: boolean;
-  name: string;
-  email: string;
-  avatar?: string;
-  onClick?: () => void;
+  user: User;
 };
 
 export const ProfileLink = ({
   label = 'Профиль',
   expanded = true,
   active = false,
-  name,
-  email,
-  avatar = '',
-  onClick,
+  user,
 }: ProfileLinkProps) => {
+  const { firstName, secondName, email, avatar } = user;
+  const name = `${firstName} ${secondName}`;
+
   return (
     <>
       {expanded && <p className={cn(styles.label, 'text-main')}>{label}</p>}
-      <button
-        type="button"
+      <div
         className={cn(styles.profileLink, {
           [styles.collapsed]: !expanded,
           [styles.active]: active,
         })}
-        onClick={onClick}
       >
         {expanded && (
           <div className={styles.info}>
@@ -49,7 +44,7 @@ export const ProfileLink = ({
         <div className={styles.settings}>
           <Icon size="medium" type="settings" color={ICON_COLOR} />
         </div>
-      </button>
+      </div>
     </>
   );
 };
