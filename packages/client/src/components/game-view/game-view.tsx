@@ -10,21 +10,20 @@ import {
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
-import { GameCompletedData } from 'pages/game/game';
 import { FullScreenButton } from 'components/fullscreen-button';
-import { ColorType, TGameData } from './utils/types';
+import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
 
 const HARD_CODE_POINTS = 2440;
 const HARD_CODE_TIME = '2м:39с';
 
 export const GameView: FC<{
   initColors: ColorType[];
-  initGameData: TGameData;
+  iniGameDataType: GameDataType;
   size: number;
   gameId?: string;
-  setGameCompleted: (p: GameCompletedData) => void;
-}> = ({ initColors, size, initGameData, setGameCompleted }) => {
-  const [gameData, setGameData] = useState(initGameData);
+  setGameCompleted: (p: GameCompletedDataType) => void;
+}> = ({ initColors, size, iniGameDataType, setGameCompleted }) => {
+  const [gameData, setGameData] = useState(iniGameDataType);
   const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);

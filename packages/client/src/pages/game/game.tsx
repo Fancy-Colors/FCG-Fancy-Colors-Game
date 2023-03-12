@@ -5,7 +5,7 @@ import { GameView, GameCompletedView } from 'components/game-view';
 import cn from 'classnames';
 import { makeInitialData } from 'components/game-view/utils/make-initial-data';
 import { gameDataAleksa } from 'components/game-view/utils/game-data';
-import { GameCompletedData } from 'components/game-view/utils/types';
+import { GameCompletedDataType } from 'components/game-view/utils/types';
 
 const HARD_CODE_USER: User = {
   id: 45,
@@ -25,8 +25,9 @@ export const GamePage: FC = () => {
     throw new Error(`no game Data found by id: ${id}`);
   }
 
-  const [initColors, initGameData] = makeInitialData(gameDataAleksa);
-  const [gameCompleted, setGameCompleted] = useState<GameCompletedData>(null);
+  const [initColors, iniGameDataType] = makeInitialData(gameDataAleksa);
+  const [gameCompleted, setGameCompleted] =
+    useState<GameCompletedDataType>(null);
 
   return (
     <div className={cn(styles.content, 'u-page')}>
@@ -44,9 +45,9 @@ export const GamePage: FC = () => {
       ) : (
         <GameView
           initColors={initColors}
-          initGameData={initGameData}
+          iniGameDataType={iniGameDataType}
           setGameCompleted={setGameCompleted}
-          size={initGameData.size}
+          size={iniGameDataType.size}
         />
       )}
     </div>

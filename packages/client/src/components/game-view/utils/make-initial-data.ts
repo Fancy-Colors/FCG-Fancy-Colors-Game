@@ -1,13 +1,13 @@
-import { ColorType, TGameData, RawGameDataType } from './types';
+import { ColorType, GameDataType, RawGameDataType } from './types';
 
 export const makeInitialData = (
   data: RawGameDataType
-): [ColorType[], TGameData] => {
+): [ColorType[], GameDataType] => {
   const { numbers, paths } = data;
 
   const colors = new Map<number, ColorType>();
 
-  const gameData: TGameData = {
+  const gameData: GameDataType = {
     ...data,
     numbers: {
       ...numbers,

@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { GameCompletedData } from 'pages/game/game';
+import { GameCompletedDataType } from 'pages/game/game';
 import { Link } from 'react-router-dom';
 import { Button } from 'components/button';
 
 type Props = {
-  data: GameCompletedData;
+  data: GameCompletedDataType;
   user: User;
   playAgain: () => void;
 };

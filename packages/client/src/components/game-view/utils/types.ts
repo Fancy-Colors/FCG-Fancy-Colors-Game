@@ -17,13 +17,21 @@ export type RawGameDataType = {
   name: string;
 };
 
-export type TPath = {
+export type PathType = {
   path: Path2D;
   color: string;
   chosen: boolean;
   completed: boolean;
   id: string;
   colorId: number;
+};
+
+export type GameDataType = {
+  numbers: PathType;
+  paths: PathType[];
+  gameId: string;
+  tags: string[];
+  size: number;
 };
 
 export type ColorType = {
@@ -34,16 +42,8 @@ export type ColorType = {
   completed: number;
 };
 
-export type TGameData = {
-  numbers: TPath;
-  paths: TPath[];
-  gameId: string;
-  tags: string[];
-  size: number;
-};
-
-export type GameCompletedData = Nullable<{
-  gameData: TGameData;
+export type GameCompletedDataType = Nullable<{
+  gameData: GameDataType;
   movesHistory: string[];
   score: number;
   time: string;
