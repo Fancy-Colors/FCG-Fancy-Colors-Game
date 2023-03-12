@@ -69,7 +69,7 @@ const ColorItem = ({
   active,
 }: ColorItemProps) => {
   const completed = progress === 100;
-  const showProgress = active && progress > 0 && !completed;
+  const showProgress = active && !completed;
   const label = completed ? 'V' : id;
   const fgColor = useMemo(() => getContrastForeground(color), [color]);
 
