@@ -5,13 +5,15 @@ import { Outlet } from 'react-router';
 import { Lead } from 'components/lead';
 import { leadSlides } from 'src/mock/lead-slides';
 import { Tabs } from 'components/tabs';
-import { tabs } from 'src/mock/tabs';
-import { gameCards } from 'src/mock/game-cards';
+import { makeCardsList } from 'utils/make-cards-list';
 import { GameCard } from 'components/game-card';
+import { gameData } from 'components/game-view/utils/game-data';
 
 export const MainPage: FC = () => {
+  // тут логика получения списка доступных игр с бэка или из стора
+  // пока данные берем из gameData
+  const { images, tabs } = makeCardsList(gameData);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
-  const images = gameCards[activeTab] || [];
 
   return (
     <div className={cn(styles.content, 'u-page')}>
@@ -24,7 +26,7 @@ export const MainPage: FC = () => {
         />
         <div className={cn(styles.chooseGame, 'u-fancy-scrollbar')}>
           <ul className={styles.chooseGameContent}>
-            {images.map((item) => {
+            {images[activeTab].map((item) => {
               return (
                 <li className={styles.card} key={item.id}>
                   <article className={styles.cardContent}>
