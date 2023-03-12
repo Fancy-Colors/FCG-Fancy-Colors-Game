@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useRef, useState } from 'react';
 import { GameCompletedDataType } from './utils/types';

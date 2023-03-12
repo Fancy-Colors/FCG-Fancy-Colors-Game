@@ -18,12 +18,12 @@ import { colorsSortComparator } from './utils/colors-sort-comparator';
 
 export const GameView: FC<{
   initColors: ColorType[];
-  iniGameDataType: GameDataType;
+  initGameDataType: GameDataType;
   size: number;
   gameId?: string;
   setGameCompleted: (p: GameCompletedDataType) => void;
-}> = ({ initColors, size, iniGameDataType, setGameCompleted }) => {
-  const [gameData, setGameData] = useState(iniGameDataType);
+}> = ({ initColors, size, initGameDataType, setGameCompleted }) => {
+  const [gameData, setGameData] = useState(initGameDataType);
   const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);

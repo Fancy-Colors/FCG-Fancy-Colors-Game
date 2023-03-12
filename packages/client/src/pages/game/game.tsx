@@ -25,7 +25,7 @@ export const GamePage: FC = () => {
     throw new Error(`no game Data found by id: ${id}`);
   }
 
-  const [initColors, iniGameDataType] = makeInitialData(gameDataMinion);
+  const [initColors, initGameDataType] = makeInitialData(gameDataMinion);
   const [gameCompleted, setGameCompleted] =
     useState<GameCompletedDataType>(null);
 
@@ -45,9 +45,9 @@ export const GamePage: FC = () => {
       ) : (
         <GameView
           initColors={initColors}
-          iniGameDataType={iniGameDataType}
+          initGameDataType={initGameDataType}
           setGameCompleted={setGameCompleted}
-          size={iniGameDataType.size}
+          size={initGameDataType.size}
         />
       )}
     </div>
