@@ -20,7 +20,7 @@ export const Tabs: FC<Props> = ({ tabs, activeTab, onChange }) => {
         return (
           <li className={styles.tabItem} key={key}>
             <button
-              className={cn(styles.conrol, {
+              className={cn(styles.control, {
                 [styles.active]: key === activeTab,
               })}
               type="button"
