@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import styles from './game.module.pcss';
 import { useParams } from 'react-router-dom';
-import { GameView, GameCompletedView } from 'components/game-view';
+import { GameView, GameViewCompleted } from 'components/game-view';
 import cn from 'classnames';
 import { makeInitialData } from 'components/game-view/utils/make-initial-data';
 import { gameDataAleksa } from 'components/game-view/utils/game-data';
@@ -32,7 +32,7 @@ export const GamePage: FC = () => {
   return (
     <div className={cn(styles.content, 'u-page')}>
       {gameCompleted ? (
-        <GameCompletedView
+        <GameViewCompleted
           data={gameCompleted}
           user={HARD_CODE_USER}
           playAgain={() => {

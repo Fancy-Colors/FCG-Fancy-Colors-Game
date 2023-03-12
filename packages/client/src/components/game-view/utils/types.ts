@@ -46,5 +46,5 @@ export type GameCompletedDataType = Nullable<{
   gameData: GameDataType;
   movesHistory: string[];
   score: number;
-  time: string;
+  time: number;
 }>;

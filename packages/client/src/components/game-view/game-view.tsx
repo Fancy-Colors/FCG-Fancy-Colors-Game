@@ -12,9 +12,8 @@ import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { FullScreenButton } from 'components/fullscreen-button';
 import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
-
-const HARD_CODE_POINTS = 2440;
-const HARD_CODE_TIME = '2м:39с';
+import { GameTimer } from 'components/game-timer';
+import { calcPoints } from './utils/calculate-points';
 
 export const GameView: FC<{
   initColors: ColorType[];
@@ -32,6 +31,9 @@ export const GameView: FC<{
     y: size,
     x: size,
   });
+  const [points, setPoints] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [movesHistory, setMovesHistory] = useState<string[]>([]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,8 @@ export const GameView: FC<{
       if (activeColorId !== pathItem.colorId || pathItem.completed) {
         break;
       }
-
+      setPoints(points + calcPoints(timeElapsed));
+      setMovesHistory([...movesHistory, pathItem.id]);
       pathItem.completed = true;
 
       // put it here!
@@ -101,21 +104,21 @@ export const GameView: FC<{
 
       setColors(renewedColors);
       draw();
-
-      // проверяем не закончена ли игра
-      if (gameData.paths.every((i) => i.completed)) {
-        setGameCompleted({
-          gameData,
-          movesHistory: [],
-          score: HARD_CODE_POINTS,
-          time: HARD_CODE_TIME,
-        });
-        return;
-      }
-
       break;
     }
   };
+
+  // проверяем не закончена ли игра
+  useEffect(() => {
+    if (gameData.paths.every((i) => i.completed)) {
+      setGameCompleted({
+        gameData,
+        movesHistory,
+        score: points,
+        time: timeElapsed,
+      });
+    }
+  }, [movesHistory.length]);
 
   // сохраняем в стейт контекст, паттерн заливки, вешаем слушатель клика и запускаем
   // функцию рисования
@@ -166,26 +169,28 @@ export const GameView: FC<{
       newZoom = Math.min(2, zoom + 0.1); // макс зум - х2
     }
 
+    //****
+    // В этом блоке вычисляем координаты мышки относительно канваса для реализации зума по этим координатам
     const { top, left, width } = canvasRef.current.getBoundingClientRect();
 
-    const calculateTransformOrigin = (coord: number) => {
-      const coordPosition = (Math.floor(coord) / Math.floor(width)) * 100;
-      return coordPosition > 65 ? 100 : coordPosition < 35 ? 0 : 50;
-    };
+    const calculateTransformOrigin = (coord: number) =>
+      (Math.floor(coord) / Math.floor(width)) * 100;
 
     setTransformOrigin({
       x: calculateTransformOrigin(e.clientX - left),
       y: calculateTransformOrigin(e.clientY - top),
     });
+    //***
+
     setZoom(newZoom);
   };
 
   return (
     <div ref={gameRef} className={styles.fullscreen}>
       <div className={styles.points}>
-        <p className="text-menu">{HARD_CODE_POINTS}</p>
-        <p className="text-menu">{HARD_CODE_TIME}</p>
+        <p className="text-menu">{points}</p>
         {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
+        <GameTimer setTimeElapsed={setTimeElapsed} />
       </div>
 
       <div className={styles.game}>

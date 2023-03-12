@@ -1,2 +1,2 @@
 export { GameView } from './game-view';
-export { GameCompletedView } from './game-completed';
+export { GameViewCompleted } from './game-view-completed';
