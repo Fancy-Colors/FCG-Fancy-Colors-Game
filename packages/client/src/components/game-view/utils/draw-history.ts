@@ -8,6 +8,8 @@ export const drawHistory = (
   gameData: GameDataType,
   movesHistory: string[]
 ) => {
+  ctx?.clearRect(0, 0, gameData.size, gameData.size);
+
   function render(move: number) {
     if (move === movesHistory.length) {
       return;

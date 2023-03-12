@@ -14,6 +14,7 @@ import { FullScreenButton } from 'components/fullscreen-button';
 import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
 import { GameTimer } from 'components/game-timer';
 import { calcPoints } from './utils/calculate-points';
+import { colorsSortComparator } from './utils/colors-sort-comparator';
 
 export const GameView: FC<{
   initColors: ColorType[];
@@ -43,7 +44,6 @@ export const GameView: FC<{
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
-    ctx.lineWidth = 4;
     ctx.clearRect(0, 0, size, size);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
@@ -94,13 +94,15 @@ export const GameView: FC<{
 
       // put it here!
 
-      const renewedColors = colors.map((color) => {
-        if (color.id === activeColorId && color.completed !== color.items) {
-          color.completed += 1;
-          color.progress = Math.floor((color.completed / color.items) * 100);
-        }
-        return color;
-      });
+      const renewedColors = colors
+        .map((color) => {
+          if (color.id === activeColorId && color.completed !== color.items) {
+            color.completed += 1;
+            color.progress = Math.floor((color.completed / color.items) * 100);
+          }
+          return color;
+        })
+        .sort(colorsSortComparator);
 
       setColors(renewedColors);
       draw();
@@ -188,9 +190,9 @@ export const GameView: FC<{
   return (
     <div ref={gameRef} className={styles.fullscreen}>
       <div className={styles.points}>
-        <p className="text-menu">{points}</p>
-        {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
         <GameTimer setTimeElapsed={setTimeElapsed} />
+        {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
+        <p className="text-menu">{points}</p>
       </div>
 
       <div className={styles.game}>

@@ -1,3 +1,4 @@
+import { colorsSortComparator } from './colors-sort-comparator';
 import { ColorType, GameDataType, RawGameDataType } from './types';
 
 export const makeInitialData = (
@@ -42,5 +43,5 @@ export const makeInitialData = (
     }
   });
 
-  return [Array.from(colors.values()), gameData];
+  return [Array.from(colors.values()).sort(colorsSortComparator), gameData];
 };
