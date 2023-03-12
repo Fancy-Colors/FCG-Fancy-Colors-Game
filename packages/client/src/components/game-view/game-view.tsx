@@ -15,6 +15,7 @@ import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
 import { GameTimer } from 'components/game-timer';
 import { calcPoints } from './utils/calculate-points';
 import { colorsSortComparator } from './utils/colors-sort-comparator';
+import { resizeField } from './utils/resize-field';
 
 export const GameView: FC<{
   initColors: ColorType[];
@@ -53,26 +54,17 @@ export const GameView: FC<{
 
   // увеличиваем средствами css=GPU родителя канвас для того чтобы он занимал всю
   // игровую область и слушаем ресайз окна
-  const resizeField = () => {
-    if (!fieldRef.current || !canvasRef.current || !resizableRef.current) {
-      return;
-    }
-    const { width, height, top } = fieldRef.current.getBoundingClientRect();
-
-    const availableWidth = Math.min(
-      width - 24,
-      height,
-      document.documentElement.clientHeight - top - 24
-    );
-
-    const scale = availableWidth / size;
-    resizableRef.current.style.transform = `scale(${scale})`;
-  };
-
   useEffect(() => {
-    resizeField();
-    window.addEventListener('resize', resizeField);
-    return () => window.removeEventListener('resize', resizeField);
+    const resizeCb = () =>
+      resizeField(
+        fieldRef.current,
+        canvasRef.current,
+        resizableRef.current,
+        size
+      );
+    resizeCb();
+    window.addEventListener('resize', resizeCb);
+    return () => window.removeEventListener('resize', resizeCb);
   }, []);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
@@ -91,8 +83,6 @@ export const GameView: FC<{
       setPoints(points + calcPoints(timeElapsed));
       setMovesHistory([...movesHistory, pathItem.id]);
       pathItem.completed = true;
-
-      // put it here!
 
       const renewedColors = colors
         .map((color) => {

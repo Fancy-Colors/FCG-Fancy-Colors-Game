@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { stringifyTime } from './utils/stringify-time';
 import styles from './game-view.module.pcss';
 import { drawHistory } from './utils/draw-history';
+import { resizeField } from './utils/resize-field';
 import cn from 'classnames';
 
 type Props = {
@@ -21,45 +22,20 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
-
   const size = data?.gameData.size || 1;
 
-  const resizeField = () => {
-    if (!fieldRef.current || !canvasRef.current || !resizableRef.current) {
-      return;
-    }
-    const { width, height, top } = fieldRef.current.getBoundingClientRect();
-
-    const availableWidth = Math.min(
-      width,
-      height,
-      document.documentElement.clientHeight - top - 24
-    );
-
-    const scale = availableWidth / size;
-    resizableRef.current.style.transform = `scale(${scale})`;
-  };
-
   useEffect(() => {
-    resizeField();
-    window.addEventListener('resize', resizeField);
-    return () => window.removeEventListener('resize', resizeField);
+    const resizeCb = () =>
+      resizeField(
+        fieldRef.current,
+        canvasRef.current,
+        resizableRef.current,
+        size
+      );
+    resizeCb();
+    window.addEventListener('resize', resizeCb);
+    return () => window.removeEventListener('resize', resizeCb);
   }, []);
-
-  const Message = () => {
-    return (
-      <p className={cn('text-main', styles.paragraph)}>
-        <span className={styles.accent}>{user.firstName}</span>, вы набрали{' '}
-        <span className={styles.accent}>{data?.score}</span> очков за{' '}
-        {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
-        <Link to="/leaderboard">зачете</Link>, или начните{' '}
-        <Link to="/">новую игру</Link>. Вы также можете{' '}
-        <span onClick={playAgain} className={styles.accent}>
-          закрасить картинку заново
-        </span>
-      </p>
-    );
-  };
 
   useEffect(() => {
     const canvasElement = canvasRef.current;
@@ -78,6 +54,21 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
     if (!ctx) return;
     drawHistory(ctx, data!.gameData, data!.movesHistory);
   }, [ctx, data]);
+
+  const Message = () => {
+    return (
+      <p className={cn('text-main', styles.paragraph)}>
+        <span className={styles.accent}>{user.firstName}</span>, вы набрали{' '}
+        <span className={styles.accent}>{data?.score}</span> очков за{' '}
+        {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
+        <Link to="/leaderboard">зачете</Link>, или начните{' '}
+        <Link to="/">новую игру</Link>. Вы также можете{' '}
+        <span onClick={playAgain} className={styles.accent}>
+          закрасить картинку заново
+        </span>
+      </p>
+    );
+  };
 
   return (
     <div>
