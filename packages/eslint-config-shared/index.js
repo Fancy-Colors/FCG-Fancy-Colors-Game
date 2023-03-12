@@ -25,6 +25,7 @@ module.exports = {
         'max-statements': 'off',
         'require-await': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
       },
     },
     {

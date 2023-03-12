@@ -7,8 +7,16 @@
   margin: 0;
 }
 
-.tabItem {
+.control {
   position: relative;
+  padding: 6px 0;
+  border: 0;
+  background: 0 0;
+  font-size: 16px;
+  white-space: nowrap;
+  appearance: none;
+  cursor: pointer;
+  overflow: visible;
 
   &::after {
     content: '';
@@ -25,15 +33,4 @@
   &.active::after {
     opacity: 1;
   }
-}
-
-.control {
-  padding: 6px 0;
-  border: 0;
-  background: 0 0;
-  font-size: 16px;
-  white-space: nowrap;
-  appearance: none;
-  cursor: pointer;
-  overflow: visible;
 }
