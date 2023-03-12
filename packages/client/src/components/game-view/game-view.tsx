@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   FC,
   useCallback,
@@ -9,26 +10,28 @@ import {
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
-import { gameDataAleksa as gameData } from './utils/game-data';
-import { formColors } from './utils/form-colors';
 import { GameCompletedData } from 'pages/game/game';
 import { FullScreenButton } from 'components/fullscreen-button';
+import { ColorType, TGameData } from './utils/types';
 
 const HARD_CODE_POINTS = 2440;
 const HARD_CODE_TIME = '2м:39с';
-const CANVAS_SIZE = 4000;
 
 export const GameView: FC<{
+  initColors: ColorType[];
+  initGameData: TGameData;
+  size: number;
   gameId?: string;
   setGameCompleted: (p: GameCompletedData) => void;
-}> = ({ gameId, setGameCompleted }) => {
-  const [colors, setColors] = useState(() => formColors(gameData));
+}> = ({ initColors, size, initGameData, setGameCompleted }) => {
+  const [gameData, setGameData] = useState(initGameData);
+  const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState(1);
   const [transformOrigin, setTransformOrigin] = useState({
-    y: CANVAS_SIZE,
-    x: CANVAS_SIZE,
+    y: size,
+    x: size,
   });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -36,15 +39,11 @@ export const GameView: FC<{
   const resizableRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
 
-  if (!gameId) {
-    throw new Error(`no game found by id: ${gameId} `);
-  }
-
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
     ctx.lineWidth = 4;
-    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.clearRect(0, 0, size, size);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
       renderPath(ctx, path);
@@ -60,12 +59,12 @@ export const GameView: FC<{
     const { width, height, top } = fieldRef.current.getBoundingClientRect();
 
     const availableWidth = Math.min(
-      width,
+      width - 24,
       height,
       document.documentElement.clientHeight - top - 24
     );
 
-    const scale = availableWidth / CANVAS_SIZE;
+    const scale = availableWidth / size;
     resizableRef.current.style.transform = `scale(${scale})`;
   };
 
@@ -140,12 +139,16 @@ export const GameView: FC<{
 
   // слушаем смену цвета
   useEffect(() => {
-    gameData.paths.forEach((item) => {
-      if (item.colorId === activeColorId) {
-        item.chosen = true;
-      } else {
-        item.chosen = false;
-      }
+    setGameData({
+      ...gameData,
+      paths: gameData.paths.map((item) => {
+        if (item.colorId === activeColorId) {
+          item.chosen = true;
+        } else {
+          item.chosen = false;
+        }
+        return item;
+      }),
     });
     draw();
   }, [activeColorId, draw]);
@@ -198,7 +201,7 @@ export const GameView: FC<{
           <div
             ref={resizableRef}
             className={styles.canvasWrap}
-            style={{ width: `${CANVAS_SIZE}px`, height: `${CANVAS_SIZE}px` }}
+            style={{ width: `${size}px`, height: `${size}px` }}
           >
             <canvas
               style={{
@@ -207,8 +210,8 @@ export const GameView: FC<{
               }}
               onWheel={handleWheelEvent}
               ref={canvasRef}
-              width={CANVAS_SIZE}
-              height={CANVAS_SIZE}
+              width={size}
+              height={size}
             />
           </div>
         </div>

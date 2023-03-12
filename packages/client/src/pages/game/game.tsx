@@ -3,14 +3,9 @@ import styles from './game.module.pcss';
 import { useParams } from 'react-router-dom';
 import { GameView, GameCompletedView } from 'components/game-view';
 import cn from 'classnames';
-import { TGameData } from 'components/game-view/utils/game-data';
-
-export type GameCompletedData = Nullable<{
-  gameData: TGameData;
-  movesHistory: string[];
-  score: number;
-  time: string;
-}>;
+import { makeInitialData } from 'components/game-view/utils/make-initial-data';
+import { gameDataAleksa } from 'components/game-view/utils/game-data';
+import { GameCompletedData } from 'components/game-view/utils/types';
 
 const HARD_CODE_USER: User = {
   id: 45,
@@ -26,6 +21,11 @@ const HARD_CODE_USER: User = {
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
 
+  if (!id) {
+    throw new Error(`no game Data found by id: ${id}`);
+  }
+
+  const [initColors, initGameData] = makeInitialData(gameDataAleksa);
   const [gameCompleted, setGameCompleted] = useState<GameCompletedData>(null);
 
   return (
@@ -42,7 +42,12 @@ export const GamePage: FC = () => {
           }}
         />
       ) : (
-        <GameView gameId={id} setGameCompleted={setGameCompleted} />
+        <GameView
+          initColors={initColors}
+          initGameData={initGameData}
+          setGameCompleted={setGameCompleted}
+          size={initGameData.size}
+        />
       )}
     </div>
   );
