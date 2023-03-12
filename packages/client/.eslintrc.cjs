@@ -26,6 +26,11 @@ module.exports = {
       extends: ['plugin:jest-dom/recommended', 'plugin:testing-library/react'],
       rules: {
         'testing-library/prefer-screen-queries': 'off',
+        'testing-library/prefer-wait-for': 'error',
+        'testing-library/prefer-user-event': [
+          'error',
+          { allowedMethods: ['click'] },
+        ],
       },
     },
   ],
