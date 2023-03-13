@@ -6,7 +6,6 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from 'react-router-dom';
-import { TestPage } from 'pages/test';
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
 import { MainPage } from 'pages/main';
@@ -18,6 +17,7 @@ import { MainLayout } from 'components/main-layout';
 import { Error404, Error500 } from 'pages/error';
 import { Leaderboard } from 'pages/leaderboard';
 import { ForumThread } from 'pages/forum-thread';
+import { NewThreadModal } from 'components/modal-new-thread';
 import { Forum } from 'pages/forum';
 
 const router = createBrowserRouter(
@@ -34,10 +34,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<Forum />}>
-          <Route
-            path={RouterPaths.NEW_THREAD}
-            element={<TestPage text='Модалка "Создать тему"' />}
-          />
+          <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
         </Route>
         <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
         <Route element={<ProtectedRoutes />}>
