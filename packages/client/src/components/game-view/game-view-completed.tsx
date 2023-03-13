@@ -61,9 +61,18 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
         <span className={styles.accent}>{user.firstName}</span>, вы набрали{' '}
         <span className={styles.accent}>{data?.score}</span> очков за{' '}
         {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
-        <Link to="/leaderboard">зачете</Link>, или начните{' '}
-        <Link to="/">новую игру</Link>. Вы также можете{' '}
-        <span onClick={playAgain} className={styles.accent}>
+        <Link to="/leaderboard" className={styles.clickable}>
+          зачете
+        </Link>
+        , или начните{' '}
+        <Link to="/" className={styles.clickable}>
+          новую игру
+        </Link>
+        . Вы также можете{' '}
+        <span
+          onClick={playAgain}
+          className={cn(styles.accent, styles.clickable)}
+        >
           закрасить картинку заново
         </span>
       </p>
