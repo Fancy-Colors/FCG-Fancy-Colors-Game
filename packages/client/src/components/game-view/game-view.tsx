@@ -10,6 +10,7 @@ import {
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
+
 import { FullScreenButton } from 'components/fullscreen-button';
 import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
 import { GameTimer } from 'components/game-timer';
