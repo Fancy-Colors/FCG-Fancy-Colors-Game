@@ -6,7 +6,6 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from 'react-router-dom';
-import { TestPage } from 'pages/test';
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
 import { MainPage } from 'pages/main';
