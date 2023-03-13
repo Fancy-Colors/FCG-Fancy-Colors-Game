@@ -1,3 +1,5 @@
+const STANDART_GAP = 24;
+
 export const resizeField = (
   field: Nullable<HTMLDivElement>,
   canvas: Nullable<HTMLCanvasElement>,
@@ -10,9 +12,9 @@ export const resizeField = (
   const { width, height, top } = field.getBoundingClientRect();
 
   const availableWidth = Math.min(
-    width - 24,
+    width - STANDART_GAP,
     height,
-    document.documentElement.clientHeight - top - 24
+    document.documentElement.clientHeight - top - STANDART_GAP
   );
 
   const scale = availableWidth / size;
