@@ -9,8 +9,8 @@ import {
 import { TestPage } from 'pages/test';
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
-import { MainPage } from './pages/main';
-import { HowToModal } from './components/how-to-modal';
+import { MainPage } from 'pages/main';
+import { HowToModal } from 'components/how-to-modal';
 import { GamePage } from 'pages/game';
 import { RouterPaths } from './app.types';
 import { LoginPage, RegisterPage } from 'pages/auth';
@@ -19,6 +19,7 @@ import { Error404, Error500 } from 'pages/error';
 import { Leaderboard } from 'pages/leaderboard';
 import { ForumThread } from 'pages/forum-thread';
 import { NewThreadModal } from 'components/modal-new-thread';
+import { Forum } from 'pages/forum';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,7 +34,7 @@ const router = createBrowserRouter(
           <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
         </Route>
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
-        <Route path={RouterPaths.FORUM} element={<TestPage text="Форум" />}>
+        <Route path={RouterPaths.FORUM} element={<Forum />}>
           <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
         </Route>
         <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
