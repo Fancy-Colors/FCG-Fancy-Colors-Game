@@ -1,7 +1,15 @@
+.fullscreen {
+  &:fullscreen {
+    background-color: var(--color-primary-white, #fff);
+    padding: var(--gap);
+  }
+}
+
 .game {
   display: grid;
   grid-template-columns: 98px 1fr;
   gap: 24px;
+  height: 100vh;
 }
 
 .points {
