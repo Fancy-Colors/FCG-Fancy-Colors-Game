@@ -173,7 +173,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           colors={colors.map(({ progress, id, color }) => {
             return { id, progress, color };
           })}
-          selected={activeColorId}
+          activeColorId={activeColorId}
           onSelect={(key) => setActiveColorId(key)}
         />
         <div ref={fieldRef} className={styles.gameField}>
