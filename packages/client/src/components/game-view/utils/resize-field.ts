@@ -4,7 +4,8 @@ export const resizeField = (
   field: Nullable<HTMLDivElement>,
   canvas: Nullable<HTMLCanvasElement>,
   resizable: Nullable<HTMLDivElement>,
-  size: number
+  size: number,
+  colorPickerElement?: Nullable<HTMLDivElement>
 ) => {
   if (!field || !canvas || !resizable) {
     return;
@@ -19,4 +20,11 @@ export const resizeField = (
 
   const scale = availableWidth / size;
   resizable.style.transform = `scale(${scale})`;
+
+  if (colorPickerElement) {
+    colorPickerElement.style.setProperty(
+      '--max-height',
+      `${width - STANDART_GAP}px`
+    );
+  }
 };

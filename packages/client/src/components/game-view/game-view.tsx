@@ -41,6 +41,7 @@ export const GameView: FC<{
   const fieldRef = useRef<HTMLDivElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   // основная функция рисования
   const draw = useCallback(() => {
@@ -70,7 +71,8 @@ export const GameView: FC<{
         fieldRef.current,
         canvasRef.current,
         resizableRef.current,
-        size
+        size,
+        colorPickerRef.current
       );
     resizeCb();
     window.addEventListener('resize', resizeCb);
@@ -197,6 +199,7 @@ export const GameView: FC<{
 
       <div className={styles.game}>
         <ColorPicker
+          ref={colorPickerRef}
           colors={colors.map(({ progress, id, color }) => {
             return { id, progress, color };
           })}
