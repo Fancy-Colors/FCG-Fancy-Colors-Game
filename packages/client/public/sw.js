@@ -1,7 +1,7 @@
 /* eslint-disable promise/prefer-await-to-then */
 /* eslint-disable promise/catch-or-return */
 
-const CACHE_NAME = "fancy-colors-v1";
+const CACHE_NAME = 'fancy-colors-v1';
 
 const URLS = [
   '/',
@@ -19,7 +19,7 @@ const URLS = [
   '/vite.svg',
 ]; 
 
-self.addEventListener("install", event => {
+self.addEventListener('install', event => {
   const initCache = async () => {
     try {
       const cache = await caches.open(CACHE_NAME);
@@ -29,7 +29,7 @@ self.addEventListener("install", event => {
     }
   };
 
-  console.log("Installed");
+  console.log('Installed');
   event.waitUntil(initCache());
 });
 
@@ -43,11 +43,11 @@ self.addEventListener('activate', event => {
     )
   };
 
-  console.log("Activated");
+  console.log('Activated');
   event.waitUntil(removeCacheKey());
 });
 
-self.addEventListener("fetch", event => {
+self.addEventListener('fetch', event => {
   event.respondWith(
     tryNetwork(event.request, 400)
       .catch(() => getFromCache(event.request))
@@ -61,8 +61,9 @@ function tryNetwork (request, timeout) {
     fetch(request).then(response => {
       clearTimeout(timeoutId);
       const responseClone = response.clone();
+      
       caches.open(CACHE_NAME).then(cache => {
-        if (request.url.match("^(http|https)://")) { 
+        if (request.url.match('^(http|https)://')) { 
           cache.put(request, responseClone); 
         }
       })
@@ -74,7 +75,9 @@ function tryNetwork (request, timeout) {
 
 async function getFromCache (request) {
   console.log('Интернета нет, данные взяты из кэша')
+  
   const cache = await caches.open(CACHE_NAME);
   const result = await cache.match(request);
-  return result || Promise.reject("no-match");
+  
+  return result || Promise.reject('no-match');
 };
