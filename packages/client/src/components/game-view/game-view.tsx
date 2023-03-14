@@ -11,6 +11,7 @@ import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { gameDataAleksa as gameData } from './utils/game-data';
 import { formColors } from './utils/form-colors';
+import { FullScreenButton } from 'components/fullscreen-button';
 
 const HARD_CODE_POINTS = '2440';
 const HARD_CODE_TIME = '2м:39с';
@@ -29,6 +30,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
+  const gameRef = useRef<HTMLDivElement>(null);
 
   if (!gameId) {
     throw new Error(`no game found by id: ${gameId} `);
@@ -159,10 +161,11 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
   };
 
   return (
-    <div>
+    <div ref={gameRef} className={styles.fullscreen}>
       <div className={styles.points}>
         <p className="text-menu">{HARD_CODE_POINTS}</p>
         <p className="text-menu">{HARD_CODE_TIME}</p>
+        {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
       </div>
 
       <div className={styles.game}>
@@ -170,7 +173,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           colors={colors.map(({ progress, id, color }) => {
             return { id, progress, color };
           })}
-          selected={activeColorId}
+          activeColorId={activeColorId}
           onSelect={(key) => setActiveColorId(key)}
         />
         <div ref={fieldRef} className={styles.gameField}>

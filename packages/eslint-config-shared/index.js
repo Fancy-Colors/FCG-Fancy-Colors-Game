@@ -25,6 +25,7 @@ module.exports = {
         'max-statements': 'off',
         'require-await': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
       },
     },
     {
@@ -99,7 +100,7 @@ module.exports = {
 
     // Suggestions
     'object-shorthand': 'error',
-    'prefer-arrow-callback': 'error',
+    'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     'prefer-spread': 'error',
     'prefer-destructuring': [
       'error',
