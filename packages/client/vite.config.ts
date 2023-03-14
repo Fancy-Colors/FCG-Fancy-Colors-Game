@@ -25,6 +25,18 @@ export default defineConfig({
     // eslint-disable-next-line @typescript-eslint/naming-convention
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  build: {
+    emptyOutDir: true,
+    outDir: 'dist',
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[ext]/[name][extname]',
+        chunkFileNames: 'assets/[chunks]/[name].[hash].js',
+        entryFileNames: 'assets/js/main.js',
+      },
+    },
+  },
   plugins: [
     react(),
     svgr({
