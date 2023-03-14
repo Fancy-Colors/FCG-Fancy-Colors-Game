@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { GameCompletedDataType } from './utils/types';
+import { GameCompletedData } from './utils/types';
 import { Link } from 'react-router-dom';
 import { stringifyTime } from './utils/stringify-time';
 import styles from './game-view.module.pcss';
@@ -9,7 +9,7 @@ import { Button } from 'components/button';
 import cn from 'classnames';
 
 type Props = {
-  data: GameCompletedDataType;
+  data: GameCompletedData;
   user: Nullable<User>;
   playAgain: () => void;
 };

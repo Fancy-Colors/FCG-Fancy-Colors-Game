@@ -11,20 +11,20 @@ import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { FullScreenButton } from 'components/fullscreen-button';
-import { ColorType, GameDataType, GameCompletedDataType } from './utils/types';
+import { Color, GameData, GameCompletedData } from './utils/types';
 import { GameTimer } from 'components/game-timer';
 import { calcPoints } from './utils/calculate-points';
 import { colorsSortComparator } from './utils/colors-sort-comparator';
 import { resizeField } from './utils/resize-field';
 
 export const GameView: FC<{
-  initColors: ColorType[];
-  initGameDataType: GameDataType;
+  initColors: Color[];
+  initGameData: GameData;
   size: number;
   gameId?: string;
-  setGameCompleted: (p: GameCompletedDataType) => void;
-}> = ({ initColors, size, initGameDataType, setGameCompleted }) => {
-  const [gameData, setGameData] = useState(initGameDataType);
+  setGameCompleted: (p: GameCompletedData) => void;
+}> = ({ initColors, size, initGameData, setGameCompleted }) => {
+  const [gameData, setGameData] = useState(initGameData);
   const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);

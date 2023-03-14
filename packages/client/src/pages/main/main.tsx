@@ -5,14 +5,14 @@ import { Outlet } from 'react-router';
 import { Lead } from 'components/lead';
 import { leadSlides } from 'src/mock/lead-slides';
 import { Tabs } from 'components/tabs';
-import { makeCardsList } from 'utils/make-cards-list';
+import { catalogGameCards } from 'utils/catalog-game-cards';
 import { GameCard } from 'components/game-card';
 import { gameData } from 'components/game-view/utils/game-data';
 
 export const MainPage: FC = () => {
   // тут логика получения списка доступных игр с бэка или из стора
   // пока данные берем из gameData
-  const { images, tabs } = makeCardsList(gameData);
+  const { images, tabs } = catalogGameCards(gameData);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
   return (

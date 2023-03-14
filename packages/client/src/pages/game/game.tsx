@@ -5,7 +5,7 @@ import { GameView, GameViewCompleted } from 'components/game-view';
 import cn from 'classnames';
 import { makeInitialData } from 'components/game-view/utils/make-initial-data';
 import { gameData } from 'components/game-view/utils/game-data';
-import { GameCompletedDataType } from 'components/game-view/utils/types';
+import { GameCompletedData } from 'components/game-view/utils/types';
 import { useAuth } from 'components/hooks/use-auth';
 
 export const GamePage: FC = () => {
@@ -17,15 +17,14 @@ export const GamePage: FC = () => {
   }
 
   // вот здесь будет логика извлечения из стора или подзагрузки с сервера данных игры
-  const initGameData = gameData.find((game) => game.gameId === id);
+  const rawGameData = gameData.find((game) => game.gameId === id);
 
-  if (!initGameData) {
+  if (!rawGameData) {
     throw new Error(`no game found by id: ${id}`);
   }
 
-  const [initColors, initGameDataType] = makeInitialData(initGameData);
-  const [gameCompleted, setGameCompleted] =
-    useState<GameCompletedDataType>(null);
+  const [initColors, initGameData] = makeInitialData(rawGameData);
+  const [gameCompleted, setGameCompleted] = useState<GameCompletedData>(null);
 
   return (
     <div className={cn(styles.content, 'u-page')}>
@@ -43,9 +42,9 @@ export const GamePage: FC = () => {
       ) : (
         <GameView
           initColors={initColors}
-          initGameDataType={initGameDataType}
+          initGameData={initGameData}
           setGameCompleted={setGameCompleted}
-          size={initGameDataType.size}
+          size={initGameData.size}
         />
       )}
     </div>

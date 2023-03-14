@@ -1,4 +1,4 @@
-import { RawGameDataType } from 'components/game-view/utils/types';
+import { RawGameData } from 'components/game-view/utils/types';
 
 // тут чуть позже надо типизировать возможные темы enum'ом
 const TAGS_LABELS: { [key: string]: string } = {
@@ -7,25 +7,25 @@ const TAGS_LABELS: { [key: string]: string } = {
   people: 'Люди',
 };
 
-export type GameCardType = {
+type GameCard = {
   id: string;
   name: string;
   preview: string;
 };
 
 type GameCardsType = {
-  [key: string]: GameCardType[];
+  [key: string]: GameCard[];
 };
 
-export type TabsType = { key: string; label: string };
+type Tabs = { key: string; label: string };
 
-type ReturnType = {
+export const catalogGameCards = (
+  data: RawGameData[]
+): {
   images: GameCardsType;
-  tabs: TabsType[];
-};
-
-export const makeCardsList = (data: RawGameDataType[]): ReturnType => {
-  const tabs: TabsType[] = [];
+  tabs: Tabs[];
+} => {
+  const tabs: Tabs[] = [];
   const images: GameCardsType = {};
 
   data.forEach(({ gameId, tags, preview, name }) => {

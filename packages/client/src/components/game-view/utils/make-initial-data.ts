@@ -1,14 +1,12 @@
 import { colorsSortComparator } from './colors-sort-comparator';
-import { ColorType, GameDataType, RawGameDataType } from './types';
+import { Color, GameData, RawGameData } from './types';
 
-export const makeInitialData = (
-  data: RawGameDataType
-): [ColorType[], GameDataType] => {
+export const makeInitialData = (data: RawGameData): [Color[], GameData] => {
   const { numbers, paths } = data;
 
-  const colors = new Map<number, ColorType>();
+  const colors = new Map<number, Color>();
 
-  const gameData: GameDataType = {
+  const gameData: GameData = {
     ...data,
     numbers: {
       ...numbers,
@@ -35,7 +33,7 @@ export const makeInitialData = (
     } else {
       const colorData = colors.get(pathItem.colorId);
       if (!colorData) {
-        throw new Error('cannot find colorType object by colorId in Map');
+        throw new Error('cannot find Color object by colorId in Map');
       }
       colorData.items += 1;
 
