@@ -18,14 +18,11 @@ export const Tabs: FC<Props> = ({ tabs, activeTab, onChange }) => {
     <ul className={styles.tabs}>
       {tabs.map(({ key, label }) => {
         return (
-          <li
-            className={cn(styles.tabItem, {
-              [styles.active]: key === activeTab,
-            })}
-            key={key}
-          >
+          <li className={styles.tabItem} key={key}>
             <button
-              className={styles.control}
+              className={cn(styles.control, {
+                [styles.active]: key === activeTab,
+              })}
               type="button"
               onClick={() => onChange(key)}
             >
