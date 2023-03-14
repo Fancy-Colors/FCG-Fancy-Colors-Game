@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useRef, useState } from 'react';
 import { GameCompletedDataType } from './utils/types';
 import { Link } from 'react-router-dom';
@@ -8,11 +5,12 @@ import { stringifyTime } from './utils/stringify-time';
 import styles from './game-view.module.pcss';
 import { drawHistory } from './utils/draw-history';
 import { resizeField } from './utils/resize-field';
+import { Button } from 'components/button';
 import cn from 'classnames';
 
 type Props = {
   data: GameCompletedDataType;
-  user: User;
+  user: Nullable<User>;
   playAgain: () => void;
 };
 
@@ -35,7 +33,7 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
     resizeCb();
     window.addEventListener('resize', resizeCb);
     return () => window.removeEventListener('resize', resizeCb);
-  }, []);
+  }, [size]);
 
   useEffect(() => {
     const canvasElement = canvasRef.current;
@@ -55,10 +53,10 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
     drawHistory(ctx, data!.gameData, data!.movesHistory);
   }, [ctx, data]);
 
-  const Message = () => {
+  const GameEndMessage = () => {
     return (
       <p className={cn('text-main', styles.paragraph)}>
-        <span className={styles.accent}>{user.firstName}</span>, вы набрали{' '}
+        <span className={styles.accent}>{user?.firstName}</span>, вы набрали{' '}
         <span className={styles.accent}>{data?.score}</span> очков за{' '}
         {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
         <Link to="/leaderboard" className={styles.clickable}>
@@ -69,19 +67,19 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
           новую игру
         </Link>
         . Вы также можете{' '}
-        <span
+        <Button
           onClick={playAgain}
-          className={cn(styles.accent, styles.clickable)}
+          className={cn(styles.againButton, styles.accent)}
         >
           закрасить картинку заново
-        </span>
+        </Button>
       </p>
     );
   };
 
   return (
     <div>
-      <Message />
+      <GameEndMessage />
 
       <div ref={fieldRef} className={styles.gameField}>
         <div

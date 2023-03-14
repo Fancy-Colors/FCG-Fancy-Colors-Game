@@ -52,6 +52,16 @@ export const GameView: FC<{
     });
   }, [ctx]);
 
+  // начинаем отсчет времени
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeElapsed((seconds) => seconds + 1);
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   // увеличиваем средствами css=GPU родителя канвас для того чтобы он занимал всю
   // игровую область и слушаем ресайз окна
   useEffect(() => {
@@ -180,7 +190,7 @@ export const GameView: FC<{
   return (
     <div ref={gameRef} className={styles.fullscreen}>
       <div className={styles.points}>
-        <GameTimer setTimeElapsed={setTimeElapsed} />
+        <GameTimer seconds={timeElapsed} />
         {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
         <p className="text-menu">{points}</p>
       </div>

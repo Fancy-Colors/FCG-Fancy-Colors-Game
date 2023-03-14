@@ -6,20 +6,11 @@ import cn from 'classnames';
 import { makeInitialData } from 'components/game-view/utils/make-initial-data';
 import { gameData } from 'components/game-view/utils/game-data';
 import { GameCompletedDataType } from 'components/game-view/utils/types';
-
-const HARD_CODE_USER: User = {
-  id: 45,
-  login: 'Логин',
-  firstName: 'NAME',
-  secondName: 'SURNAME',
-  displayName: 'NICK',
-  avatar: 'path-to-avatar',
-  phone: '112',
-  email: 'me@me.me',
-};
+import { useAuth } from 'components/hooks/use-auth';
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
+  const { user } = useAuth();
 
   if (!id) {
     throw new Error('game id is not provided');
@@ -41,7 +32,7 @@ export const GamePage: FC = () => {
       {gameCompleted ? (
         <GameViewCompleted
           data={gameCompleted}
-          user={HARD_CODE_USER}
+          user={user}
           playAgain={() => {
             gameCompleted.gameData.paths.forEach(
               (path) => (path.completed = false)
