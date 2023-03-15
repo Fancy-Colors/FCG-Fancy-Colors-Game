@@ -16,7 +16,7 @@ const AuthLayout: FC<Props> = ({ children }) => {
           <div className={cn(styles.content, 'u-fancy-scrollbar')}>
             <div className={styles.form}>
               <div>
-                <Logo width="100%" fill="#6644ec" />
+                <Logo className={styles.logo} />
                 {children}
               </div>
             </div>
