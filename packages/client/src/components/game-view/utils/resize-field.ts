@@ -14,7 +14,7 @@ export const resizeField = (
 
   const availableWidth = Math.min(
     width - STANDART_GAP,
-    height,
+    height - STANDART_GAP,
     document.documentElement.clientHeight - top - STANDART_GAP
   );
 

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   FC,
   useCallback,
@@ -51,7 +50,7 @@ export const GameView: FC<{
     gameData.paths.forEach((path) => {
       renderPath(ctx, path);
     });
-  }, [ctx]);
+  }, [ctx, gameData.numbers, gameData.paths, size]);
 
   // начинаем отсчет времени
   useEffect(() => {
@@ -77,7 +76,7 @@ export const GameView: FC<{
     resizeCb();
     window.addEventListener('resize', resizeCb);
     return () => window.removeEventListener('resize', resizeCb);
-  }, []);
+  }, [size]);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
   // activeColorId, при этом оборачивание в useCallback не сработает
@@ -122,6 +121,7 @@ export const GameView: FC<{
         time: timeElapsed,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movesHistory.length]);
 
   // сохраняем в стейт контекст, паттерн заливки, вешаем слушатель клика и запускаем
@@ -145,19 +145,21 @@ export const GameView: FC<{
 
   // слушаем смену цвета
   useEffect(() => {
-    setGameData({
-      ...gameData,
-      paths: gameData.paths.map((item) => {
-        if (item.colorId === activeColorId) {
-          item.chosen = true;
-        } else {
-          item.chosen = false;
-        }
-        return item;
-      }),
+    setGameData((prevGameData) => {
+      return {
+        ...prevGameData,
+        paths: prevGameData.paths.map((item) => {
+          if (item.colorId === activeColorId) {
+            item.chosen = true;
+          } else {
+            item.chosen = false;
+          }
+          return item;
+        }),
+      };
     });
     draw();
-  }, [activeColorId, draw]);
+  }, [activeColorId, draw, gameData.paths]);
 
   // слушаем колесико мыши и, если мышка над канвасом,
   // приближаем / отдаляем картинку через стейт zoom
