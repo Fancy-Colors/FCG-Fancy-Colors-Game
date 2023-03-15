@@ -1,20 +1,12 @@
 import image from 'assets/canvas-fill-pattern.png';
+import { PathType } from './types';
 
 const img = new Image();
 img.src = image;
 
-export type TPath = {
-  path: Path2D;
-  color: string;
-  chosen: boolean;
-  completed: boolean;
-  id: string;
-  colorId: number;
-};
-
 export const renderPath = (
   ctx: CanvasRenderingContext2D,
-  pathArg: TPath
+  pathArg: PathType
 ): void => {
   const { path, color, chosen, completed } = pathArg;
 
