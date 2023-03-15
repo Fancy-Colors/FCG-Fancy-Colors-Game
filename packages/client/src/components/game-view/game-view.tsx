@@ -9,67 +9,74 @@ import {
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
-import { gameDataAleksa as gameData } from './utils/game-data';
-import { formColors } from './utils/form-colors';
 import { FullScreenButton } from 'components/fullscreen-button';
+import { Color, GameData, GameCompletedData } from './utils/types';
+import { GameTimer } from 'components/game-timer';
+import { calcPoints } from './utils/calculate-points';
+import { colorsSortComparator } from './utils/colors-sort-comparator';
+import { resizeField } from './utils/resize-field';
 
-const HARD_CODE_POINTS = '2440';
-const HARD_CODE_TIME = '2м:39с';
-const CANVAS_SIZE = 4000;
-
-export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
-  const [colors, setColors] = useState(() => formColors(gameData));
+export const GameView: FC<{
+  initColors: Color[];
+  initGameData: GameData;
+  size: number;
+  gameId?: string;
+  setGameCompleted: (p: GameCompletedData) => void;
+}> = ({ initColors, size, initGameData, setGameCompleted }) => {
+  const [gameData, setGameData] = useState(initGameData);
+  const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [zoom, setZoom] = useState(1);
   const [transformOrigin, setTransformOrigin] = useState({
-    y: CANVAS_SIZE,
-    x: CANVAS_SIZE,
+    y: size,
+    x: size,
   });
+  const [points, setPoints] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [movesHistory, setMovesHistory] = useState<string[]>([]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
-
-  if (!gameId) {
-    throw new Error(`no game found by id: ${gameId} `);
-  }
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   // основная функция рисования
   const draw = useCallback(() => {
     if (!ctx) return;
-    ctx.lineWidth = 4;
-    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.clearRect(0, 0, size, size);
     renderPath(ctx, gameData.numbers);
     gameData.paths.forEach((path) => {
       renderPath(ctx, path);
     });
-  }, [ctx]);
+  }, [ctx, gameData.numbers, gameData.paths, size]);
+
+  // начинаем отсчет времени
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeElapsed((seconds) => seconds + 1);
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   // увеличиваем средствами css=GPU родителя канвас для того чтобы он занимал всю
   // игровую область и слушаем ресайз окна
-  const resizeField = () => {
-    if (!fieldRef.current || !canvasRef.current || !resizableRef.current) {
-      return;
-    }
-    const { width, height, top } = fieldRef.current.getBoundingClientRect();
-
-    const availableWidth = Math.min(
-      width,
-      height,
-      document.documentElement.clientHeight - top - 24
-    );
-
-    const scale = availableWidth / CANVAS_SIZE;
-    resizableRef.current.style.transform = `scale(${scale})`;
-  };
-
   useEffect(() => {
-    resizeField();
-    window.addEventListener('resize', resizeField);
-    return () => window.removeEventListener('resize', resizeField);
-  }, []);
+    const resizeCb = () =>
+      resizeField(
+        fieldRef.current,
+        canvasRef.current,
+        resizableRef.current,
+        size,
+        colorPickerRef.current
+      );
+    resizeCb();
+    window.addEventListener('resize', resizeCb);
+    return () => window.removeEventListener('resize', resizeCb);
+  }, [size]);
 
   // колбек вынесен на этот уровень для того, чтобы он получал актуальное значение
   // activeColorId, при этом оборачивание в useCallback не сработает
@@ -84,22 +91,38 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       if (activeColorId !== pathItem.colorId || pathItem.completed) {
         break;
       }
-
+      setPoints(points + calcPoints(timeElapsed));
+      setMovesHistory([...movesHistory, pathItem.id]);
       pathItem.completed = true;
 
-      const renewedColors = colors.map((color) => {
-        if (color.id === activeColorId && color.completed !== color.items) {
-          color.completed += 1;
-          color.progress = Math.floor((color.completed / color.items) * 100);
-        }
-        return color;
-      });
+      const renewedColors = colors
+        .map((color) => {
+          if (color.id === activeColorId && color.completed !== color.items) {
+            color.completed += 1;
+            color.progress = Math.floor((color.completed / color.items) * 100);
+          }
+          return color;
+        })
+        .sort(colorsSortComparator);
 
       setColors(renewedColors);
       draw();
       break;
     }
   };
+
+  // проверяем не закончена ли игра
+  useEffect(() => {
+    if (gameData.paths.every((i) => i.completed)) {
+      setGameCompleted({
+        gameData,
+        movesHistory,
+        score: points,
+        time: timeElapsed,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movesHistory.length]);
 
   // сохраняем в стейт контекст, паттерн заливки, вешаем слушатель клика и запускаем
   // функцию рисования
@@ -122,15 +145,21 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
 
   // слушаем смену цвета
   useEffect(() => {
-    gameData.paths.forEach((item) => {
-      if (item.colorId === activeColorId) {
-        item.chosen = true;
-      } else {
-        item.chosen = false;
-      }
+    setGameData((prevGameData) => {
+      return {
+        ...prevGameData,
+        paths: prevGameData.paths.map((item) => {
+          if (item.colorId === activeColorId) {
+            item.chosen = true;
+          } else {
+            item.chosen = false;
+          }
+          return item;
+        }),
+      };
     });
     draw();
-  }, [activeColorId, draw]);
+  }, [activeColorId, draw, gameData.paths]);
 
   // слушаем колесико мыши и, если мышка над канвасом,
   // приближаем / отдаляем картинку через стейт zoom
@@ -146,30 +175,33 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
       newZoom = Math.min(2, zoom + 0.1); // макс зум - х2
     }
 
+    //****
+    // В этом блоке вычисляем координаты мышки относительно канваса для реализации зума по этим координатам
     const { top, left, width } = canvasRef.current.getBoundingClientRect();
 
-    const calculateTransformOrigin = (coord: number) => {
-      const coordPosition = (Math.floor(coord) / Math.floor(width)) * 100;
-      return coordPosition > 65 ? 100 : coordPosition < 35 ? 0 : 50;
-    };
+    const calculateTransformOrigin = (coord: number) =>
+      (Math.floor(coord) / Math.floor(width)) * 100;
 
     setTransformOrigin({
       x: calculateTransformOrigin(e.clientX - left),
       y: calculateTransformOrigin(e.clientY - top),
     });
+    //***
+
     setZoom(newZoom);
   };
 
   return (
     <div ref={gameRef} className={styles.fullscreen}>
       <div className={styles.points}>
-        <p className="text-menu">{HARD_CODE_POINTS}</p>
-        <p className="text-menu">{HARD_CODE_TIME}</p>
+        <GameTimer seconds={timeElapsed} />
         {gameRef.current && <FullScreenButton fsRef={gameRef.current} />}
+        <p className="text-menu">{points}</p>
       </div>
 
       <div className={styles.game}>
         <ColorPicker
+          ref={colorPickerRef}
           colors={colors.map(({ progress, id, color }) => {
             return { id, progress, color };
           })}
@@ -180,7 +212,7 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
           <div
             ref={resizableRef}
             className={styles.canvasWrap}
-            style={{ width: `${CANVAS_SIZE}px`, height: `${CANVAS_SIZE}px` }}
+            style={{ width: `${size}px`, height: `${size}px` }}
           >
             <canvas
               style={{
@@ -189,8 +221,8 @@ export const GameView: FC<{ gameId?: string }> = ({ gameId }) => {
               }}
               onWheel={handleWheelEvent}
               ref={canvasRef}
-              width={CANVAS_SIZE}
-              height={CANVAS_SIZE}
+              width={size}
+              height={size}
             />
           </div>
         </div>

@@ -13,9 +13,12 @@
 }
 
 .points {
+  padding: 0 var(--gap);
   display: flex;
   margin-bottom: 24px;
   gap: 24px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .gameField {
@@ -32,4 +35,37 @@
   top: 0;
   left: 0;
   transform-origin: 0 0;
+}
+
+.accent {
+  font-weight: 700;
+  color: var(--color-accent-primary, #6644ec);
+}
+
+.gameCompleted {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.paragraph {
+  margin: 0 0 12px;
+}
+
+.againButton {
+  width: fit-content;
+  align-self: center;
+  color: var(--color-accent-primary, #6644ec);
+  background: none;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
