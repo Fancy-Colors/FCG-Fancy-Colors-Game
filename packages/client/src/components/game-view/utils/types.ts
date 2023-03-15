@@ -1,4 +1,4 @@
-type RawPathType = {
+type RawPath = {
   path: string;
   color: string;
   chosen: false;
@@ -7,9 +7,9 @@ type RawPathType = {
   colorId: number;
 };
 
-export type RawGameDataType = {
-  numbers: RawPathType;
-  paths: RawPathType[];
+export type RawGameData = {
+  numbers: RawPath;
+  paths: RawPath[];
   gameId: string;
   tags: string[];
   size: number;
@@ -17,7 +17,7 @@ export type RawGameDataType = {
   name: string;
 };
 
-export type PathType = {
+export type Path = {
   path: Path2D;
   color: string;
   chosen: boolean;
@@ -26,15 +26,15 @@ export type PathType = {
   colorId: number;
 };
 
-export type GameDataType = {
-  numbers: PathType;
-  paths: PathType[];
+export type GameData = {
+  numbers: Path;
+  paths: Path[];
   gameId: string;
   tags: string[];
   size: number;
 };
 
-export type ColorType = {
+export type Color = {
   id: number;
   color: string;
   progress: number;
@@ -42,8 +42,8 @@ export type ColorType = {
   completed: number;
 };
 
-export type GameCompletedDataType = Nullable<{
-  gameData: GameDataType;
+export type GameCompletedData = Nullable<{
+  gameData: GameData;
   movesHistory: string[];
   score: number;
   time: number;

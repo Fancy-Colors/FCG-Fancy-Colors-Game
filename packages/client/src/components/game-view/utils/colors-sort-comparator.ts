@@ -1,6 +1,6 @@
-import { ColorType } from './types';
+import { Color } from './types';
 
-export const colorsSortComparator = (a: ColorType, b: ColorType): number => {
+export const colorsSortComparator = (a: Color, b: Color): number => {
   if (a.progress === 100 && b.progress === 100) {
     return 0;
   }

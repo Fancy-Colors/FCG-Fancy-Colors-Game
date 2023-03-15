@@ -1,11 +1,11 @@
 import { renderPath } from './render-path';
-import { GameDataType } from './types';
+import { GameData } from './types';
 
 const RENDER_SPEED = 300;
 
 export const drawHistory = (
   ctx: CanvasRenderingContext2D | null,
-  gameData: GameDataType,
+  gameData: GameData,
   movesHistory: string[]
 ) => {
   ctx?.clearRect(0, 0, gameData.size, gameData.size);

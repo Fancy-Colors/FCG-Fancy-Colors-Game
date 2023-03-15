@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { GameCompletedDataType } from './utils/types';
+import { GameCompletedData } from './utils/types';
 import { Link } from 'react-router-dom';
 import { stringifyTime } from './utils/stringify-time';
 import styles from './game-view.module.pcss';
@@ -9,7 +9,7 @@ import { Button } from 'components/button';
 import cn from 'classnames';
 
 type Props = {
-  data: GameCompletedDataType;
+  data: GameCompletedData;
   user: Nullable<User>;
   playAgain: () => void;
 };
@@ -59,8 +59,14 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
         <span className={styles.accent}>{user?.firstName}</span>, вы набрали{' '}
         <span className={styles.accent}>{data?.score}</span> очков за{' '}
         {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
-        <Link to="/leaderboard">зачете</Link>, или начните{' '}
-        <Link to="/">новую игру</Link>. Вы также можете{' '}
+        <Link to="/leaderboard" className={styles.clickable}>
+          зачете
+        </Link>
+        , или начните{' '}
+        <Link to="/" className={styles.clickable}>
+          новую игру
+        </Link>
+        . Вы также можете{' '}
         <Button
           onClick={playAgain}
           className={cn(styles.againButton, styles.accent)}
