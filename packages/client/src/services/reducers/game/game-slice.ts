@@ -1,48 +1,68 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+type GameCompletedData = {
+  movesHistory: string[];
+  points: number;
+  time: number;
+  completed: boolean;
+  id: string;
+};
+
 interface Game {
-  readonly currentGame: {
-    gameId: string;
-    movesHistory: string[];
-    score: number;
-    time: number;
-    completed: boolean;
-  };
+  readonly completedGame: GameCompletedData;
+  readonly gamesHistory: Array<
+    Omit<GameCompletedData, 'completed'> & {
+      completedAt: string;
+    }
+  >;
 }
 
 const initialState: Game = {
-  currentGame: {
-    gameId: '',
+  completedGame: {
     movesHistory: [],
-    score: 0,
+    points: 0,
     time: 0,
     completed: false,
+    id: '',
   },
+  gamesHistory: [],
 };
 
 export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setCurrentGame: (state, action: PayloadAction<string>) => {
-      state.currentGame = {
-        gameId: action.payload,
-        movesHistory: [],
-        score: 0,
-        time: 0,
-        completed: false,
+    setGameCompleted: (
+      state,
+      action: PayloadAction<{
+        movesHistory: string[];
+        points: number;
+        time: number;
+        id: string;
+      }>
+    ) => {
+      state.completedGame = {
+        ...action.payload,
+        completed: true,
       };
-    },
-    setGameCompleted: (state) => {
-      state.currentGame.completed = true;
+
+      const now = new Date();
+
+      state.gamesHistory.push({
+        ...action.payload,
+        completedAt: now.toISOString(),
+      });
     },
 
-    replay: (state) => {
-      state.currentGame.completed = false;
+    resetCurrentGame: (state, action: PayloadAction<string>) => {
+      state.completedGame = {
+        ...initialState.completedGame,
+        id: action.payload,
+      };
     },
   },
 });
 
-export const { setCurrentGame, setGameCompleted, replay } = gameSlice.actions;
+export const { setGameCompleted, resetCurrentGame } = gameSlice.actions;
 
 export default gameSlice.reducer;

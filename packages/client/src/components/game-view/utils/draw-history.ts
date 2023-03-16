@@ -19,6 +19,7 @@ export const drawHistory = (
     );
 
     if (foundPath && ctx) {
+      foundPath.completed = true;
       renderPath(ctx, foundPath);
     }
 

@@ -3,11 +3,13 @@ import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
 import { FullScreenButton } from 'components/fullscreen-button';
-import { Color, GameData, GameCompletedData } from './utils/types';
+import { Color, GameData } from './utils/types';
 import { GameTimer } from 'components/game-timer';
 import { calcPoints } from './utils/calculate-points';
 import { colorsSortComparator } from './utils/colors-sort-comparator';
 import { resizeField } from './utils/resize-field';
+import { useAppDispatch } from 'components/hooks';
+import { setGameCompleted } from 'src/services/reducers/game/game-slice';
 
 // основная функция рисования
 const draw = (
@@ -28,8 +30,9 @@ export const GameView: FC<{
   initGameData: GameData;
   size: number;
   gameId?: string;
-  setGameCompleted: (p: GameCompletedData) => void;
-}> = ({ initColors, size, initGameData, setGameCompleted }) => {
+}> = ({ initColors, size, initGameData }) => {
+  const dispatch = useAppDispatch();
+
   const [gameData, setGameData] = useState(initGameData);
   const [colors, setColors] = useState(initColors);
   const [activeColorId, setActiveColorId] = useState(-1);
@@ -111,12 +114,14 @@ export const GameView: FC<{
   // проверяем не закончена ли игра
   useEffect(() => {
     if (gameData.paths.every((i) => i.completed)) {
-      setGameCompleted({
-        gameData,
-        movesHistory,
-        score: points,
-        time: timeElapsed,
-      });
+      dispatch(
+        setGameCompleted({
+          movesHistory,
+          points,
+          time: timeElapsed,
+          id: gameData.gameId,
+        })
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movesHistory.length]);
