@@ -25,6 +25,20 @@ const draw = (
   });
 };
 
+// основная функция рисования
+const draw = (
+  ctx: Nullable<CanvasRenderingContext2D>,
+  size: number,
+  gameData: GameData
+): void => {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, size, size);
+  renderPath(ctx, gameData.numbers);
+  gameData.paths.forEach((path) => {
+    renderPath(ctx, path);
+  });
+};
+
 export const GameView: FC<{
   initColors: Color[];
   initGameData: GameData;
