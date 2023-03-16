@@ -7,20 +7,31 @@ import { drawHistory } from './utils/draw-history';
 import { resizeField } from './utils/resize-field';
 import { Button } from 'components/button';
 import cn from 'classnames';
+import { useAuth } from 'components/hooks/use-auth';
+import { useAppDispatch } from 'components/hooks';
+import { replay } from 'src/services/reducers/game/game-slice';
 
 type Props = {
   data: GameCompletedData;
-  user: Nullable<User>;
-  playAgain: () => void;
 };
 
-export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
+export const GameViewCompleted: FC<Props> = ({ data }) => {
+  const { user } = useAuth();
+  const dispatch = useAppDispatch();
+
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const size = data?.gameData.size || 1;
+
+  const playAgain = () => {
+    // gameCompleted.gameData.paths.forEach(
+    //   (path) => (path.completed = false)
+    // );
+    dispatch(replay());
+  };
 
   useEffect(() => {
     const resizeCb = () =>

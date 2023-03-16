@@ -6,11 +6,9 @@ import cn from 'classnames';
 import { makeInitialData } from 'components/game-view/utils/make-initial-data';
 import { gameData } from 'components/game-view/utils/game-data';
 import { GameCompletedData } from 'components/game-view/utils/types';
-import { useAuth } from 'components/hooks/use-auth';
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
-  const { user } = useAuth();
 
   if (!id) {
     throw new Error('game id is not provided');
@@ -29,16 +27,7 @@ export const GamePage: FC = () => {
   return (
     <div className={cn(styles.content, 'u-page')}>
       {gameCompleted ? (
-        <GameViewCompleted
-          data={gameCompleted}
-          user={user}
-          playAgain={() => {
-            gameCompleted.gameData.paths.forEach(
-              (path) => (path.completed = false)
-            );
-            setGameCompleted(null);
-          }}
-        />
+        <GameViewCompleted data={gameCompleted} />
       ) : (
         <GameView
           initColors={initColors}
