@@ -1,11 +1,4 @@
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  WheelEventHandler,
-} from 'react';
+import { FC, useEffect, useRef, useState, WheelEventHandler } from 'react';
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
 import { renderPath } from './utils/render-path';
@@ -15,6 +8,20 @@ import { GameTimer } from 'components/game-timer';
 import { calcPoints } from './utils/calculate-points';
 import { colorsSortComparator } from './utils/colors-sort-comparator';
 import { resizeField } from './utils/resize-field';
+
+// основная функция рисования
+const draw = (
+  ctx: Nullable<CanvasRenderingContext2D>,
+  size: number,
+  gameData: GameData
+): void => {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, size, size);
+  renderPath(ctx, gameData.numbers);
+  gameData.paths.forEach((path) => {
+    renderPath(ctx, path);
+  });
+};
 
 export const GameView: FC<{
   initColors: Color[];
@@ -41,16 +48,6 @@ export const GameView: FC<{
   const resizableRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
   const colorPickerRef = useRef<HTMLDivElement>(null);
-
-  // основная функция рисования
-  const draw = useCallback(() => {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, size, size);
-    renderPath(ctx, gameData.numbers);
-    gameData.paths.forEach((path) => {
-      renderPath(ctx, path);
-    });
-  }, [ctx, gameData.numbers, gameData.paths, size]);
 
   // начинаем отсчет времени
   useEffect(() => {
@@ -106,7 +103,7 @@ export const GameView: FC<{
         .sort(colorsSortComparator);
 
       setColors(renewedColors);
-      draw();
+      draw(ctx, size, gameData);
       break;
     }
   };
@@ -139,9 +136,10 @@ export const GameView: FC<{
     setCtx(context);
 
     canvasElement.addEventListener('click', pathClickHandler);
-    draw();
+    draw(ctx, size, gameData);
     return () => canvasElement.removeEventListener('click', pathClickHandler);
-  }, [pathClickHandler, draw]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathClickHandler, ctx, size]);
 
   // слушаем смену цвета
   useEffect(() => {
@@ -158,8 +156,9 @@ export const GameView: FC<{
         }),
       };
     });
-    draw();
-  }, [activeColorId, draw, gameData.paths]);
+    draw(ctx, size, gameData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeColorId]);
 
   // слушаем колесико мыши и, если мышка над канвасом,
   // приближаем / отдаляем картинку через стейт zoom
