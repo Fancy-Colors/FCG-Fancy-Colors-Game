@@ -59,8 +59,7 @@ export const Forum = () => {
           </div>
         </div>
         <article className={style.threads}>
-          {forum &&
-            forum[page] &&
+          {forum[page] &&
             forum[page].map((t: ForumItemProps) => (
               <ForumItem
                 title={t.title}
