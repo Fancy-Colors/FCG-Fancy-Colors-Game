@@ -1,0 +1,1 @@
+export { fetchForumPage } from './forum';

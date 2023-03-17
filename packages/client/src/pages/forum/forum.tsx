@@ -8,11 +8,8 @@ import { RouterPaths } from 'src/app.types';
 import { useEffect, useState } from 'react';
 import { Pagination } from 'components/pagination';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
-import { ForumApiService } from 'src/services/api/forum/forum-api-service';
-import { setForum } from 'src/services/reducers/forum/forum-slice';
 import { ForumItemProps } from 'components/forum-item/forum-item';
-
-const client = new ForumApiService();
+import { fetchForumPage } from 'src/actions';
 
 export const Forum = () => {
   const [page, setPage] = useState(1);
@@ -21,22 +18,7 @@ export const Forum = () => {
 
   useEffect(() => {
     if (!(page in forum)) {
-      // eslint-disable-next-line promise/catch-or-return
-      client
-        .getForum(page)
-        // eslint-disable-next-line promise/prefer-await-to-then
-        .then(
-          (threads) =>
-            dispatch(
-              setForum({
-                page,
-                data: threads,
-              })
-            ) // не знаю как там через thunk это сделать - поэтому так.
-          // .catch(e => {
-          //   console.log(e);
-          // })
-        );
+      dispatch(fetchForumPage(page));
     }
   }, [page, dispatch, forum]); // ESlint хочет тут видеть dispatch, forum.
 
