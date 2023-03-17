@@ -1,4 +1,4 @@
-import { Threads } from 'src/services/reducers/forum/forum-slice';
+import { Threads } from 'src/services/reducers/forum-slice';
 
 export const threads: Threads = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
