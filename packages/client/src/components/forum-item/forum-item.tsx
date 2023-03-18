@@ -5,18 +5,10 @@ import { DateFormatted } from 'components/date-formatted';
 import { RouterPaths } from 'src/app.types';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
+import { ForumItem as ForumItemProps } from 'src/services/reducers/forum-slice';
 
 import style from './forum-item.module.pcss';
 
-export type ForumItemProps = {
-  id: number;
-  title: string;
-  text: string;
-  name: string;
-  date: string;
-  messageCount: number | string;
-  avatar?: string;
-};
 export const ForumItem: FC<ForumItemProps> = ({
   id,
   title,

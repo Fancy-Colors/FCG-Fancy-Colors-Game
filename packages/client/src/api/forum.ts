@@ -1,5 +1,5 @@
 import { threads } from 'src/mock/forum-threads';
-import { ForumItemProps } from 'components/forum-item/forum-item';
+import { ForumItem as ForumItemProps } from 'src/services/reducers/forum-slice';
 
 class ForumApi {
   getForum = (
