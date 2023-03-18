@@ -8,7 +8,7 @@ import { RouterPaths } from 'src/app.types';
 import { useEffect, useState } from 'react';
 import { Pagination } from 'components/pagination';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
-import { ForumItemProps } from 'components/forum-item/forum-item';
+import { ForumItem as ForumItemProps } from 'src/services/reducers/forum-slice';
 import { fetchForumPage } from 'src/actions';
 
 export const Forum = () => {

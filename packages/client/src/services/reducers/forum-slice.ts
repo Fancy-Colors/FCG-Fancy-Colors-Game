@@ -1,15 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ForumItemProps } from 'components/forum-item/forum-item';
-import { ForumMessageProps } from 'components/forum-message/forum-message';
-
 export type Threads = {
-  [page: string | number]: ForumItemProps[];
+  [page: string | number]: ForumItem[];
 };
 
-type Thread = {
+export type ForumMessage = {
+  id: number;
+  avatar?: string;
+  name: string;
+  date: string;
+  text: string;
+};
+
+export type ForumItem = {
+  id: number;
   title: string;
-  messages: Omit<ForumMessageProps, 'handleReply'>;
+  text: string;
+  name: string;
+  date: string;
+  messageCount: number | string;
+  avatar?: string;
+};
+
+export type Thread = {
+  id: string | number;
+  title: string;
+  messages: ForumMessage;
 };
 
 type ForumState = {
@@ -34,7 +50,7 @@ export const forumSlice = createSlice({
       state,
       action: PayloadAction<{
         page: string | number;
-        data: Array<ForumItemProps>;
+        data: Array<ForumItem>;
       }>
     ) => {
       state.forum = {
