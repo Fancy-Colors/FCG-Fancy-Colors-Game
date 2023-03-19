@@ -9,7 +9,6 @@
   background: var(--color-panel);
   border-radius: 12px;
   display: grid;
-  min-width: 400px;
 }
 
 .content {
@@ -23,4 +22,28 @@
   align-items: center;
   width: 100%;
   max-width: 340px;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  fill: var(--color-accent-primary);
+}
+
+@media (max-width: 1024px) {
+  .form {
+    max-width: 298px;
+  }
+}
+
+@media (max-width: 440px) {
+  .form {
+    max-width: 260px;
+  }
+}
+
+@media (max-width: 350px) {
+  .form {
+    max-width: 240px;
+  }
 }

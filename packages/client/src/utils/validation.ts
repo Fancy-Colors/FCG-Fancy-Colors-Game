@@ -90,7 +90,7 @@ export const validateLogin = (value = '') => {
   }
 
   if (!onlyLatinLetters(value, [...allowedChars, '\\d'])) {
-    return 'Поле должно содержать только латиницу и не может содержать спецсимволы';
+    return 'Поле должно содержать только латиницу и быть без спецсимволов';
   }
 
   if (isNumber(value, allowedChars)) {
