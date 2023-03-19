@@ -10,12 +10,9 @@ import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
 import { RouterPaths } from 'src/app.types';
 import { useAuth } from 'components/hooks/use-auth';
-
 import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
 import { useTheme } from 'components/hooks';
-
-// пока что хардкод...
-const LOGO_COLOR = '#6644ec';
+import { Theme } from 'components/hooks/use-theme';
 
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
@@ -38,9 +35,9 @@ export const SideMenu: FC = () => {
         <Link to={RouterPaths.MAIN}>
           <div className={styles.logo}>
             {expanded ? (
-              <Logo width="100%" height="100%" fill={LOGO_COLOR} />
+              <Logo width="100%" height="100%" fill="currentcolor" />
             ) : (
-              <LogoNarrow width="100%" height="100%" fill={LOGO_COLOR} />
+              <LogoNarrow width="100%" height="100%" fill="currentcolor" />
             )}
           </div>
         </Link>
@@ -89,16 +86,24 @@ export const SideMenu: FC = () => {
             {expanded ? 'Как играть в Fancy Colors?' : '?'}
           </p>
         </Link>
-        <button onClick={toggleTheme} type="button">
-          toggle theme {theme}
-        </button>
 
         <button
           type="button"
           className={cn(styles.menuToggler, { [styles.expanded]: expanded })}
           onClick={() => setExpanded(!expanded)}
         >
-          <Icon type="arrow" size="medium" color="#0f101b" />
+          <Icon type="arrow" size="medium" color="currentcolor" />
+          {expanded && <span>Свернуть меню</span>}
+        </button>
+        <button
+          type="button"
+          className={cn(styles.themeToggler, { [styles.expanded]: expanded })}
+          onClick={toggleTheme}
+        >
+          <Icon type="theme-toggle" size="medium" color="currentcolor" />
+          {expanded && (
+            <span>{theme === Theme.LIGHT ? 'Тёмная' : 'Светлая'} тема</span>
+          )}
         </button>
       </nav>
       <div>

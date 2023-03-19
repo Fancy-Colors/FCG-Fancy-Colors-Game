@@ -30,10 +30,10 @@ export const MessageComposer = () => {
       />
       <div className={styles.actions}>
         <Button type="button" size="small" color={ButtonColor.ICON}>
-          <Icon type="smile" size="large" color="var(--color-dark-primary)" />
+          <Icon type="smile" size="large" color="var(--text-color-primary)" />
         </Button>
         <Button type="button" size="small" color={ButtonColor.ICON}>
-          <Icon type="forum" size="large" color="var(--color-dark-primary)" />
+          <Icon type="forum" size="large" color="var(--text-color-primary)" />
         </Button>
         <Button type="submit">Отправить</Button>
       </div>

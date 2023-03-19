@@ -3,8 +3,6 @@ import styles from './navigation-link.module.pcss';
 import cn from 'classnames';
 import { Icon } from 'components/icon';
 
-const ICON_COLOR = '#0f101b';
-
 type Props = {
   expanded: boolean;
   iconType: IconType;
@@ -27,7 +25,7 @@ export const NavigationLink: FC<Props> = ({
         [styles.expanded]: expanded,
       })}
     >
-      <Icon type={iconType} size="small" color={ICON_COLOR} />
+      <Icon type={iconType} size="small" color="currentcolor" />
       {expanded && (
         <div className={styles.textAndInfoWrap}>
           <p className={cn(styles.text, 'text-main')}>{text}</p>

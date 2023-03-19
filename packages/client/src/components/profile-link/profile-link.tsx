@@ -3,8 +3,6 @@ import cn from 'classnames';
 import { Icon } from 'components/icon';
 import { Avatar } from 'components/avatar';
 
-const ICON_COLOR = '#0F101B';
-
 type ProfileLinkProps = {
   label?: string;
   expanded?: boolean;
@@ -42,7 +40,7 @@ export const ProfileLink = ({
           </div>
         )}
         <div className={styles.settings}>
-          <Icon size="medium" type="settings" color={ICON_COLOR} />
+          <Icon size="medium" type="settings" color="currentcolor" />
         </div>
       </div>
     </>

@@ -7,13 +7,26 @@ import {
   useState,
 } from 'react';
 
-export const THEME_LIGHT = 'light';
-export const THEME_DARK = 'dark';
-export const THEME_DEFAULT = THEME_LIGHT;
+export enum Theme {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
+
+const DEFAULT_THEME = Theme.LIGHT;
 
 function getStoredTheme() {
   const storedTheme = localStorage.getItem('theme');
-  return storedTheme ? storedTheme : THEME_DEFAULT;
+
+  if (!storedTheme || !Object.values(Theme).includes(storedTheme as Theme)) {
+    return DEFAULT_THEME;
+  }
+
+  return storedTheme;
+}
+
+function refreshCurrentTheme(theme: string) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
 }
 
 type ThemeContextType = {
@@ -28,12 +41,12 @@ export function ThemeProvider({ children }: { children: React.ReactElement }) {
 
   const toggleTheme = useCallback(() => {
     setTheme((currentTheme) =>
-      currentTheme === THEME_LIGHT ? THEME_DARK : THEME_LIGHT
+      currentTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
     );
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
+    refreshCurrentTheme(theme);
   }, [theme]);
 
   const value = useMemo(

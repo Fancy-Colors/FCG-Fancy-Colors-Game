@@ -3,7 +3,6 @@ import styles from './footer.module.pcss';
 import cn from 'classnames';
 import { Icon } from 'components/icon';
 
-const ICON_COLOR = '#0f101b';
 const COPYRIGHT = `@FC`;
 const COPYRIGHT_EXPANDED = `@${new Date().getFullYear()}, Fancy Colors`;
 
@@ -29,7 +28,7 @@ export const Footer: FC<Props> = ({ links, expanded = true }) => {
           {links.map(({ icon, link }) => (
             <li key={link}>
               <a href={link} target="_blank" rel="noreferrer">
-                <Icon type={icon} size="medium" color={ICON_COLOR} />
+                <Icon type={icon} size="medium" color="currentcolor" />
               </a>
             </li>
           ))}
