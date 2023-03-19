@@ -12,6 +12,7 @@ import { RouterPaths } from 'src/app.types';
 import { useAuth } from 'components/hooks/use-auth';
 
 import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
+import { useTheme } from 'components/hooks';
 
 // пока что хардкод...
 const LOGO_COLOR = '#6644ec';
@@ -19,6 +20,7 @@ const LOGO_COLOR = '#6644ec';
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
   const [expanded, setExpanded] = useState(true);
+  const { toggleTheme, theme } = useTheme();
 
   return (
     <section
@@ -87,6 +89,9 @@ export const SideMenu: FC = () => {
             {expanded ? 'Как играть в Fancy Colors?' : '?'}
           </p>
         </Link>
+        <button onClick={toggleTheme} type="button">
+          toggle theme {theme}
+        </button>
 
         <button
           type="button"
