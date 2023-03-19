@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styles from './game.module.pcss';
 import { useParams } from 'react-router-dom';
 import { GameView, GameViewCompleted } from 'components/game-view';
 import cn from 'classnames';
-import { makeInitialData } from 'components/game-view/utils/make-initial-data';
-import { gameData } from 'components/game-view/utils/game-data';
-import { useAppSelector } from 'components/hooks';
+import { makeInitialData, gameData } from 'components/game-view/utils';
+import { useAppDispatch, useAppSelector } from 'components/hooks';
+import { resetCompletedGame } from 'src/services/game-slice';
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
+
+  const dispatch = useAppDispatch();
   const { completedGame } = useAppSelector((state) => state.game);
 
   if (!id) {
@@ -21,11 +23,15 @@ export const GamePage: FC = () => {
     throw new Error(`no game found by id: ${id}`);
   }
 
+  useEffect(() => {
+    dispatch(resetCompletedGame());
+  }, [dispatch]);
+
   const [initColors, initGameData] = makeInitialData(rawGameData);
 
   return (
     <div className={cn(styles.content, 'u-page')}>
-      {completedGame.completed ? (
+      {completedGame ? (
         <GameViewCompleted data={initGameData} />
       ) : (
         <GameView

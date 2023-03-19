@@ -4,12 +4,11 @@ type GameCompletedData = {
   movesHistory: string[];
   points: number;
   time: number;
-  completed: boolean;
   id: string;
 };
 
 interface Game {
-  readonly completedGame: GameCompletedData;
+  readonly completedGame: Nullable<GameCompletedData>;
   readonly gamesHistory: Array<
     Omit<GameCompletedData, 'completed'> & {
       completedAt: string;
@@ -18,13 +17,7 @@ interface Game {
 }
 
 const initialState: Game = {
-  completedGame: {
-    movesHistory: [],
-    points: 0,
-    time: 0,
-    completed: false,
-    id: '',
-  },
+  completedGame: null,
   gamesHistory: [],
 };
 
@@ -43,7 +36,6 @@ export const gameSlice = createSlice({
     ) => {
       state.completedGame = {
         ...action.payload,
-        completed: true,
       };
 
       const now = new Date();
@@ -54,15 +46,12 @@ export const gameSlice = createSlice({
       });
     },
 
-    resetCurrentGame: (state, action: PayloadAction<string>) => {
-      state.completedGame = {
-        ...initialState.completedGame,
-        id: action.payload,
-      };
+    resetCompletedGame: (state) => {
+      state.completedGame = null;
     },
   },
 });
 
-export const { setGameCompleted, resetCurrentGame } = gameSlice.actions;
+export const { setGameCompleted, resetCompletedGame } = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -1,13 +1,7 @@
 import reducer from './game-slice';
 
 const state = {
-  completedGame: {
-    movesHistory: [],
-    points: 0,
-    time: 0,
-    completed: false,
-    id: '',
-  },
+  completedGame: null,
   gamesHistory: [],
 };
 
@@ -16,7 +10,6 @@ const mockGameData = [
     movesHistory: ['1213213', '12321314'],
     points: 100,
     time: 200,
-    completed: true,
     id: 'id-1',
   },
   {

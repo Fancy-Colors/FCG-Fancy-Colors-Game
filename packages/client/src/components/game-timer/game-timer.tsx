@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './game-timer.module.pcss';
 import cn from 'classnames';
-import { stringifyTime } from 'components/game-view/utils/stringify-time';
+import { stringifyTime } from 'components/game-view/utils';
 
 export const GameTimer: FC<{
   seconds: number;

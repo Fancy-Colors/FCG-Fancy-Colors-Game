@@ -1,4 +1,4 @@
-import gameReducer from './game/game-slice';
+import gameReducer from './game-slice';
 
 const reducer = {
   game: gameReducer,
