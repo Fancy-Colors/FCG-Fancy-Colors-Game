@@ -25,7 +25,7 @@ export const NavigationLink: FC<Props> = ({
         [styles.expanded]: expanded,
       })}
     >
-      <Icon type={iconType} size="small" color="currentcolor" />
+      <Icon type={iconType} size="small" />
       {expanded && (
         <div className={styles.textAndInfoWrap}>
           <p className={cn(styles.text, 'text-main')}>{text}</p>

@@ -28,7 +28,7 @@ export const ForumThread = () => {
   return (
     <div className={cn(styles.container, 'u-page')}>
       <Link to={RouterPaths.FORUM} className={styles.link}>
-        <Icon type="arrow" size="xs" color="currentcolor" />
+        <Icon type="arrow" size="xs" />
         <span className={styles.text}>К темам</span>
       </Link>
       <div className={styles.wrapper}>

@@ -18,7 +18,7 @@ export const Score = ({ score }: ScoreProps) => {
   );
   return (
     <div className={styles.score}>
-      <Icon type="star" size="small" color="currentcolor" />
+      <Icon type="star" size="small" />
       {scoreString}
     </div>
   );

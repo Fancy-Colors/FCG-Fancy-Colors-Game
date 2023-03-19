@@ -35,9 +35,9 @@ export const SideMenu: FC = () => {
         <Link to={RouterPaths.MAIN}>
           <div className={styles.logo}>
             {expanded ? (
-              <Logo width="100%" height="100%" fill="currentcolor" />
+              <Logo width="100%" height="100%" />
             ) : (
-              <LogoNarrow width="100%" height="100%" fill="currentcolor" />
+              <LogoNarrow width="100%" height="100%" />
             )}
           </div>
         </Link>
@@ -92,7 +92,7 @@ export const SideMenu: FC = () => {
           className={cn(styles.menuToggler, { [styles.expanded]: expanded })}
           onClick={() => setExpanded(!expanded)}
         >
-          <Icon type="arrow" size="medium" color="currentcolor" />
+          <Icon type="arrow" size="medium" />
           {expanded && <span>Свернуть меню</span>}
         </button>
         <button
@@ -100,7 +100,7 @@ export const SideMenu: FC = () => {
           className={cn(styles.themeToggler, { [styles.expanded]: expanded })}
           onClick={toggleTheme}
         >
-          <Icon type="theme-toggle" size="medium" color="currentcolor" />
+          <Icon type="theme-toggle" size="medium" />
           {expanded && (
             <span>{theme === Theme.LIGHT ? 'Тёмная' : 'Светлая'} тема</span>
           )}

@@ -28,7 +28,7 @@ export const Footer: FC<Props> = ({ links, expanded = true }) => {
           {links.map(({ icon, link }) => (
             <li key={link}>
               <a href={link} target="_blank" rel="noreferrer">
-                <Icon type={icon} size="medium" color="currentcolor" />
+                <Icon type={icon} size="medium" />
               </a>
             </li>
           ))}

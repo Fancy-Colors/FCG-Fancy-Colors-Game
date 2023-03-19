@@ -40,7 +40,7 @@ export const ProfileLink = ({
           </div>
         )}
         <div className={styles.settings}>
-          <Icon size="medium" type="settings" color="currentcolor" />
+          <Icon size="medium" type="settings" />
         </div>
       </div>
     </>

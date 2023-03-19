@@ -22,10 +22,10 @@ import { ReactComponent as ThemeToggleIcon } from 'assets/icons/theme-toggle.svg
 type Props = {
   type: IconType;
   size: 'xs' | 'small' | 'medium' | 'large';
-  color: string;
+  color?: string;
 };
 
-export const Icon: FC<Props> = ({ type, size, color }) => {
+export const Icon: FC<Props> = ({ type, size, color = 'currentColor' }) => {
   switch (type) {
     case 'main':
       return <MainIcon className={styles[size]} fill={color} />;
