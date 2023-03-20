@@ -21,6 +21,7 @@ type Props = {
   color?: keyof typeof ButtonColor;
   size?: 'small' | 'medium' | 'large';
   className?: string;
+  classNameContent?: string;
   children: JSX.Element | JSX.Element[] | string;
 };
 
@@ -36,6 +37,7 @@ export const Button: FC<ButtonAsButton> = ({
   color = ButtonColor.COLORED,
   size = 'medium',
   className,
+  classNameContent,
   children,
   ...props
 }) => {
@@ -48,7 +50,7 @@ export const Button: FC<ButtonAsButton> = ({
 
   return (
     <button type={type} className={cnButton} {...props}>
-      <span className={styles.btn}>{children}</span>
+      <span className={classNameContent}>{children}</span>
     </button>
   );
 };
@@ -58,6 +60,7 @@ export const ButtonLink: FC<ButtonAsLink> = ({
   color = ButtonColor.COLORED,
   size = 'medium',
   className,
+  classNameContent,
   children,
   ...props
 }) => {
@@ -70,7 +73,7 @@ export const ButtonLink: FC<ButtonAsLink> = ({
 
   return (
     <Link to={to} className={cnButton} {...props}>
-      <span className={styles.btn}>{children}</span>
+      <span className={classNameContent}>{children}</span>
     </Link>
   );
 };

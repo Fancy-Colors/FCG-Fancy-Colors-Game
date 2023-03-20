@@ -6,6 +6,7 @@
   flex-flow: column;
   justify-content: center;
   gap: 12px;
+  min-width: 98px;
 
   & p {
     margin: 0 auto;
@@ -30,5 +31,22 @@
 
   & li:hover {
     opacity: 0.7;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    width: 100vw !important;
+    padding: var(--gap);
+    height: 80px;
+
+    & p {
+      margin: unset;
+      width: unset !important;
+    }
+  }
+
+  .icons {
+    margin: unset;
   }
 }

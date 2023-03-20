@@ -5,17 +5,26 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-primary-white, #fff);
+
+  &Mobile {
+    display: none;
+  }
 }
 
 .logo {
   padding: 12px;
   height: 168px;
+  min-width: 96px;
+
+  &Link {
+    align-self: center;
+  }
 }
 
 .nav {
   display: flex;
   flex-flow: column;
-  gap: 24px;
+  gap: var(--gap);
 }
 
 .textMenu {
@@ -60,4 +69,75 @@
   text-align: start;
   display: block;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .sideMenu {
+    min-width: 98px;
+  }
+}
+
+@media (max-width: 500px) {
+  .sideMenu {
+    position: absolute;
+    z-index: var(--z-index-menu);
+    width: 100vw !important;
+    min-width: var(--min-width);
+    left: -1000px;
+    transition: left 0.3s;
+
+    &Mobile {
+      display: flex;
+      height: var(--header-height);
+      background-color: var(--color-primary-white);
+      padding-left: 4px;
+    }
+  }
+
+  .logo {
+    margin-top: 14px;
+    height: 90px;
+  }
+
+  .howToText {
+    margin: 10px;
+  }
+
+  .button {
+    display: flex;
+
+    & svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .show {
+    left: 0;
+    transition: left 0.3s;
+  }
+
+  .nav {
+    width: calc(100vw - var(--gap) * 2) !important;
+  }
+
+  .authLink {
+    margin: unset;
+    width: 100% !important;
+  }
+}
+
+@media (max-height: 930px) {
+  .logo {
+    margin-top: 14px;
+    height: 90px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .howToText {
+    margin: 10px;
+  }
 }
