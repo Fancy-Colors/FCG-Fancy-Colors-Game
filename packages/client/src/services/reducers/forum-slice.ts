@@ -50,7 +50,7 @@ export const forumSlice = createSlice({
       state,
       action: PayloadAction<{
         page: string | number;
-        data: Array<ForumItem>;
+        data: ForumItem[];
       }>
     ) => {
       state.forum = {
