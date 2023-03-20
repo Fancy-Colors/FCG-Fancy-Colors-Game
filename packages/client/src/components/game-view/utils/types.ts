@@ -41,10 +41,3 @@ export type Color = {
   items: number;
   completed: number;
 };
-
-export type GameCompletedData = Nullable<{
-  gameData: GameData;
-  movesHistory: string[];
-  score: number;
-  time: number;
-}>;

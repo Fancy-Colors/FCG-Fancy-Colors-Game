@@ -1,26 +1,32 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { GameCompletedData } from './utils/types';
 import { Link } from 'react-router-dom';
-import { stringifyTime } from './utils/stringify-time';
-import styles from './game-view.module.pcss';
-import { drawHistory } from './utils/draw-history';
-import { resizeField } from './utils/resize-field';
+import { GameData } from './utils/types';
+import { drawHistory, resizeField, stringifyTime } from './utils';
 import { Button } from 'components/button';
+import { useAuth } from 'components/hooks/use-auth';
+import { useAppDispatch, useAppSelector } from 'components/hooks';
+import { resetCompletedGame } from 'src/services/game-slice';
+import styles from './game-view.module.pcss';
 import cn from 'classnames';
 
 type Props = {
-  data: GameCompletedData;
-  user: Nullable<User>;
-  playAgain: () => void;
+  data: GameData;
 };
 
-export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
+export const GameViewCompleted: FC<Props> = ({ data }) => {
+  const { user } = useAuth();
+  const dispatch = useAppDispatch();
+  const { completedGame } = useAppSelector((state) => state.game);
+  if (!completedGame) {
+    throw new Error('no completed game found');
+  }
+
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
-  const size = data?.gameData.size || 1;
+  const size = data?.size || 1;
 
   useEffect(() => {
     const resizeCb = () =>
@@ -48,17 +54,19 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
     setCtx(context);
   }, []);
 
+  const { points, time, movesHistory } = completedGame;
+
   useEffect(() => {
     if (!ctx) return;
-    drawHistory(ctx, data!.gameData, data!.movesHistory);
-  }, [ctx, data]);
+    drawHistory(ctx, data, movesHistory);
+  }, [ctx, data, movesHistory]);
 
   const GameEndMessage = () => {
     return (
       <p className={cn('text-main', styles.paragraph)}>
         <span className={styles.accent}>{user?.firstName}</span>, вы набрали{' '}
-        <span className={styles.accent}>{data?.score}</span> очков за{' '}
-        {stringifyTime(data?.time)}. Посмотрите на каком Вы месте в общем{' '}
+        <span className={styles.accent}>{points}</span> очков за{' '}
+        {stringifyTime(time)}. Посмотрите на каком Вы месте в общем{' '}
         <Link to="/leaderboard" className={styles.clickable}>
           зачете
         </Link>
@@ -68,7 +76,7 @@ export const GameViewCompleted: FC<Props> = ({ data, user, playAgain }) => {
         </Link>
         . Вы также можете{' '}
         <Button
-          onClick={playAgain}
+          onClick={() => dispatch(resetCompletedGame())}
           className={cn(styles.againButton, styles.accent)}
         >
           закрасить картинку заново

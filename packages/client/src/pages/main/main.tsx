@@ -7,7 +7,7 @@ import { leadSlides } from 'src/mock/lead-slides';
 import { Tabs } from 'components/tabs';
 import { catalogGameCards } from 'utils/catalog-game-cards';
 import { GameCard } from 'components/game-card';
-import { gameData } from 'components/game-view/utils/game-data';
+import { gameData } from 'components/game-view/utils';
 
 export const MainPage: FC = () => {
   // тут логика получения списка доступных игр с бэка или из стора

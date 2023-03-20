@@ -1,21 +1,21 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import styles from './game.module.pcss';
 import { useParams } from 'react-router-dom';
 import { GameView, GameViewCompleted } from 'components/game-view';
 import cn from 'classnames';
-import { makeInitialData } from 'components/game-view/utils/make-initial-data';
-import { gameData } from 'components/game-view/utils/game-data';
-import { GameCompletedData } from 'components/game-view/utils/types';
-import { useAuth } from 'components/hooks/use-auth';
+import { makeInitialData, gameData } from 'components/game-view/utils';
+import { useAppDispatch, useAppSelector } from 'components/hooks';
+import { resetCompletedGame } from 'src/services/game-slice';
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
-  const { user } = useAuth();
+
+  const dispatch = useAppDispatch();
+  const { completedGame } = useAppSelector((state) => state.game);
 
   if (!id) {
     throw new Error('game id is not provided');
   }
-
   // вот здесь будет логика извлечения из стора или подзагрузки с сервера данных игры
   const rawGameData = gameData.find((game) => game.gameId === id);
 
@@ -23,27 +23,20 @@ export const GamePage: FC = () => {
     throw new Error(`no game found by id: ${id}`);
   }
 
+  useEffect(() => {
+    dispatch(resetCompletedGame());
+  }, [dispatch]);
+
   const [initColors, initGameData] = makeInitialData(rawGameData);
-  const [gameCompleted, setGameCompleted] = useState<GameCompletedData>(null);
 
   return (
     <div className={cn(styles.content, 'u-page')}>
-      {gameCompleted ? (
-        <GameViewCompleted
-          data={gameCompleted}
-          user={user}
-          playAgain={() => {
-            gameCompleted.gameData.paths.forEach(
-              (path) => (path.completed = false)
-            );
-            setGameCompleted(null);
-          }}
-        />
+      {completedGame ? (
+        <GameViewCompleted data={initGameData} />
       ) : (
         <GameView
           initColors={initColors}
           initGameData={initGameData}
-          setGameCompleted={setGameCompleted}
           size={initGameData.size}
         />
       )}
