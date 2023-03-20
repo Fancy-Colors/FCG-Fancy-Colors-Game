@@ -1,15 +1,17 @@
 import { FC, useEffect, useRef, useState, WheelEventHandler } from 'react';
 import styles from './game-view.module.pcss';
 import { ColorPicker } from 'components/color-picker';
-import { renderPath } from './utils/render-path';
 import { FullScreenButton } from 'components/fullscreen-button';
 import { Color, GameData } from './utils/types';
 import { GameTimer } from 'components/game-timer';
-import { calcPoints } from './utils/calculate-points';
-import { colorsSortComparator } from './utils/colors-sort-comparator';
-import { resizeField } from './utils/resize-field';
+import {
+  colorsSortComparator,
+  resizeField,
+  renderPath,
+  calcPoints,
+} from './utils';
 import { useAppDispatch } from 'components/hooks';
-import { setGameCompleted } from 'src/services/reducers/game/game-slice';
+import { setGameCompleted } from 'src/services/game-slice';
 
 // основная функция рисования
 const draw = (

@@ -1,15 +1,13 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { GameData } from './utils/types';
 import { Link } from 'react-router-dom';
-import { stringifyTime } from './utils/stringify-time';
-import styles from './game-view.module.pcss';
-import { drawHistory } from './utils/draw-history';
-import { resizeField } from './utils/resize-field';
+import { GameData } from './utils/types';
+import { drawHistory, resizeField, stringifyTime } from './utils';
 import { Button } from 'components/button';
-import cn from 'classnames';
 import { useAuth } from 'components/hooks/use-auth';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
-import { resetCurrentGame } from 'src/services/reducers/game/game-slice';
+import { resetCompletedGame } from 'src/services/game-slice';
+import styles from './game-view.module.pcss';
+import cn from 'classnames';
 
 type Props = {
   data: GameData;
@@ -18,9 +16,10 @@ type Props = {
 export const GameViewCompleted: FC<Props> = ({ data }) => {
   const { user } = useAuth();
   const dispatch = useAppDispatch();
-  const { points, time, movesHistory, id } = useAppSelector(
-    (state) => state.game.completedGame
-  );
+  const { completedGame } = useAppSelector((state) => state.game);
+  if (!completedGame) {
+    throw new Error('no completed game found');
+  }
 
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
@@ -55,6 +54,8 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
     setCtx(context);
   }, []);
 
+  const { points, time, movesHistory } = completedGame;
+
   useEffect(() => {
     if (!ctx) return;
     drawHistory(ctx, data, movesHistory);
@@ -75,7 +76,7 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
         </Link>
         . Вы также можете{' '}
         <Button
-          onClick={() => dispatch(resetCurrentGame(id))}
+          onClick={() => dispatch(resetCompletedGame())}
           className={cn(styles.againButton, styles.accent)}
         >
           закрасить картинку заново
