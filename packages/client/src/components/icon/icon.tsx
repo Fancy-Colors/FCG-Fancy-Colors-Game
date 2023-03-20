@@ -17,14 +17,15 @@ import { ReactComponent as SmileIcon } from 'assets/icons/smile.svg';
 import { ReactComponent as TelegramIcon } from 'assets/icons/telegram.svg';
 import { ReactComponent as StarIcon } from 'assets/icons/star.svg';
 import { ReactComponent as UserIcon } from 'assets/icons/user.svg';
+import { ReactComponent as ThemeToggleIcon } from 'assets/icons/theme-toggle.svg';
 
 type Props = {
   type: IconType;
   size: 'xs' | 'small' | 'medium' | 'large';
-  color: string;
+  color?: string;
 };
 
-export const Icon: FC<Props> = ({ type, size, color }) => {
+export const Icon: FC<Props> = ({ type, size, color = 'currentColor' }) => {
   switch (type) {
     case 'main':
       return <MainIcon className={styles[size]} fill={color} />;
@@ -60,6 +61,8 @@ export const Icon: FC<Props> = ({ type, size, color }) => {
       return <StarIcon className={styles[size]} fill={color} />;
     case 'user':
       return <UserIcon className={styles[size]} fill={color} />;
+    case 'theme-toggle':
+      return <ThemeToggleIcon className={styles[size]} fill={color} />;
 
     default:
       return <span>NO ICON</span>;
