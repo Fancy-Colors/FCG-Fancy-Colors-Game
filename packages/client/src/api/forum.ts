@@ -1,5 +1,5 @@
 import { threads } from 'src/mock/forum-threads';
-import { ForumItem as ForumItemProps } from 'src/services/reducers/forum-slice';
+import { ForumItem as ForumItemProps } from 'src/services/forum-slice';
 
 class ForumApi {
   getForum = (pageNumber: string | number = 1): Promise<ForumItemProps[]> => {

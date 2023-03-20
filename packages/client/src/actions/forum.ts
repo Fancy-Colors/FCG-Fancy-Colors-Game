@@ -1,7 +1,7 @@
 import { AppDispatch } from 'src/store';
 
 import { forumApi } from 'src/api';
-import { setForum } from 'src/services/reducers/forum-slice';
+import { setForum } from 'src/services/forum-slice';
 
 export const fetchForumPage =
   (page: number) => async (dispatch: AppDispatch) => {

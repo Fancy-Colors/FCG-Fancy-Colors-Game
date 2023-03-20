@@ -5,7 +5,7 @@ import { DateFormatted } from 'components/date-formatted';
 import { RouterPaths } from 'src/app.types';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
-import { ForumItem as ForumItemProps } from 'src/services/reducers/forum-slice';
+import { ForumItem as ForumItemProps } from 'src/services/forum-slice';
 
 import style from './forum-item.module.pcss';
 
