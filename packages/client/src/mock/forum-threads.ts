@@ -1,6 +1,6 @@
-import { Threads } from 'src/services/forum-slice';
+import { Forum } from 'src/services/forum-slice';
 
-export const threads: Threads = {
+export const threads: Forum = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   '1': [
     {

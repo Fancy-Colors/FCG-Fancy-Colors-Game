@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Threads = {
+export type Forum = {
   [page: string | number]: ForumItem[];
+};
+
+export type Threads = {
+  [threadId: string | number]: { [page: string | number]: Thread };
 };
 
 export type ForumMessage = {
@@ -25,15 +29,13 @@ export type ForumItem = {
 export type Thread = {
   id: string | number;
   title: string;
-  messages: ForumMessage;
+  messages: ForumMessage[];
 };
 
 type ForumState = {
   count: number;
-  forum: Threads;
-  threads: {
-    [key: string]: Thread; // thread_id => thread entity
-  };
+  forum: Forum;
+  threads: Threads;
 };
 
 const initialState: ForumState = {
@@ -58,9 +60,25 @@ export const forumSlice = createSlice({
         [action.payload.page]: action.payload.data,
       };
     },
+    setThread: (
+      state,
+      action: PayloadAction<{
+        threadId: string | number;
+        page: string | number;
+        data: Thread;
+      }>
+    ) => {
+      state.threads = {
+        ...state.threads,
+        [action.payload.threadId]: {
+          ...state.threads[action.payload.threadId],
+          [action.payload.page]: action.payload.data,
+        },
+      };
+    },
   },
 });
 
-export const { setForum } = forumSlice.actions;
+export const { setForum, setThread } = forumSlice.actions;
 
 export default forumSlice.reducer;
