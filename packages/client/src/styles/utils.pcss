@@ -12,9 +12,9 @@
 }
 
 .u-fancy-scrollbar {
-  --color-scrollbar-track: var(--color-light-secondary, #bdbdbd);
-  --color-scrollbar-thumb: var(--color-accent-primary, #6644ec);
-  --scroll-bar-radius: 4px;
+  --color-scrollbar-track: var(--bg-color-subtle);
+  --color-scrollbar-thumb: var(--color-accent-primary);
+  --scrollbar-radius: 4px;
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -25,18 +25,18 @@
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    border-radius: var(--scroll-bar-radius);
+    border-radius: var(--scrollbar-radius);
     background-color: var(--color-scrollbar-track);
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: var(--scroll-bar-radius);
+    border-radius: var(--scrollbar-radius);
     background-color: var(--color-scrollbar-thumb);
   }
 }
 
 .u-page {
-  background-color: var(--color-light-primary-opacity);
+  background-color: var(--bg-color-secondary-faded);
   border-radius: 12px;
   width: 100%;
   max-height: calc(100vh - 48px);
@@ -50,7 +50,7 @@
 
 /* Кастомная стилизация свайпера */
 .swiper .swiper-pagination {
-  background-color: var(--color-accent-primary, #6644ec);
+  background-color: var(--color-accent-primary);
   width: min-content;
   display: flex;
   padding: 8px;
@@ -67,7 +67,7 @@ body .swiper .swiper-pagination-bullet {
 }
 
 body .swiper .swiper-pagination-bullet-active {
-  background: var(--color-light-primary, #f5f8fa);
+  background: var(--bg-color-secondary, #f5f8fa);
   opacity: 1;
 }
 

@@ -4,6 +4,8 @@
   background-color: transparent;
   display: flex;
   gap: 8px;
+  color: var(--text-color-primary);
+  border-radius: 4px;
   flex-wrap: nowrap;
   align-items: center;
   overflow: hidden;
@@ -16,7 +18,7 @@
   }
 
   &.active {
-    background-color: var(--color-light-primary, #f5f8fa);
+    background-color: var(--bg-color-secondary);
   }
 
   &:hover {
@@ -38,7 +40,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--color-dark-primary, #0f101b);
+  color: var(--text-color-primary);
   flex-basis: 90%;
 }
 
@@ -46,8 +48,8 @@
   width: min-content;
   height: 20px;
   flex-basis: 10%;
-  background-color: var(--color-accent-primary, #6644ec);
-  color: var(--color-primary-white, #fff);
+  background-color: var(--color-accent-primary);
+  color: var(--bg-color-primary);
   border-radius: 4px;
   padding: 0 8px;
   display: flex;

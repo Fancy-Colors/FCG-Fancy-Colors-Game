@@ -17,6 +17,7 @@ declare global {
     | 'telegram'
     | 'star'
     | 'user'
+    | 'theme-toggle'
     | 'burger';
 
   export type User = {

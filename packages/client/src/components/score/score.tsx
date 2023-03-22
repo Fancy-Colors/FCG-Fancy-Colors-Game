@@ -2,8 +2,6 @@ import styles from './score.module.pcss';
 import cn from 'classnames';
 import { Icon } from 'components/icon';
 
-const ICON_COLOR = '#6644EC';
-
 type ScoreProps = {
   score: number;
 };
@@ -21,7 +19,7 @@ export const Score = ({ score }: ScoreProps) => {
   );
   return (
     <div className={cn(styles.score, 'text-main-bold')}>
-      <Icon type="star" size="small" color={ICON_COLOR} />
+      <Icon type="star" size="small" />
       {scoreString}
     </div>
   );

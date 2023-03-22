@@ -10,18 +10,17 @@ import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
 import { RouterPaths } from 'src/app.types';
 import { useAuth } from 'components/hooks/use-auth';
-
 import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
+import { useTheme } from 'components/hooks';
+import { Theme } from 'components/hooks/use-theme';
 import { Button, ButtonColor } from 'components/button';
 import { ErrorBoundary } from 'utils/error-boundary';
-
-// пока что хардкод...
-const LOGO_COLOR = '#6644ec';
 
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
 
   const [expanded, setExpanded] = useState(true);
+  const { toggleTheme, theme } = useTheme();
 
   const location = useLocation();
   const [path, setPath] = useState(location.pathname);
@@ -105,9 +104,9 @@ export const SideMenu: FC = () => {
           <Link to={RouterPaths.MAIN} className={styles.logoLink}>
             <div className={styles.logo}>
               {expanded ? (
-                <Logo width="100%" height="100%" fill={LOGO_COLOR} />
+                <Logo width="100%" height="100%" />
               ) : (
-                <LogoNarrow width="100%" height="100%" fill={LOGO_COLOR} />
+                <LogoNarrow width="100%" height="100%" />
               )}
             </div>
           </Link>
@@ -164,7 +163,18 @@ export const SideMenu: FC = () => {
             className={cn(styles.menuToggler, { [styles.expanded]: expanded })}
             onClick={handleMenuOpen}
           >
-            <Icon type="arrow" size="medium" color="#0f101b" />
+            <Icon type="arrow" size="medium" />
+            {expanded && <span>Свернуть меню</span>}
+          </button>
+          <button
+            type="button"
+            className={cn(styles.themeToggler, { [styles.expanded]: expanded })}
+            onClick={toggleTheme}
+          >
+            <Icon type="theme-toggle" size="medium" />
+            {expanded && (
+              <span>{theme === Theme.LIGHT ? 'Тёмная' : 'Светлая'} тема</span>
+            )}
           </button>
         </nav>
         <div>
