@@ -15,7 +15,7 @@
 .logo {
   padding: 12px;
   height: 168px;
-  color: var(--color-accent-primary);
+  fill: var(--color-accent-primary);
   min-width: 96px;
 
   &Link {
@@ -96,13 +96,12 @@
     z-index: var(--z-index-menu);
     width: 100vw !important;
     min-width: var(--min-width);
-    left: -1000px;
-    transition: left 0.3s;
+    display: none;
 
     &Mobile {
       display: flex;
       height: var(--header-height);
-      background-color: var(--color-primary-white);
+      background-color: var(--bg-color-primary);
       padding-left: 4px;
     }
   }
@@ -126,8 +125,13 @@
   }
 
   .show {
-    left: 0;
-    transition: left 0.3s;
+    display: flex;
+    animation: slide-in 0.3s both;
+  }
+
+  .hide {
+    display: flex;
+    animation: slide-out 0.3s both;
   }
 
   .nav {
@@ -137,6 +141,27 @@
   .authLink {
     margin: unset;
     width: 100% !important;
+    min-width: 24px;
+  }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateX(-1000px);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-out {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-1000px);
+    }
   }
 }
 

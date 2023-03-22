@@ -46,6 +46,7 @@
 .u-container {
   max-width: 1440px;
   margin: 0 auto;
+  min-width: var(--min-width);
 }
 
 /* Кастомная стилизация свайпера */
@@ -72,10 +73,8 @@ body .swiper .swiper-pagination-bullet-active {
 }
 
 @media (max-width: 450px) {
-  .u-fancy-scrollbar {
-    &::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
-    }
+  .u-fancy-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
 }

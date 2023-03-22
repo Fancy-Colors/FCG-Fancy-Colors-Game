@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './side-menu.module.pcss';
 import cn from 'classnames';
 import { NavigationLink } from 'components/navigation-link';
@@ -18,59 +18,60 @@ import { ErrorBoundary } from 'utils/error-boundary';
 
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
+  const { toggleTheme, theme } = useTheme();
+  const location = useLocation();
+
+  const menuMain = useRef<HTMLElement>(null);
 
   const [expanded, setExpanded] = useState(true);
-  const { toggleTheme, theme } = useTheme();
-
-  const location = useLocation();
   const [path, setPath] = useState(location.pathname);
 
   const handleMenuOpen = useCallback(() => {
-    if (window.innerWidth > 500) setExpanded(!expanded);
-    else {
-      const menuMain = document.querySelector('#app-menu-main');
-
+    if (window.innerWidth > 500) {
+      setExpanded(!expanded);
+    } else {
       setExpanded(expanded);
-      menuMain?.classList.toggle(styles.show);
+      if (menuMain.current?.classList.contains(styles.show)) {
+        menuMain.current?.classList.add(styles.hide);
+        menuMain.current?.classList.remove(styles.show);
+      } else {
+        menuMain.current?.classList.add(styles.show);
+        menuMain.current?.classList.remove(styles.hide);
+      }
     }
   }, [expanded]);
 
   useEffect(() => {
     if (path !== location.pathname) {
-      handleMenuOpen();
+      menuMain.current?.classList.add(styles.hide);
+      menuMain.current?.classList.remove(styles.show);
       setPath(location.pathname);
     }
-  }, [handleMenuOpen, location, path]);
+  }, [location, path]);
 
   useEffect(() => {
-    if (
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-        navigator.userAgent
-      )
-    ) {
-      window.addEventListener('load', handleSizeWindow);
+    handleSizeWindow();
+    const devices =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
 
-      return () => {
-        window.removeEventListener('load', handleSizeWindow);
-      };
-    } else {
-      window.addEventListener('load', handleSizeWindow);
+    if (!devices.test(navigator.userAgent)) {
       window.addEventListener('resize', handleSizeWindow);
 
       return () => {
-        window.removeEventListener('load', handleSizeWindow);
         window.removeEventListener('resize', handleSizeWindow);
       };
     }
 
     function handleSizeWindow() {
-      if (window.innerWidth >= 500 && window.innerWidth < 1024)
+      if (window.innerWidth >= 500 && window.innerWidth < 1024) {
         setExpanded(false);
-      else setExpanded(true);
-
-      if (window.innerWidth < 500) setExpanded(true);
+      } else if (window.innerWidth < 500) {
+        setExpanded(true);
+      } else {
+        setExpanded(true);
+      }
     }
-  });
+  }, []);
 
   return (
     <>
@@ -89,7 +90,7 @@ export const SideMenu: FC = () => {
         </Button>
       </section>
       <section
-        id="app-menu-main"
+        ref={menuMain}
         className={cn(styles.sideMenu, {
           ['w-4']: expanded,
           ['w-1']: !expanded,
