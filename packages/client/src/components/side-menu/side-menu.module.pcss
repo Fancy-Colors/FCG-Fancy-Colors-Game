@@ -6,10 +6,6 @@
   align-items: center;
   color: var(--text-color-primary);
   background-color: var(--bg-color-primary);
-
-  &Mobile {
-    display: none;
-  }
 }
 
 .logo {
@@ -96,14 +92,8 @@
     z-index: var(--z-index-menu);
     width: 100vw !important;
     min-width: var(--min-width);
-    display: none;
-
-    &Mobile {
-      display: flex;
-      height: var(--header-height);
-      background-color: var(--bg-color-primary);
-      padding-left: 4px;
-    }
+    transform: translateX(-100%);
+    transition: transform 0.3s;
   }
 
   .logo {
@@ -115,23 +105,8 @@
     margin: 10px;
   }
 
-  .button {
-    display: flex;
-
-    & svg {
-      width: 30px;
-      height: 30px;
-    }
-  }
-
   .show {
-    display: flex;
-    animation: slide-in 0.3s both;
-  }
-
-  .hide {
-    display: flex;
-    animation: slide-out 0.3s both;
+    transform: translateX(0);
   }
 
   .nav {
@@ -142,26 +117,6 @@
     margin: unset;
     width: 100% !important;
     min-width: 24px;
-  }
-
-  @keyframes slide-in {
-    0% {
-      transform: translateX(-1000px);
-    }
-
-    100% {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes slide-out {
-    0% {
-      transform: translateX(0);
-    }
-
-    100% {
-      transform: translateX(-1000px);
-    }
   }
 }
 

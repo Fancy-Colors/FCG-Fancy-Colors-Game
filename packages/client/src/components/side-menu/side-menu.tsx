@@ -1,29 +1,27 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import styles from './side-menu.module.pcss';
-import cn from 'classnames';
-import { NavigationLink } from 'components/navigation-link';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ProfileLink } from 'components/profile-link';
-import { Footer } from 'components/footer';
+import cn from 'classnames';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
-import { RouterPaths } from 'src/app.types';
-import { useAuth } from 'components/hooks/use-auth';
-import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
-import { useTheme } from 'components/hooks';
+import { useAuth, useTheme } from 'components/hooks';
 import { Theme } from 'components/hooks/use-theme';
-import { Button, ButtonColor } from 'components/button';
+import { NavigationLink } from 'components/navigation-link';
+import { ProfileLink } from 'components/profile-link';
+import { Footer } from 'components/footer';
+import { BurgerMenu } from 'components/burger-menu';
 import { ErrorBoundary } from 'utils/error-boundary';
+import { RouterPaths } from 'src/app.types';
+import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
+import styles from './side-menu.module.pcss';
 
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
   const { toggleTheme, theme } = useTheme();
   const location = useLocation();
 
-  const menuMain = useRef<HTMLElement>(null);
-
   const [expanded, setExpanded] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [path, setPath] = useState(location.pathname);
 
   const handleMenuOpen = useCallback(() => {
@@ -31,20 +29,13 @@ export const SideMenu: FC = () => {
       setExpanded(!expanded);
     } else {
       setExpanded(expanded);
-      if (menuMain.current?.classList.contains(styles.show)) {
-        menuMain.current?.classList.add(styles.hide);
-        menuMain.current?.classList.remove(styles.show);
-      } else {
-        menuMain.current?.classList.add(styles.show);
-        menuMain.current?.classList.remove(styles.hide);
-      }
+      setIsVisible(!isVisible);
     }
-  }, [expanded]);
+  }, [expanded, isVisible]);
 
   useEffect(() => {
     if (path !== location.pathname) {
-      menuMain.current?.classList.add(styles.hide);
-      menuMain.current?.classList.remove(styles.show);
+      setIsVisible(false);
       setPath(location.pathname);
     }
   }, [location, path]);
@@ -75,23 +66,9 @@ export const SideMenu: FC = () => {
 
   return (
     <>
-      <section className={cn(styles.sideMenuMobile, 'w-12')}>
-        <Button
-          size="small"
-          color={ButtonColor.ICON}
-          classNameContent={styles.button}
-          onClick={handleMenuOpen}
-        >
-          <Icon
-            type="burger"
-            size="small"
-            color="var(--color-accent-primary)"
-          />
-        </Button>
-      </section>
+      <BurgerMenu onClick={handleMenuOpen} />
       <section
-        ref={menuMain}
-        className={cn(styles.sideMenu, {
+        className={cn(styles.sideMenu, isVisible && styles.show, {
           ['w-4']: expanded,
           ['w-1']: !expanded,
         })}
