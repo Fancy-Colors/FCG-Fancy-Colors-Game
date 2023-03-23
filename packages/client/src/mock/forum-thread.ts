@@ -1,9 +1,11 @@
 import { ForumMessageProps } from 'components/forum-message/forum-message';
 
 export const thread: {
+  id: string | number;
   title: string;
   messages: Omit<ForumMessageProps, 'handleReply'>[];
 } = {
+  id: 1,
   title: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
   messages: [
     {
