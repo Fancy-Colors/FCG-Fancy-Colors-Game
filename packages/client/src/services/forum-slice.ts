@@ -55,10 +55,7 @@ export const forumSlice = createSlice({
         data: ForumItem[];
       }>
     ) => {
-      state.forum = {
-        ...state.forum,
-        [action.payload.page]: action.payload.data,
-      };
+      state.forum[action.payload.page] = action.payload.data;
     },
     setThread: (
       state,
