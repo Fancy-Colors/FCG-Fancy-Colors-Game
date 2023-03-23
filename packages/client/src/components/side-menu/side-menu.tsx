@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { ReactComponent as LogoNarrow } from 'assets/logo-narrow.svg';
 import { Icon } from 'components/icon';
-import { useAuth, useTheme } from 'components/hooks';
+import { useAuth, useTheme, useWindowSize } from 'components/hooks';
 import { Theme } from 'components/hooks/use-theme';
 import { NavigationLink } from 'components/navigation-link';
 import { ProfileLink } from 'components/profile-link';
@@ -18,6 +18,7 @@ import styles from './side-menu.module.pcss';
 export const SideMenu: FC = () => {
   const { logout, user } = useAuth();
   const { toggleTheme, theme } = useTheme();
+  const { width } = useWindowSize();
   const location = useLocation();
 
   const [expanded, setExpanded] = useState(true);
@@ -25,13 +26,13 @@ export const SideMenu: FC = () => {
   const [path, setPath] = useState(location.pathname);
 
   const handleMenuOpen = useCallback(() => {
-    if (window.innerWidth > 500) {
+    if (width > 500) {
       setExpanded(!expanded);
     } else {
-      setExpanded(expanded);
+      setExpanded(true);
       setIsVisible(!isVisible);
     }
-  }, [expanded, isVisible]);
+  }, [expanded, isVisible, width]);
 
   useEffect(() => {
     if (path !== location.pathname) {
@@ -41,28 +42,14 @@ export const SideMenu: FC = () => {
   }, [location, path]);
 
   useEffect(() => {
-    handleSizeWindow();
-    const devices =
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-
-    if (!devices.test(navigator.userAgent)) {
-      window.addEventListener('resize', handleSizeWindow);
-
-      return () => {
-        window.removeEventListener('resize', handleSizeWindow);
-      };
+    if (width >= 500 && width < 1024) {
+      setExpanded(false);
+    } else if (width < 500) {
+      setExpanded(true);
+    } else {
+      setExpanded(true);
     }
-
-    function handleSizeWindow() {
-      if (window.innerWidth >= 500 && window.innerWidth < 1024) {
-        setExpanded(false);
-      } else if (window.innerWidth < 500) {
-        setExpanded(true);
-      } else {
-        setExpanded(true);
-      }
-    }
-  }, []);
+  }, [width]);
 
   return (
     <>
