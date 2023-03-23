@@ -23,7 +23,6 @@ export const SideMenu: FC = () => {
 
   const [expanded, setExpanded] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const [path, setPath] = useState(location.pathname);
 
   const handleMenuOpen = useCallback(() => {
     if (width > 500) {
@@ -35,11 +34,8 @@ export const SideMenu: FC = () => {
   }, [expanded, isVisible, width]);
 
   useEffect(() => {
-    if (path !== location.pathname) {
-      setIsVisible(false);
-      setPath(location.pathname);
-    }
-  }, [location, path]);
+    setIsVisible(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (width >= 500 && width < 1024) {
