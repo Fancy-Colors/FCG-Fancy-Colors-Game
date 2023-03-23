@@ -69,9 +69,7 @@ export const forumSlice = createSlice({
       }>
     ) => {
       state.threads = {
-        ...state.threads,
         [action.payload.threadId]: {
-          ...state.threads[action.payload.threadId],
           [action.payload.page]: action.payload.data,
         },
       };
