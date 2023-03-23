@@ -4,14 +4,18 @@ import { ForumMessage } from 'components/forum-message';
 import styles from './forum-thread.module.pcss';
 import { Icon } from 'components/icon';
 import { Pagination } from 'components/pagination';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { fetchThread } from 'src/actions/forum';
+import { setCurrentThreadPage } from 'src/services/forum-slice';
 
 export const ForumThread = () => {
-  const [page, setPage] = useState(1);
-  const { threads, count } = useAppSelector((state) => state.forum);
+  const {
+    threads,
+    count,
+    currentThreadPage: page,
+  } = useAppSelector((state) => state.forum);
   const dispatch = useAppDispatch();
   const { id: threadId } = useParams();
 
@@ -25,13 +29,17 @@ export const ForumThread = () => {
     }
   }, [page, threadId, dispatch, threads]);
 
+  useEffect(() => {
+    dispatch(setCurrentThreadPage({ page: 1 }));
+  }, [threadId, dispatch]);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onClickReply = (id: number) => {
     //console.log(id)
   };
 
   const handlePageChange = (num: number) => {
-    setPage(num);
+    dispatch(setCurrentThreadPage({ page: num }));
   };
 
   return (
