@@ -68,13 +68,14 @@ export const forumSlice = createSlice({
         data: Thread;
       }>
     ) => {
-      state.threads = {
-        ...state.threads,
-        [action.payload.threadId]: {
-          ...state.threads[action.payload.threadId],
+      if (state.threads[action.payload.threadId]) {
+        state.threads[action.payload.threadId][action.payload.page] =
+          action.payload.data;
+      } else {
+        state.threads[action.payload.threadId] = {
           [action.payload.page]: action.payload.data,
-        },
-      };
+        };
+      }
     },
   },
 });
