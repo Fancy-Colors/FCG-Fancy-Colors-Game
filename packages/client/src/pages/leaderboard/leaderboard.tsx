@@ -2,42 +2,29 @@ import { useEffect } from 'react';
 import cn from 'classnames';
 import { Leader } from 'components/leader';
 import { useAppDispatch, useAppSelector, useAuth } from 'components/hooks';
-import { /*setUser,*/ getLeaderboard } from 'src/actions';
-import { TLeader, FILTERED_LEADERS } from 'src/mock/leaders';
+import { /* setUser,*/ getLeaderboard, getPlayers } from 'src/actions';
 import styles from './leaderboard.module.pcss';
-// import { leaderboardApi, LeaderboardApi } from 'api/leaderboard';
-
-const CURRENT_USER_LOGIN = 'user_login';
 
 // TODO как то обрабатывать если количество очков равное у нескольких игроков
 
 export const Leaderboard = () => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
-  const { leaderboard } = useAppSelector((state) => state.leaderboard);
+  const { leaderboard, players } = useAppSelector((state) => state.leaderboard);
 
   useEffect(() => {
     dispatch(getLeaderboard());
   }, [dispatch]);
 
-  // может перенести в экшены
-  // поиск юзера в списке для вывода его в таблицу, плюс для подсчета очков перед отправкой
-  // const searchUser = async () => {
-  //   const limit = 100;
-  //   const cursor = limit - 100;
-  //   const a = await leaderboardApi.getLeaders({
-  //     ratingFieldName: 'score',
-  //     cursor,
-  //     limit,
-  //   });
-  //   console.log(a)
-  //   a.filter((el, index) => {
-  //     if (el.data.id === user?.id) {
-  //       console.log(user?.id)
-  //       console.log(index)
-  //     }
-  //   })
-  // }
+  useEffect(() => {
+    if (user) {
+      const player = leaderboard.find((el) => el.data.id === user?.id);
+      if (!player) {
+        // поиск юзера в списке для вывода его в таблицу, плюс для подсчета очков перед отправкой
+        dispatch(getPlayers(user?.id));
+      }
+    }
+  }, [dispatch, leaderboard, user]);
 
   return (
     <div className={cn(styles.leaderboard, 'u-page', 'u-fancy-scrollbar')}>
@@ -90,19 +77,22 @@ export const Leaderboard = () => {
         })}
       </div>
       <div className={styles.leadersList}>
-        {FILTERED_LEADERS.map((leader: TLeader, key: number) => {
+        {players.map((leader) => {
           return (
             <Leader
-              {...leader}
               size="row"
-              key={key}
-              active={leader.login === CURRENT_USER_LOGIN}
+              key={leader.id}
+              login={leader.login}
+              name={`${leader.name} ${leader.surname}`}
+              score={leader.score}
+              avatar={leader.avatar}
+              place={leader.place}
+              active={leader.id === user?.id}
             />
           );
         })}
       </div>
-      {/* <button onClick={() => dispatch(setUser(user?.id, user?.login, 7, user?.avatar, user?.firstName, user?.secondName))}>добавить пользователя</button>
-      <button onClick={() => searchUser()}>все игроки</button> */}
+      {/* <button onClick={() => dispatch(setUser(user?.id, user?.login, 7, user?.avatar, user?.firstName, user?.secondName))}>добавить пользователя</button> */}
     </div>
   );
 };

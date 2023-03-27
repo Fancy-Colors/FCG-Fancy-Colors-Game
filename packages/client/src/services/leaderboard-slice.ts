@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserParams } from '../api/leaderboard';
+import { UserParams, PlayerData } from '../api/leaderboard';
 
-type UserData = {
-  data: UserParams;
-};
+type FilteredUsers = {
+  place: number;
+} & UserParams;
 
 type State = {
-  leaderboard: Array<UserData>;
+  leaderboard: Array<PlayerData>;
+  players: Array<FilteredUsers>;
 };
 
 // user score?
 const initialState: State = {
   leaderboard: [],
+  players: [],
 };
 
 export const leadersSlice = createSlice({
@@ -21,9 +23,12 @@ export const leadersSlice = createSlice({
     setLeaderboard: (state, { payload }) => {
       state.leaderboard = payload;
     },
+    setPlayers: (state, { payload }) => {
+      state.players = payload;
+    },
   },
 });
 
-export const { setLeaderboard } = leadersSlice.actions;
+export const { setLeaderboard, setPlayers } = leadersSlice.actions;
 
 export default leadersSlice.reducer;

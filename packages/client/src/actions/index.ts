@@ -1,2 +1,2 @@
 export { fetchForumPage } from './forum';
-export { getLeaderboard, setUser } from './leaderboard';
+export { getLeaderboard, setUser, getPlayers } from './leaderboard';

@@ -21,6 +21,11 @@ type LeadersReq = {
   limit: number;
 };
 
+export type PlayerData = {
+  data: UserParams;
+};
+
+// для продакшена сделать другое название
 const TEAM_NAME = 'test_colors';
 
 export class LeaderboardApi extends BaseApi {
@@ -29,7 +34,9 @@ export class LeaderboardApi extends BaseApi {
   }
 
   getLeaders(payload: LeadersReq) {
-    return this.http.post<void | APIError>(`/${TEAM_NAME}`, { data: payload });
+    return this.http.post<Array<PlayerData> | APIError>(`/${TEAM_NAME}`, {
+      data: payload,
+    });
   }
 
   setUser(payload: UserParams) {
