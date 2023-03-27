@@ -229,6 +229,7 @@ export const GameView: FC<{
               ref={canvasRef}
               width={size}
               height={size}
+              className={styles.canvas}
             />
           </div>
         </div>

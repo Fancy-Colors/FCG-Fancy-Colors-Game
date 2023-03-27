@@ -1,4 +1,5 @@
 import styles from './score.module.pcss';
+import cn from 'classnames';
 import { Icon } from 'components/icon';
 
 type ScoreProps = {
@@ -17,7 +18,7 @@ export const Score = ({ score }: ScoreProps) => {
     ''
   );
   return (
-    <div className={styles.score}>
+    <div className={cn(styles.score, 'text-main-bold')}>
       <Icon type="star" size="small" />
       {scoreString}
     </div>

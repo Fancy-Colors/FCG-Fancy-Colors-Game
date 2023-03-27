@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
 import { Leader } from 'components/leader';
+import { ErrorBoundary } from 'utils/error-boundary';
 import { useAppDispatch, useAppSelector, useAuth } from 'components/hooks';
 import { /* setUser,*/ getLeaderboard, getPlayers } from 'src/actions';
 import styles from './leaderboard.module.pcss';
@@ -27,72 +28,80 @@ export const Leaderboard = () => {
   }, [dispatch, leaderboard, user]);
 
   return (
-    <div className={cn(styles.leaderboard, 'u-page', 'u-fancy-scrollbar')}>
-      <div className={styles.topLeaders}>
-        {leaderboard.length > 1 && (
-          <Leader
-            place={2}
-            login={leaderboard[1].data.login}
-            name={`${leaderboard[1].data.name} ${leaderboard[1].data.surname}`}
-            score={leaderboard[1].data.score}
-            avatar={leaderboard[1].data.avatar}
-            size="small"
-          />
-        )}
-        {leaderboard.length > 0 && (
-          <Leader
-            place={1}
-            login={leaderboard[0].data.login}
-            name={`${leaderboard[0].data.name} ${leaderboard[0].data.surname}`}
-            score={leaderboard[0].data.score}
-            avatar={leaderboard[0].data.avatar}
-            size="medium"
-          />
-        )}
-        {leaderboard.length > 2 && (
-          <Leader
-            place={3}
-            login={leaderboard[2].data.login}
-            name={`${leaderboard[2].data.name} ${leaderboard[2].data.surname}`}
-            score={leaderboard[2].data.score}
-            avatar={leaderboard[2].data.avatar}
-            size="small"
-          />
-        )}
+    <section className={cn(styles.container, 'u-page')}>
+      <div className={cn(styles.leaderboard, 'u-fancy-scrollbar')}>
+        <div className={cn(styles.content)}>
+          <div className={styles.topLeaders}>
+            <ErrorBoundary>
+              {leaderboard.length > 1 && (
+                <Leader
+                  place={2}
+                  login={leaderboard[1].data.login}
+                  name={`${leaderboard[1].data.name} ${leaderboard[1].data.surname}`}
+                  score={leaderboard[1].data.score}
+                  avatar={leaderboard[1].data.avatar}
+                  size="small"
+                />
+              )}
+              {leaderboard.length > 0 && (
+                <Leader
+                  place={1}
+                  login={leaderboard[0].data.login}
+                  name={`${leaderboard[0].data.name} ${leaderboard[0].data.surname}`}
+                  score={leaderboard[0].data.score}
+                  avatar={leaderboard[0].data.avatar}
+                  size="medium"
+                />
+              )}
+              {leaderboard.length > 2 && (
+                <Leader
+                  place={3}
+                  login={leaderboard[2].data.login}
+                  name={`${leaderboard[2].data.name} ${leaderboard[2].data.surname}`}
+                  score={leaderboard[2].data.score}
+                  avatar={leaderboard[2].data.avatar}
+                  size="small"
+                />
+              )}
+            </ErrorBoundary>
+          </div>
+          <div className={styles.leadersList}>
+            {leaderboard.slice(3).map((leader, index) => {
+              return (
+                <ErrorBoundary key={leader.data.id}>
+                  <Leader
+                    size="row"
+                    login={leader.data.login}
+                    name={`${leader.data.name} ${leader.data.surname}`}
+                    score={leader.data.score}
+                    avatar={leader.data.avatar}
+                    active={leader.data.id === user?.id}
+                    place={index + 4}
+                  />
+                </ErrorBoundary>
+              );
+            })}
+          </div>
+          <div className={styles.leadersList}>
+            {players.map((leader) => {
+              return (
+                <ErrorBoundary key={leader.id}>
+                  <Leader
+                    size="row"
+                    login={leader.login}
+                    name={`${leader.name} ${leader.surname}`}
+                    score={leader.score}
+                    avatar={leader.avatar}
+                    place={leader.place}
+                    active={leader.id === user?.id}
+                  />
+                </ErrorBoundary>
+              );
+            })}
+          </div>
+          {/* <button onClick={() => dispatch(setUser(user?.id, user?.login, 7, user?.avatar, user?.firstName, user?.secondName))}>добавить пользователя</button> */}
+        </div>
       </div>
-      <div className={styles.leadersList}>
-        {leaderboard.slice(3).map((leader, index) => {
-          return (
-            <Leader
-              size="row"
-              key={leader.data.id}
-              login={leader.data.login}
-              name={`${leader.data.name} ${leader.data.surname}`}
-              score={leader.data.score}
-              avatar={leader.data.avatar}
-              active={leader.data.id === user?.id}
-              place={index + 4}
-            />
-          );
-        })}
-      </div>
-      <div className={styles.leadersList}>
-        {players.map((leader) => {
-          return (
-            <Leader
-              size="row"
-              key={leader.id}
-              login={leader.login}
-              name={`${leader.name} ${leader.surname}`}
-              score={leader.score}
-              avatar={leader.avatar}
-              place={leader.place}
-              active={leader.id === user?.id}
-            />
-          );
-        })}
-      </div>
-      {/* <button onClick={() => dispatch(setUser(user?.id, user?.login, 7, user?.avatar, user?.firstName, user?.secondName))}>добавить пользователя</button> */}
-    </div>
+    </section>
   );
 };

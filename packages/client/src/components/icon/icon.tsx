@@ -18,6 +18,7 @@ import { ReactComponent as TelegramIcon } from 'assets/icons/telegram.svg';
 import { ReactComponent as StarIcon } from 'assets/icons/star.svg';
 import { ReactComponent as UserIcon } from 'assets/icons/user.svg';
 import { ReactComponent as ThemeToggleIcon } from 'assets/icons/theme-toggle.svg';
+import { ReactComponent as BurgerIcon } from 'assets/icons/burger.svg';
 
 type Props = {
   type: IconType;
@@ -63,6 +64,8 @@ export const Icon: FC<Props> = ({ type, size, color = 'currentColor' }) => {
       return <UserIcon className={styles[size]} fill={color} />;
     case 'theme-toggle':
       return <ThemeToggleIcon className={styles[size]} fill={color} />;
+    case 'burger':
+      return <BurgerIcon className={styles[size]} fill={color} />;
 
     default:
       return <span>NO ICON</span>;

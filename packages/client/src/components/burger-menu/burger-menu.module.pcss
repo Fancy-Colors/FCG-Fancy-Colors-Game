@@ -1,0 +1,21 @@
+.burgerMenu {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .burgerMenu {
+    display: flex;
+    height: var(--header-height);
+    background-color: var(--bg-color-primary);
+    padding-left: 4px;
+  }
+
+  .button {
+    display: flex;
+
+    & svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

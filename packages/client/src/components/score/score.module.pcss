@@ -1,7 +1,4 @@
 .score {
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -9,5 +6,12 @@
 
   svg {
     margin-right: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .score svg {
+    width: 16px;
+    height: 16px;
   }
 }

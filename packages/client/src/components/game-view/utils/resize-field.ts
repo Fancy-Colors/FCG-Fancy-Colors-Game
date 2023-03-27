@@ -22,9 +22,6 @@ export const resizeField = (
   resizable.style.transform = `scale(${scale})`;
 
   if (colorPickerElement) {
-    colorPickerElement.style.setProperty(
-      '--max-height',
-      `${width - STANDART_GAP}px`
-    );
+    colorPickerElement.style.setProperty('--max-height', `${availableWidth}px`);
   }
 };
