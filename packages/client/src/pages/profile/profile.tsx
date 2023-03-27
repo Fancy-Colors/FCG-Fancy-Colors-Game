@@ -84,9 +84,7 @@ const ProfileForm = () => {
         <div className={styles.row}>
           <div className={styles.column}>
             <div className={styles.avatar}>
-              <ErrorBoundary>
-                <Avatar avatar={avatar} size="large" name={user!.login} />
-              </ErrorBoundary>
+              <Avatar avatar={avatar} size="large" name={user!.login} />
             </div>
           </div>
           <div className={styles.column}>
@@ -103,68 +101,56 @@ const ProfileForm = () => {
         <h3 className={styles.title}>Изменить данные</h3>
         <div className={styles.row}>
           <div className={styles.column}>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Почта"
-                error={errors.email?.message}
-                {...register('email', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validateEmail,
-                })}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Имя"
-                error={errors.firstName?.message}
-                {...register('firstName', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validateName,
-                })}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Фамилия"
-                error={errors.secondName?.message}
-                {...register('secondName', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validateName,
-                })}
-              />
-            </ErrorBoundary>
+            <TextField
+              placeholder="Почта"
+              error={errors.email?.message}
+              {...register('email', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validateEmail,
+              })}
+            />
+            <TextField
+              placeholder="Имя"
+              error={errors.firstName?.message}
+              {...register('firstName', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validateName,
+              })}
+            />
+            <TextField
+              placeholder="Фамилия"
+              error={errors.secondName?.message}
+              {...register('secondName', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validateName,
+              })}
+            />
           </div>
           <div className={styles.column}>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Логин"
-                error={errors.login?.message}
-                {...register('login', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validateLogin,
-                })}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Никнейм"
-                error={errors.displayName?.message}
-                {...register('displayName', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validateLogin,
-                })}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <TextField
-                placeholder="Телефон"
-                error={errors.phone?.message}
-                {...register('phone', {
-                  required: { value: true, message: requiredFieldMessage },
-                  validate: validatePhone,
-                })}
-              />
-            </ErrorBoundary>
+            <TextField
+              placeholder="Логин"
+              error={errors.login?.message}
+              {...register('login', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validateLogin,
+              })}
+            />
+            <TextField
+              placeholder="Никнейм"
+              error={errors.displayName?.message}
+              {...register('displayName', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validateLogin,
+              })}
+            />
+            <TextField
+              placeholder="Телефон"
+              error={errors.phone?.message}
+              {...register('phone', {
+                required: { value: true, message: requiredFieldMessage },
+                validate: validatePhone,
+              })}
+            />
             <Button disabled={!isDirty} type="submit" className={styles.submit}>
               Сохранить
             </Button>
@@ -264,8 +250,12 @@ export const Profile = () => {
   return (
     <div className={cn(styles.profile, 'u-page')}>
       <div className={cn(styles.container, width < 769 && 'u-fancy-scrollbar')}>
-        <ProfileForm />
-        <PasswordForm />
+        <ErrorBoundary>
+          <ProfileForm />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <PasswordForm />
+        </ErrorBoundary>
       </div>
     </div>
   );
