@@ -40,11 +40,13 @@
   border-radius: 12px;
   width: 100%;
   max-height: calc(100vh - 48px);
+  height: 100%;
 }
 
 .u-container {
   max-width: 1440px;
   margin: 0 auto;
+  min-width: var(--min-width);
 }
 
 /* Кастомная стилизация свайпера */
@@ -68,4 +70,11 @@ body .swiper .swiper-pagination-bullet {
 body .swiper .swiper-pagination-bullet-active {
   background: var(--bg-color-secondary, #f5f8fa);
   opacity: 1;
+}
+
+@media (max-width: 450px) {
+  .u-fancy-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
 }

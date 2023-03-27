@@ -11,13 +11,18 @@
 .logo {
   padding: 12px;
   height: 168px;
-  color: var(--color-accent-primary);
+  fill: var(--color-accent-primary);
+  min-width: 96px;
+
+  &Link {
+    align-self: center;
+  }
 }
 
 .nav {
   display: flex;
   flex-flow: column;
-  gap: 24px;
+  gap: var(--gap);
 }
 
 .textMenu {
@@ -73,4 +78,59 @@
   text-align: start;
   display: block;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .sideMenu {
+    min-width: 98px;
+  }
+}
+
+@media (max-width: 500px) {
+  .sideMenu {
+    position: absolute;
+    z-index: var(--z-index-menu);
+    width: 100vw !important;
+    min-width: var(--min-width);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .logo {
+    margin-top: 14px;
+    height: 90px;
+  }
+
+  .howToText {
+    margin: 10px;
+  }
+
+  .show {
+    transform: translateX(0);
+  }
+
+  .nav {
+    width: calc(100vw - var(--gap) * 2) !important;
+  }
+
+  .authLink {
+    margin: unset;
+    width: 100% !important;
+    min-width: 24px;
+  }
+}
+
+@media (max-height: 930px) {
+  .logo {
+    margin-top: 14px;
+    height: 90px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .howToText {
+    margin: 10px;
+  }
 }
