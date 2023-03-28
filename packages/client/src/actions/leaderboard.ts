@@ -1,62 +1,38 @@
 import { leaderboardApi, PlayerData } from '../api/leaderboard';
-import { setLeaderboard, setPlayers } from '../services/leaderboard-slice';
+import {
+  setFilteredPlayers,
+  setLeaderboard,
+  setPlayer,
+} from '../services/leaderboard-slice';
 import { AppDispatch } from 'src/store';
 
 type Obj = {
   [key: number]: PlayerData;
 };
 
-export const getLeaderboard =
-  (limit = 10, cursor = 0) =>
-  async (dispatch: AppDispatch) => {
-    try {
-      const leaders = await leaderboardApi.getLeaders({
-        ratingFieldName: 'score',
-        cursor,
-        limit,
-      });
+export const getLeaderboard = () => async (dispatch: AppDispatch) => {
+  try {
+    const leaders = await leaderboardApi.getLeaders({
+      ratingFieldName: 'score',
+      cursor: 0,
+      limit: 10,
+    });
 
-      dispatch(setLeaderboard(leaders));
-    } catch (error) {
-      throw new Error('Не удалось получить список');
-    }
-  };
+    dispatch(setLeaderboard(leaders));
+  } catch (error) {
+    throw new Error('Не удалось получить список');
+  }
+};
 
-// ?? можно ли передать параметрам UserParams из api, а не указывать для каждого отдельно
-export const setUser =
-  (
-    id: number,
-    login: string,
-    score: number,
-    avatar: string,
-    name: string,
-    surname: string
-  ) =>
-  async (dispatch: AppDispatch) => {
-    try {
-      await leaderboardApi.setUser({
-        id,
-        login,
-        score,
-        avatar,
-        name,
-        surname,
-      });
-    } catch (error) {
-      throw new Error('Не удалось добавить игрока ');
-    } finally {
-      dispatch(getLeaderboard());
-    }
-  };
-
-export const getPlayers =
-  (id: number, limit = 100, cursor = 0) =>
-  async (dispatch: AppDispatch) => {
+// сейчас сделано, что бы запрашивалось 200 игроков
+// если когда нибудь количество игроков будет приближаться к 200, то можно будет переписать
+export const getFilteredPlayers =
+  (id: number) => async (dispatch: AppDispatch) => {
     try {
       const leaders: Obj = await leaderboardApi.getLeaders({
         ratingFieldName: 'score',
-        cursor,
-        limit,
+        cursor: 0,
+        limit: 200,
       });
 
       const player = (i: number) => {
@@ -74,24 +50,41 @@ export const getPlayers =
       };
 
       const players = [];
+      const arrLength = (leaders as Array<PlayerData>).length;
 
-      if (leaders) {
-        const arrLength = (leaders as Array<PlayerData>).length;
+      for (let i = 0; i < arrLength; i++) {
+        if (leaders[i].data.id === id) {
+          players.push(player(i - 1));
+          players.push(player(i));
 
-        for (let i = 0; i < arrLength; i++) {
-          if (leaders[i].data.id === id) {
-            players.push(player(i - 1));
-            players.push(player(i));
-
-            if (i !== arrLength - 1) {
-              players.push(player(i + 1));
-            }
+          if (i !== arrLength - 1) {
+            players.push(player(i + 1));
           }
         }
       }
 
-      dispatch(setPlayers(players));
+      dispatch(setFilteredPlayers(players));
     } catch (error) {
       throw new Error('Не удалось получить список');
     }
   };
+
+export const getPlayer = (id: number) => async (dispatch: AppDispatch) => {
+  try {
+    const leaders = await leaderboardApi.getLeaders({
+      ratingFieldName: 'score',
+      cursor: 0,
+      limit: 200,
+    });
+
+    const player = (leaders as Array<PlayerData>).find(
+      (el) => el.data.id === id
+    );
+
+    if (player) {
+      dispatch(setPlayer(player));
+    }
+  } catch (error) {
+    throw new Error('Не удалось получить игрока');
+  }
+};

@@ -10,8 +10,9 @@ import {
   renderPath,
   calcPoints,
 } from './utils';
-import { useAppDispatch } from 'components/hooks';
+import { useAppDispatch, useAuth } from 'components/hooks';
 import { setGameCompleted } from 'src/services/game-slice';
+import { getPlayer } from 'src/actions';
 
 // основная функция рисования
 const draw = (
@@ -34,6 +35,7 @@ export const GameView: FC<{
   gameId?: string;
 }> = ({ initColors, size, initGameData }) => {
   const dispatch = useAppDispatch();
+  const { user } = useAuth();
 
   const [gameData, setGameData] = useState(initGameData);
   const [colors, setColors] = useState(initColors);
@@ -116,6 +118,7 @@ export const GameView: FC<{
   // проверяем не закончена ли игра
   useEffect(() => {
     if (gameData.paths.every((i) => i.completed)) {
+      dispatch(getPlayer(user?.id as number));
       dispatch(
         setGameCompleted({
           movesHistory,

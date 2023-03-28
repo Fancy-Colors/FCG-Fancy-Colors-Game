@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Leader } from 'components/leader';
 import { ErrorBoundary } from 'utils/error-boundary';
 import { useAppDispatch, useAppSelector, useAuth } from 'components/hooks';
-import { /* setUser,*/ getLeaderboard, getPlayers } from 'src/actions';
+import { getLeaderboard, getFilteredPlayers } from 'src/actions';
 import styles from './leaderboard.module.pcss';
 
 // TODO как то обрабатывать если количество очков равное у нескольких игроков
@@ -11,22 +11,25 @@ import styles from './leaderboard.module.pcss';
 export const Leaderboard = () => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
-  const { leaderboard, players } = useAppSelector((state) => state.leaderboard);
+  const { leaderboard, filteredPlayers } = useAppSelector(
+    (state) => state.leaderboard
+  );
 
   useEffect(() => {
     dispatch(getLeaderboard());
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
+    if (leaderboard.length > 0) {
       const player = leaderboard.find((el) => el.data.id === user?.id);
+
       if (!player) {
-        // поиск юзера в списке для вывода его в таблицу, плюс для подсчета очков перед отправкой
-        dispatch(getPlayers(user?.id));
+        dispatch(getFilteredPlayers(user?.id as number));
       }
     }
-  }, [dispatch, leaderboard, user]);
+  }, [dispatch, leaderboard, user?.id]);
 
+  // TODO переделать верстку на гриды, все едет
   return (
     <section className={cn(styles.container, 'u-page')}>
       <div className={cn(styles.leaderboard, 'u-fancy-scrollbar')}>
@@ -82,24 +85,25 @@ export const Leaderboard = () => {
               );
             })}
           </div>
-          <div className={styles.leadersList}>
-            {players.map((leader) => {
-              return (
-                <ErrorBoundary key={leader.id}>
-                  <Leader
-                    size="row"
-                    login={leader.login}
-                    name={`${leader.name} ${leader.surname}`}
-                    score={leader.score}
-                    avatar={leader.avatar}
-                    place={leader.place}
-                    active={leader.id === user?.id}
-                  />
-                </ErrorBoundary>
-              );
-            })}
-          </div>
-          {/* <button onClick={() => dispatch(setUser(user?.id, user?.login, 7, user?.avatar, user?.firstName, user?.secondName))}>добавить пользователя</button> */}
+          {filteredPlayers && (
+            <div className={styles.leadersList}>
+              {filteredPlayers.map((leader) => {
+                return (
+                  <ErrorBoundary key={leader.id}>
+                    <Leader
+                      size="row"
+                      login={leader.login}
+                      name={leader.name}
+                      score={leader.score}
+                      avatar={leader.avatar}
+                      place={leader.place}
+                      active={leader.id === user?.id}
+                    />
+                  </ErrorBoundary>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>
