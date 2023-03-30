@@ -1,14 +1,11 @@
-import { leaderboardApi, PlayerData } from '../api/leaderboard';
+import { leaderboardApi } from '../api/leaderboard';
 import {
   setFilteredPlayers,
   setLeaderboard,
   setPlayer,
 } from '../services/leaderboard-slice';
 import { AppDispatch } from 'src/store';
-
-type Obj = {
-  [key: number]: PlayerData;
-};
+import { hasApiError } from 'utils/has-api-error';
 
 export const getLeaderboard = () => async (dispatch: AppDispatch) => {
   try {
@@ -17,6 +14,10 @@ export const getLeaderboard = () => async (dispatch: AppDispatch) => {
       cursor: 0,
       limit: 10,
     });
+
+    if (hasApiError(leaders)) {
+      return console.error(leaders.reason);
+    }
 
     dispatch(setLeaderboard(leaders));
   } catch (error) {
@@ -29,11 +30,15 @@ export const getLeaderboard = () => async (dispatch: AppDispatch) => {
 export const getFilteredPlayers =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
-      const leaders: Obj = await leaderboardApi.getLeaders({
+      const leaders = await leaderboardApi.getLeaders({
         ratingFieldName: 'score',
         cursor: 0,
         limit: 200,
       });
+
+      if (hasApiError(leaders)) {
+        return console.error(leaders.reason);
+      }
 
       const player = (i: number) => {
         const playerData = leaders[i];
@@ -50,7 +55,7 @@ export const getFilteredPlayers =
       };
 
       const players = [];
-      const arrLength = (leaders as Array<PlayerData>).length;
+      const arrLength = leaders.length;
 
       for (let i = 0; i < arrLength; i++) {
         if (leaders[i].data.id === id) {
@@ -60,6 +65,8 @@ export const getFilteredPlayers =
           if (i !== arrLength - 1) {
             players.push(player(i + 1));
           }
+
+          break;
         }
       }
 
@@ -77,9 +84,11 @@ export const getPlayer = (id: number) => async (dispatch: AppDispatch) => {
       limit: 200,
     });
 
-    const player = (leaders as Array<PlayerData>).find(
-      (el) => el.data.id === id
-    );
+    if (hasApiError(leaders)) {
+      return console.error(leaders.reason);
+    }
+
+    const player = leaders.find((el) => el.data.id === id);
 
     if (player) {
       dispatch(setPlayer(player));
@@ -88,3 +97,30 @@ export const getPlayer = (id: number) => async (dispatch: AppDispatch) => {
     throw new Error('Не удалось получить игрока');
   }
 };
+
+export const setUserToLeaderboard =
+  (
+    id: number,
+    login: string,
+    score: number,
+    avatar: string,
+    name: string,
+    surname: string
+  ) =>
+  (dispatch: AppDispatch) => {
+    try {
+      leaderboardApi.setUser({
+        id,
+        login,
+        score,
+        avatar,
+        name,
+        surname,
+      });
+    } catch (error) {
+      throw new Error('Не удалось добавить игрока ');
+    } finally {
+      dispatch(setLeaderboard([]));
+      dispatch(setFilteredPlayers([]));
+    }
+  };

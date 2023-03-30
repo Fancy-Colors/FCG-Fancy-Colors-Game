@@ -6,7 +6,7 @@ import { Button } from 'components/button';
 import { useAuth } from 'components/hooks/use-auth';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
-import { leaderboardApi } from 'api/leaderboard';
+import { setUserToLeaderboard } from 'src/actions';
 import styles from './game-view.module.pcss';
 import cn from 'classnames';
 
@@ -40,23 +40,19 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
       }
 
       if (user) {
-        (async () => {
-          try {
-            await leaderboardApi.setUser({
-              id: user.id,
-              login: user.login,
-              score: allPoints,
-              avatar: user.avatar,
-              name: user.firstName,
-              surname: user.secondName,
-            });
-          } catch (error) {
-            throw new Error('Не удалось добавить игрока ');
-          }
-        })();
+        dispatch(
+          setUserToLeaderboard(
+            user.id,
+            user.login,
+            allPoints,
+            user.avatar,
+            user.firstName,
+            user.secondName
+          )
+        );
       }
     }
-  }, [completedGame, player, user]);
+  }, [completedGame, dispatch, player, user]);
 
   useEffect(() => {
     const resizeCb = () =>

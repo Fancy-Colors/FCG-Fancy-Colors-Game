@@ -45,7 +45,7 @@ export class LeaderboardApi extends BaseApi {
       teamName: TEAM_NAME,
     };
 
-    return this.http.post<void | APIError>('', {
+    return this.http.post<void | APIError>('/', {
       data: { data: payload, ...requestParams },
     });
   }
