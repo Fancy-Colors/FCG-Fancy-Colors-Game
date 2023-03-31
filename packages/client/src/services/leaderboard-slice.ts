@@ -6,8 +6,8 @@ type FilteredUser = {
 } & UserParams;
 
 type State = {
-  leaderboard: Array<PlayerData>;
-  filteredPlayers: Array<FilteredUser>;
+  leaderboard: PlayerData[];
+  filteredPlayers: FilteredUser[];
   player: PlayerData | null;
 };
 

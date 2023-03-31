@@ -27,6 +27,7 @@ export default {
                 metaObjectReplacement: {
                   env: {
                     VITE_API_BASE_URL: process.env.VITE_API_BASE_URL || '',
+                    VITE_TEAM_NAME: process.env.VITE_TEAM_NAME,
                   },
                 },
               },

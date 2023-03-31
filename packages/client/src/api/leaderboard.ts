@@ -25,24 +25,24 @@ export type PlayerData = {
   data: UserParams;
 };
 
-// для продакшена сделать другое название
-const TEAM_NAME = 'test_colors';
-
 export class LeaderboardApi extends BaseApi {
   constructor() {
     super('/leaderboard');
   }
 
   getLeaders(payload: LeadersReq) {
-    return this.http.post<Array<PlayerData> | APIError>(`/${TEAM_NAME}`, {
-      data: payload,
-    });
+    return this.http.post<PlayerData[] | APIError>(
+      `/${import.meta.env.VITE_TEAM_NAME}`,
+      {
+        data: payload,
+      }
+    );
   }
 
   setUser(payload: UserParams) {
     const requestParams: ReqParams = {
       ratingFieldName: 'score',
-      teamName: TEAM_NAME,
+      teamName: import.meta.env.VITE_TEAM_NAME,
     };
 
     return this.http.post<void | APIError>('/', {
