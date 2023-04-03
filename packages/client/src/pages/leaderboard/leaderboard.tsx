@@ -93,11 +93,11 @@ export const Leaderboard = () => {
                     <Leader
                       size="row"
                       login={leader.login}
-                      name={leader.name}
+                      name={`${leader.name} ${leader.surname}`}
                       score={leader.score}
                       avatar={leader.avatar}
                       place={leader.place}
-                      active={leader.id === user?.id}
+                      active={user ? leader.id === user.id : false}
                     />
                   </ErrorBoundary>
                 );

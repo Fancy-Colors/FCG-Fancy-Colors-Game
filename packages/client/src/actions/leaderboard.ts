@@ -1,8 +1,9 @@
-import { leaderboardApi } from '../api/leaderboard';
+import { leaderboardApi, PlayerData } from '../api/leaderboard';
 import {
   setFilteredPlayers,
   setLeaderboard,
   setPlayer,
+  FilteredUser,
 } from '../services/leaderboard-slice';
 import { AppDispatch } from 'src/store';
 import { hasApiError } from 'utils/has-api-error';
@@ -41,7 +42,8 @@ export const getFilteredPlayers =
       const obj = {
         id: playerData.data.id,
         login: playerData.data.login,
-        name: `${playerData.data.name} ${playerData.data.surname}`,
+        name: playerData.data.name,
+        surname: playerData.data.surname,
         score: playerData.data.score,
         avatar: playerData.data.avatar,
         place: i + 1,
@@ -49,23 +51,29 @@ export const getFilteredPlayers =
       return obj;
     };
 
-    const players = [];
-    const arrLength = response.length;
+    const findPlayers = (arr: PlayerData[]) => {
+      const players: FilteredUser[] = [];
+      const arrLength: number = arr.length;
 
-    for (let i = 0; i < arrLength; i++) {
-      if (response[i].data.id === id) {
-        players.push(player(i - 1));
-        players.push(player(i));
+      for (let i = 0; i < arrLength; i++) {
+        if (arr[i].data.id === id) {
+          players.push(player(i - 1));
+          players.push(player(i));
 
-        if (i !== arrLength - 1) {
-          players.push(player(i + 1));
+          if (i !== arrLength - 1) {
+            players.push(player(i + 1));
+          }
+
+          return players;
         }
-
-        break;
       }
-    }
 
-    dispatch(setFilteredPlayers(players));
+      return players;
+    };
+
+    const filteredPlayers = findPlayers(response);
+
+    dispatch(setFilteredPlayers(filteredPlayers));
   };
 
 export const getPlayer = (id: number) => async (dispatch: AppDispatch) => {

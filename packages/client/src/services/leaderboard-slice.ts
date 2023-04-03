@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserParams, PlayerData } from '../api/leaderboard';
 
-type FilteredUser = {
+export type FilteredUser = {
   place: number;
 } & UserParams;
 
