@@ -40,8 +40,6 @@ export const SideMenu: FC = () => {
   useEffect(() => {
     if (width >= 500 && width < 1024) {
       setExpanded(false);
-    } else if (width < 500) {
-      setExpanded(true);
     } else {
       setExpanded(true);
     }
