@@ -59,13 +59,15 @@ self.addEventListener('fetch', event => {
 function tryNetwork (request, timeout) {
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(reject, timeout);
+    // NOTE: https://github.com/w3c/ServiceWorker/issues/693
+    const allowedMethods = ['GET', 'HEAD'];
 
     fetch(request).then(response => {
       clearTimeout(timeoutId);
       const responseClone = response.clone();
       
       caches.open(CACHE_NAME).then(cache => {
-        if (request.url.match('^(http|https)://')) { 
+        if (request.url.match('^(http|https)://') && allowedMethods.includes(request.method)) { 
           cache.put(request, responseClone); 
         }
       })

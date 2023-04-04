@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
 import styles from './game-view.module.pcss';
 import cn from 'classnames';
+import { usePatternImage } from './utils/use-pattern-image';
 
 type Props = {
   data: GameData;
@@ -23,6 +24,7 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
 
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
+  const patternImage = usePatternImage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
@@ -58,8 +60,8 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
 
   useEffect(() => {
     if (!ctx) return;
-    drawHistory(ctx, data, movesHistory);
-  }, [ctx, data, movesHistory]);
+    drawHistory(ctx, data, movesHistory, patternImage);
+  }, [ctx, data, movesHistory, patternImage]);
 
   const GameEndMessage = () => {
     return (

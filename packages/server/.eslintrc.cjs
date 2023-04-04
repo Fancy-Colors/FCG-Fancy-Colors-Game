@@ -1,7 +1,8 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   settings: {
@@ -9,12 +10,9 @@ module.exports = {
       tryExtensions: ['.js', '.json', '.node', '.ts', '.d.ts'],
     },
   },
-  extends: ['shared', 'plugin:node/recommended'],
+  extends: ['shared', 'plugin:n/recommended-module'],
   rules: {
-    'node/no-unsupported-features/es-syntax': [
-      'error',
-      { ignores: ['modules'] },
-    ],
-    'node/no-missing-import': 'off',
+    'unicorn/prefer-node-protocol': 'error',
+    'unicorn/prefer-module': 'error',
   },
 };

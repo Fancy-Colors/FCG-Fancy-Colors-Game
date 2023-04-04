@@ -1,7 +1,7 @@
-/** @type {import('jest').Config} */
 import dotenv from 'dotenv';
 dotenv.config();
 
+/** @type {import('jest').Config} */
 export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
