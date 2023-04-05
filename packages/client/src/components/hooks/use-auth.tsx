@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { RouterPaths } from 'src/app.types';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
+import { useAppDispatch } from './use-app-dispatch';
+import { setNotification } from 'src/services/app-slice';
 
 type AuthContextType = {
   user: User | null;
@@ -28,6 +30,7 @@ export function AuthProvider({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const signIn = async (login: string, password: string) => {
@@ -39,6 +42,9 @@ export function AuthProvider({
       const response = await authApi.me();
 
       if (hasApiError(response)) {
+        dispatch(
+          setNotification({ type: 'error', text: 'Не удалось получить данные' })
+        );
         throw new Error(response.reason);
       }
 
@@ -61,12 +67,21 @@ export function AuthProvider({
       const response = await authApi.signUp(payload);
 
       if (hasApiError(response)) {
+        dispatch(
+          setNotification({
+            type: 'error',
+            text: 'Не удалось зарегистрироваться',
+          })
+        );
         throw new Error(response.reason);
       }
 
       const userResponse = await authApi.me();
 
       if (hasApiError(userResponse)) {
+        dispatch(
+          setNotification({ type: 'error', text: 'Не удалось получить данные' })
+        );
         throw new Error(userResponse.reason);
       }
 

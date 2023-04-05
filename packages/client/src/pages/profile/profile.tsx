@@ -13,11 +13,12 @@ import {
   validatePassword,
   validatePhone,
 } from 'utils/validation';
-import { useAuth, useWindowSize } from 'components/hooks';
+import { useAppDispatch, useAuth, useWindowSize } from 'components/hooks';
 import { userApi } from 'api/user';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
 import { ErrorBoundary } from 'utils/error-boundary';
+import { setNotification } from 'src/services/app-slice';
 
 type ProfileFormFields = {
   email: string;
@@ -31,6 +32,7 @@ type ProfileFormFields = {
 const requiredFieldMessage = 'Это обязательное поле';
 
 const ProfileForm = () => {
+  const dispatch = useAppDispatch();
   const { setUser, user } = useAuth();
   const { id, avatar, ...defaultValues } = user as User;
 
@@ -54,7 +56,9 @@ const ProfileForm = () => {
     /* eslint-enable */
 
     if (hasApiError(response)) {
-      // TODO: Сделать оповещение об ошибках через toast
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось обновить данные' })
+      );
       return console.error(response.reason);
     }
 
@@ -71,6 +75,9 @@ const ProfileForm = () => {
       const response = await userApi.updateAvatar(formData);
 
       if (hasApiError(response)) {
+        dispatch(
+          setNotification({ type: 'error', text: 'Не удалось обновить данные' })
+        );
         return console.error(response.reason);
       }
 
@@ -168,6 +175,7 @@ type PasswordFormFields = {
 };
 
 const PasswordForm = () => {
+  const dispatch = useAppDispatch();
   const {
     register,
     formState: { errors, isDirty },
@@ -183,6 +191,9 @@ const PasswordForm = () => {
     const response = await userApi.updatePassword({ oldPassword, newPassword });
 
     if (hasApiError(response)) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось обновить пароль' })
+      );
       return console.error(response.reason);
     }
 

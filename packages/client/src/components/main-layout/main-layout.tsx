@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { SideMenu } from 'components/side-menu';
 import { Outlet } from 'react-router-dom';
 import styles from './main-layout.module.pcss';
+import { Toast } from 'components/toast';
 
 export const MainLayout = () => {
   return (
@@ -10,6 +11,7 @@ export const MainLayout = () => {
       <main className={styles.page}>
         <Outlet />
       </main>
+      <Toast />
     </div>
   );
 };
