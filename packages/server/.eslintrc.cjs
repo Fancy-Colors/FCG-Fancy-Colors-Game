@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef
 module.exports = {
   root: true,
   parserOptions: {
@@ -15,4 +14,13 @@ module.exports = {
     'unicorn/prefer-node-protocol': 'error',
     'unicorn/prefer-module': 'error',
   },
+  overrides: [
+    {
+      files: '*.cjs',
+      globals: {
+        module: 'writable',
+        exports: 'writable',
+      },
+    },
+  ],
 };
