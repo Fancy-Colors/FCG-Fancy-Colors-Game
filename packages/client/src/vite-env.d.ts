@@ -4,6 +4,8 @@
 interface ImportMetaEnv {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly VITE_API_BASE_URL: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  readonly YANDEX_OAUTH_REDIRECT_URI: string;
 }
 
 interface ImportMeta {

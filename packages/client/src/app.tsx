@@ -19,6 +19,7 @@ import { Leaderboard } from 'pages/leaderboard';
 import { ForumThread } from 'pages/forum-thread';
 import { NewThreadModal } from 'components/modal-new-thread';
 import { Forum } from 'pages/forum';
+import { YandexOAuth } from 'components/yandex-oauth';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,25 +27,27 @@ const router = createBrowserRouter(
       element={<AuthLayout />}
       loader={() => defer({ userPromise: getCurrentUser() })}
     >
-      <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
-      <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
-      <Route element={<MainLayout />}>
-        <Route path={RouterPaths.MAIN} element={<MainPage />}>
-          <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
+      <Route element={<YandexOAuth />}>
+        <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
+        <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
+        <Route element={<MainLayout />}>
+          <Route path={RouterPaths.MAIN} element={<MainPage />}>
+            <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
+          </Route>
+          <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
+          <Route path={RouterPaths.FORUM} element={<Forum />}>
+            <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
+          </Route>
+          <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path={RouterPaths.PROFILE} element={<Profile />} />
+            <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
+          </Route>
         </Route>
-        <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
-        <Route path={RouterPaths.FORUM} element={<Forum />}>
-          <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
-        </Route>
-        <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path={RouterPaths.PROFILE} element={<Profile />} />
-          <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
-        </Route>
+        <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
+        <Route path={RouterPaths.ERROR_404} element={<Error404 />} />
+        <Route path="*" element={<Error404 />} />
       </Route>
-      <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
-      <Route path={RouterPaths.ERROR_404} element={<Error404 />} />
-      <Route path="*" element={<Error404 />} />
     </Route>
   )
 );
