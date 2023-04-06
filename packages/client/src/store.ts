@@ -17,4 +17,6 @@ export function createStore(initialState?: InitialState) {
   });
 }
 
-export type AppDispatch = ReturnType<typeof createStore>['dispatch'];
+export type AppStore = ReturnType<typeof createStore>;
+
+export type AppDispatch = AppStore['dispatch'];

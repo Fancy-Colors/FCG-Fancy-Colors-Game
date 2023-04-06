@@ -19,13 +19,15 @@ import { createStaticRouter } from 'react-router-dom/server.js';
 const isDev = process.env.NODE_ENV === 'development';
 
 type SSRModule = {
-  staticHandler: StaticHandler;
-  render: (
-    router: Router,
-    context: StaticHandlerContext,
-    theme: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => { renderResult: string; initialState: Record<string, any> };
+  createRenderer: () => {
+    staticHandler: StaticHandler;
+    render: (
+      router: Router,
+      context: StaticHandlerContext,
+      theme: string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ) => { renderResult: string; initialState: Record<string, any> };
+  };
 };
 
 async function bootstrap() {
@@ -98,7 +100,8 @@ async function bootstrap() {
         ssrModule = (await import('client')) as SSRModule;
       }
 
-      const { staticHandler, render } = ssrModule;
+      const { createRenderer } = ssrModule;
+      const { render, staticHandler } = createRenderer();
       const fetchRequest = createFetchRequest(req);
       const context = await staticHandler.query(fetchRequest);
 
