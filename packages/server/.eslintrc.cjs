@@ -13,6 +13,12 @@ module.exports = {
   rules: {
     'unicorn/prefer-node-protocol': 'error',
     'unicorn/prefer-module': 'error',
+    'n/no-extraneous-import': [
+      'error',
+      {
+        allowModules: ['@remix-run/router'],
+      },
+    ],
   },
   overrides: [
     {

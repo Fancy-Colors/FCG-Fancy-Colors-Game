@@ -8,15 +8,24 @@ import { createRequire } from 'node:module';
 import { createServer as createViteServer, type ViteDevServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
+import jsesc from 'jsesc';
+import type {
+  StaticHandlerContext,
+  StaticHandler,
+  Router,
+} from '@remix-run/router';
+import { createStaticRouter } from 'react-router-dom/server.js';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 type SSRModule = {
+  staticHandler: StaticHandler;
   render: (
-    req: express.Request,
-    res: express.Response,
+    router: Router,
+    context: StaticHandlerContext,
     theme: string
-  ) => Promise<string | null>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => { renderResult: string; initialState: Record<string, any> };
 };
 
 async function bootstrap() {
@@ -55,6 +64,10 @@ async function bootstrap() {
     })
   );
 
+  if (!isDev) {
+    app.use(express.static(staticPath, { index: false }));
+  }
+
   app.use('*', cookieParser(), async (req, res, next) => {
     if (!req.get('Accept')?.includes('text/html')) {
       return next();
@@ -63,13 +76,6 @@ async function bootstrap() {
     const url = req.originalUrl;
     let template: string;
     let ssrModule: SSRModule;
-
-    const storedTheme = req.cookies.theme;
-    // Получаем предпочитаемую пользователем тему из настроек браузера
-    // https://web.dev/user-preference-media-features-headers/
-    const userPreferredTheme =
-      req.headers['sec-ch-prefers-color-scheme'] ?? 'light';
-    const detectedTheme = storedTheme || userPreferredTheme;
 
     try {
       if (isDev) {
@@ -92,14 +98,40 @@ async function bootstrap() {
         ssrModule = (await import('client')) as SSRModule;
       }
 
-      const result = await ssrModule.render(req, res, detectedTheme);
+      const { staticHandler, render } = ssrModule;
+      const fetchRequest = createFetchRequest(req);
+      const context = await staticHandler.query(fetchRequest);
 
-      if (typeof result !== 'string') {
-        return;
+      if (context instanceof Response) {
+        return res.redirect(
+          context.status,
+          context.headers.get('Location') as string
+        );
       }
 
+      const router = createStaticRouter(staticHandler.dataRoutes, context);
+
+      const storedTheme = req.cookies.theme;
+      // Получаем предпочитаемую пользователем тему из настроек браузера
+      // https://web.dev/user-preference-media-features-headers/
+      const userPreferredTheme =
+        req.headers['sec-ch-prefers-color-scheme'] ?? 'light';
+      const detectedTheme = storedTheme || userPreferredTheme;
+
+      const { initialState, renderResult } = render(
+        router,
+        context,
+        detectedTheme
+      );
+
+      const initialStateSerialized = jsesc(initialState, {
+        json: true,
+        isScriptContext: true,
+      });
+
       const html = template
-        .replace('<!--ssr-outlet-->', result)
+        .replace('<!--ssr-outlet-->', renderResult)
+        .replace('<!--store-data-->', initialStateSerialized)
         .replace('{{__THEME__}}', detectedTheme);
 
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -112,14 +144,50 @@ async function bootstrap() {
     }
   });
 
-  if (!isDev) {
-    app.use(express.static(staticPath));
-  }
-
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });
+}
+
+function createRequestHeaders(
+  requestHeaders: express.Request['headers']
+): Headers {
+  const headers = new Headers();
+
+  for (const [key, values] of Object.entries(requestHeaders)) {
+    if (values) {
+      if (Array.isArray(values)) {
+        for (const value of values) {
+          headers.append(key, value);
+        }
+      } else {
+        headers.set(key, values);
+      }
+    }
+  }
+
+  return headers;
+}
+
+function createFetchRequest(req: express.Request): Request {
+  const origin = `${req.protocol}://${req.get('host')}`;
+  const url = new URL(req.originalUrl || req.url, origin);
+
+  const controller = new AbortController();
+  req.on('close', () => controller.abort());
+
+  const requestInit: RequestInit = {
+    method: req.method,
+    headers: createRequestHeaders(req.headers),
+    signal: controller.signal,
+  };
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    requestInit.body = req.body;
+  }
+
+  return new Request(url.href, requestInit);
 }
 
 bootstrap();

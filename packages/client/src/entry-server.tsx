@@ -1,61 +1,28 @@
 import App from './app';
 import ReactDOMServer from 'react-dom/server';
-import {
-  createStaticRouter,
-  StaticRouterProvider,
-} from 'react-router-dom/server';
+import { StaticRouterProvider } from 'react-router-dom/server';
 import {
   createStaticHandler,
   type StaticHandlerContext,
+  type Router,
 } from '@remix-run/router';
-import type * as express from 'express';
 import { routes } from './routes';
-import { createRemixHeaders as createRequestHeaders } from '@remix-run/express/dist/server';
+import { createStore } from './store';
 
-const { query, dataRoutes } = createStaticHandler(routes);
+export const staticHandler = createStaticHandler(routes);
 
-export async function render(
-  req: express.Request,
-  res: express.Response,
+export function render(
+  router: Router,
+  context: StaticHandlerContext,
   theme: string
 ) {
-  const fetchRequest = createFetchRequest(req);
-  const context = (await query(fetchRequest)) as StaticHandlerContext;
-  const router = createStaticRouter(dataRoutes, context);
+  const store = createStore();
 
-  if (
-    context instanceof Response &&
-    [301, 302, 303, 307, 308].includes(context.status)
-  ) {
-    return res.redirect(
-      context.status,
-      context.headers.get('Location') as string
-    );
-  }
-
-  return ReactDOMServer.renderToString(
-    <App theme={theme}>
+  const renderResult = ReactDOMServer.renderToString(
+    <App theme={theme} store={store}>
       <StaticRouterProvider router={router} context={context} />
     </App>
   );
-}
 
-export function createFetchRequest(req: express.Request): Request {
-  const origin = `${req.protocol}://${req.get('host')}`;
-  const url = new URL(req.originalUrl || req.url, origin);
-
-  const controller = new AbortController();
-  req.on('close', () => controller.abort());
-
-  const requestInit: RequestInit = {
-    method: req.method,
-    headers: createRequestHeaders(req.headers),
-    signal: controller.signal,
-  };
-
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
-    requestInit.body = req.body;
-  }
-
-  return new Request(url.href, requestInit);
+  return { renderResult, initialState: store.getState() };
 }

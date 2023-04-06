@@ -1,11 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 import reducer from './services';
+import { ForumState } from './services/forum-slice';
+import { Game } from './services/game-slice';
 
-export const store = configureStore({
-  reducer,
-});
+export type RootState = {
+  game: Game;
+  forum: ForumState;
+};
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
+export type InitialState = Partial<RootState>;
+
+export function createStore(initialState?: InitialState) {
+  return configureStore({
+    reducer,
+    preloadedState: initialState,
+  });
+}
+
+export type AppDispatch = ReturnType<typeof createStore>['dispatch'];
