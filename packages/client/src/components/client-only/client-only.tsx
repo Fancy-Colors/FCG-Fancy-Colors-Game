@@ -1,4 +1,4 @@
-import { useState, useEffect, createElement, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 
 export const ClientOnly = ({ children }: { children: React.ReactNode }) => {
   const [hasMounted, setHasMounted] = useState(false);
@@ -9,5 +9,5 @@ export const ClientOnly = ({ children }: { children: React.ReactNode }) => {
 
   if (!hasMounted) return null;
 
-  return createElement(Fragment, {}, children);
+  return <>{children}</>;
 };
