@@ -9,7 +9,6 @@ import {
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { Profile } from 'pages/profile';
 import { MainPage } from 'pages/main';
-import { HowToModal } from 'components/how-to-modal';
 import { GamePage } from 'pages/game';
 import { RouterPaths } from './app.types';
 import { LoginPage, RegisterPage } from 'pages/auth';
@@ -28,10 +27,14 @@ const router = createBrowserRouter(
     >
       <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
       <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
-      <Route element={<MainLayout />}>
-        <Route path={RouterPaths.MAIN} element={<MainPage />}>
-          <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
-        </Route>
+      <Route
+        element={<MainLayout />}
+        loader={({ request }) => {
+          const url = new URL(request.url);
+          return url.searchParams.get('modal');
+        }}
+      >
+        <Route path={RouterPaths.MAIN} element={<MainPage />} />
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<Forum />}>
           <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
