@@ -7,6 +7,10 @@
   height: unset !important;
 }
 
+.container {
+  height: 100%;
+}
+
 .avatar {
   position: absolute;
   top: 0;
@@ -14,7 +18,7 @@
   transform: translate(-50%, calc(-50% - var(--panel-offset-top)));
 }
 
-.container {
+.content {
   display: flex;
   flex-direction: column;
   gap: 35px;
@@ -47,4 +51,56 @@
 
 .submit {
   align-self: flex-end;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    margin-top: unset;
+    height: 100% !important;
+    padding: var(--gap);
+  }
+
+  .avatar {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+    align-self: center;
+  }
+
+  .form {
+    margin: var(--gap);
+    margin-right: calc(var(--gap) + 8px);
+  }
+
+  .content {
+    gap: 15px;
+  }
+
+  .title {
+    font-size: 18px;
+    align-self: center;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .offsetBefore::before {
+    display: none;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+  .submit {
+    align-self: center;
+  }
+
+  .password {
+    margin-top: 30px;
+  }
 }
