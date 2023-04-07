@@ -2,9 +2,12 @@
   "name": "client",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/server/assets/js/main.js",
+  "main": "./dist/server/assets/js/entry-server.js",
   "exports": {
-    ".": "./dist/server/assets/js/main.js",
+    ".": {
+      "import": "./dist/server/assets/js/entry-server.js",
+      "types": "./dist/server/assets/js/entry-server.d.ts"
+    },
     "./index.html": "./dist/client/index.html",
     "./dev/index.html": "./index.html",
     "./dev/entry-server": "./src/entry-server.tsx",
@@ -12,8 +15,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --outDir dist/client",
-    "build:ssr": "tsc && vite build --outDir dist/server --ssr ./src/entry-server.tsx",
+    "build": "vite build --outDir dist/client && yarn build:types",
+    "build:types": "tsc --p tsconfig.prod.json",
+    "build:ssr": "vite build --outDir dist/server --ssr ./src/entry-server.tsx && yarn build:types",
     "preview": "vite preview --host",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location ./node_modules/.cache/eslint",
@@ -30,7 +34,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.0.0-alpha.1",
-    "@remix-run/express": "1.15.0",
     "classnames": "2.3.2",
     "colorjs.io": "0.4.3",
     "dotenv": "16.0.2",
@@ -40,14 +43,13 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.43.2",
     "react-redux": "8.0.5",
-    "react-router-dom": "6.8.1",
+    "react-router-dom": "6.10.0",
     "swiper": "9.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "@types/express": "4.17.17",
     "@types/jest": "29.4.0",
     "@types/js-cookie": "3.0.3",
     "@types/react": "18.0.18",

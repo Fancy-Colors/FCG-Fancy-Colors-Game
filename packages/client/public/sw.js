@@ -14,7 +14,7 @@ const URLS = [
   '/game/village',
   '/index.html',
   '/assets/css/index.css',
-  '/assets/js/main.js',
+  '/assets/js/entry-server.js',
   '/assets/png/bg-image.png',
   '/assets/woff2/MontserratAlternates-Bold.woff2',
   '/assets/woff2/MontserratAlternates-Regular.woff2',

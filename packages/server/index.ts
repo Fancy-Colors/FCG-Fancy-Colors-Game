@@ -9,26 +9,9 @@ import { createServer as createViteServer, type ViteDevServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import jsesc from 'jsesc';
-import type {
-  StaticHandlerContext,
-  StaticHandler,
-  Router,
-} from '@remix-run/router';
 import { createStaticRouter } from 'react-router-dom/server.js';
 
 const isDev = process.env.NODE_ENV === 'development';
-
-type SSRModule = {
-  createRenderer: () => {
-    staticHandler: StaticHandler;
-    render: (
-      router: Router,
-      context: StaticHandlerContext,
-      theme: string
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ) => { renderResult: string; initialState: Record<string, any> };
-  };
-};
 
 async function bootstrap() {
   const app = express();
@@ -77,7 +60,7 @@ async function bootstrap() {
 
     const url = req.originalUrl;
     let template: string;
-    let ssrModule: SSRModule;
+    let ssrModule;
 
     try {
       if (isDev) {
@@ -93,11 +76,9 @@ async function bootstrap() {
       if (isDev) {
         ssrModule = (await vite!.ssrLoadModule(
           require.resolve('client/dev/entry-server')
-        )) as SSRModule;
+        )) as typeof import('client');
       } else {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore Разобраться как подтянуть типизацию внешнего пакета
-        ssrModule = (await import('client')) as SSRModule;
+        ssrModule = await import('client');
       }
 
       const { createRenderer } = ssrModule;
