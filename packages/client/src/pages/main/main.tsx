@@ -7,12 +7,12 @@ import { leadSlides } from 'src/mock/lead-slides';
 import { Tabs } from 'components/tabs';
 import { catalogGameCards } from 'utils/catalog-game-cards';
 import { GameCard } from 'components/game-card';
-import { gameData } from 'components/game-view/utils';
+import { useAppSelector } from 'components/hooks';
 
 export const MainPage: FC = () => {
-  // тут логика получения списка доступных игр с бэка или из стора
-  // пока данные берем из gameData
-  const { images, tabs } = catalogGameCards(gameData);
+  const { levels } = useAppSelector((store) => store.level);
+
+  const { images, tabs } = catalogGameCards(levels);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
   return (

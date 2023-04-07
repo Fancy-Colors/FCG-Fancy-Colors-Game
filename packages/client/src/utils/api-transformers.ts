@@ -1,4 +1,4 @@
-import { UserDTO } from 'api/types';
+import { UserDTO, GamesListDTO } from 'api/types';
 
 export function transformUser(data: UserDTO): User {
   return {
@@ -11,4 +11,13 @@ export function transformUser(data: UserDTO): User {
     phone: data.phone,
     email: data.email,
   };
+}
+
+export function transformGameList(data: GamesListDTO): GamesListDTO {
+  return data.map((game) => {
+    return {
+      ...game,
+      preview: `https://fancy-api.kurkov.online/${game.preview}`,
+    };
+  });
 }

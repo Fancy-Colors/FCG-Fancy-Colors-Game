@@ -18,6 +18,9 @@ import { Leaderboard } from 'pages/leaderboard';
 import { ForumThread } from 'pages/forum-thread';
 import { NewThreadModal } from 'components/modal-new-thread';
 import { Forum } from 'pages/forum';
+import { gameApi } from './api';
+import { setLevels } from './services/level-slice';
+import { store } from './store';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +37,17 @@ const router = createBrowserRouter(
           return url.searchParams.get('modal');
         }}
       >
-        <Route path={RouterPaths.MAIN} element={<MainPage />} />
+        <Route
+          path={RouterPaths.MAIN}
+          element={<MainPage />}
+          loader={async () => {
+            if (store.getState().level.levels.length === 0) {
+              const res = await gameApi.readGames();
+              store.dispatch(setLevels(res));
+            }
+            return null;
+          }}
+        />
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<Forum />}>
           <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
