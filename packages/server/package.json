@@ -4,7 +4,7 @@
   "type": "module",
   "description": "",
   "scripts": {
-    "build": "rm -rf dist && tsc --p ./tsconfig.prod.json",
+    "build": "rimraf dist && tsc --p ./tsconfig.prod.json",
     "preview": "node ./dist/index.js",
     "start": "yarn build && yarn preview",
     "dev": "cross-env NODE_ENV=development nodemon -x ts-node --esm index.ts",
@@ -42,6 +42,7 @@
     "jest": "29.4.3",
     "nodemon": "2.0.19",
     "prettier": "2.8.4",
+    "rimraf": "4.4.1",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",
     "typescript": "4.9.5"
