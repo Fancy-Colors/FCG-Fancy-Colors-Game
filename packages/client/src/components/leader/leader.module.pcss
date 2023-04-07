@@ -5,26 +5,17 @@
   line-height: 17px;
 }
 
-.login {
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-}
-
 .leader {
   display: flex;
 
   &.row {
-    padding: 3px 24px;
+    padding: 3px var(--gap);
     align-items: center;
     gap: var(--gap);
     margin: 10px 0;
 
     .place {
       width: 36px;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 20px;
       color: var(--color-accent-primary);
     }
 
@@ -80,6 +71,57 @@
     .points {
       display: flex;
       justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .leader {
+    &.row {
+      .place {
+        width: 30px;
+      }
+
+      .login {
+        width: 90px;
+      }
+    }
+
+    &.card {
+      .place {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        line-height: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .name {
+    display: none;
+  }
+
+  .leader {
+    &.row {
+      .login {
+        flex-grow: 1;
+      }
+    }
+
+    &.card {
+      .place {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        line-height: 18px;
+      }
     }
   }
 }
