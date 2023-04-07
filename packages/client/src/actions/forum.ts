@@ -19,7 +19,7 @@ export const fetchThread =
   (threadId: number | string, page: number) =>
   async (dispatch: AppDispatch) => {
     try {
-      const thread = await forumApi.getThread(threadId, page);
+      const thread = await forumApi.getThread(page);
       dispatch(
         setThread({
           threadId,
