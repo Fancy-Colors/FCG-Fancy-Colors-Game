@@ -12,7 +12,7 @@ import { setCurrentThreadPage } from 'src/services/forum-slice';
 
 export const ForumThread = () => {
   const {
-    threads,
+    thread,
     count,
     currentThreadPage: page,
   } = useAppSelector((state) => state.forum);
@@ -24,10 +24,8 @@ export const ForumThread = () => {
   }
 
   useEffect(() => {
-    if (!(threads[threadId] && threads[threadId][page])) {
-      dispatch(fetchThread(threadId, page));
-    }
-  }, [page, threadId, dispatch, threads]);
+    dispatch(fetchThread(threadId, page));
+  }, [page, threadId, dispatch]);
 
   useEffect(() => {
     dispatch(setCurrentThreadPage({ page: 1 }));
@@ -49,21 +47,18 @@ export const ForumThread = () => {
         <span className={styles.text}>К темам</span>
       </Link>
       <div className={styles.wrapper}>
-        <h3 className={styles.title}>
-          {threads[threadId] && threads[threadId][page]?.title}
-        </h3>
+        <h3 className={styles.title}>{thread?.title}</h3>
         <div className={cn(styles.posts, 'u-fancy-scrollbar')}>
-          {threads[threadId] &&
-            threads[threadId][page]?.messages.map((m) => (
-              <ForumMessage
-                date={m.date}
-                name={m.name}
-                text={m.text}
-                id={m.id}
-                key={m.id}
-                handleReply={onClickReply}
-              />
-            ))}
+          {thread?.messages.map((m) => (
+            <ForumMessage
+              date={m.date}
+              name={m.name}
+              text={m.text}
+              id={m.id}
+              key={m.id}
+              handleReply={onClickReply}
+            />
+          ))}
         </div>
         <Pagination
           currentPage={page}

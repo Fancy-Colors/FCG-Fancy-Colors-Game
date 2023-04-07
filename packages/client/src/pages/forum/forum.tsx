@@ -23,10 +23,8 @@ export const Forum = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!(page in forum)) {
-      dispatch(fetchForumPage(page));
-    }
-  }, [page, dispatch, forum]);
+    dispatch(fetchForumPage(page));
+  }, [page, dispatch]);
 
   const handlePageChange = (num: number) => {
     dispatch(setCurrentForumPage({ page: num }));
@@ -47,18 +45,17 @@ export const Forum = () => {
           </div>
         </div>
         <article className={style.threads}>
-          {forum[page] &&
-            forum[page].map((t: ForumItemProps) => (
-              <ForumItem
-                title={t.title}
-                text={t.text}
-                date={t.date}
-                name={t.name}
-                messageCount={t.messageCount}
-                id={t.id}
-                key={t.id}
-              />
-            ))}
+          {forum?.map((t: ForumItemProps) => (
+            <ForumItem
+              title={t.title}
+              text={t.text}
+              date={t.date}
+              name={t.name}
+              messageCount={t.messageCount}
+              id={t.id}
+              key={t.id}
+            />
+          ))}
           <Pagination
             currentPage={page}
             pages={count}

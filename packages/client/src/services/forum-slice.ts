@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Forum = {
-  [page: string | number]: ForumItem[];
-};
-
-export type Threads = {
-  [threadId: string | number]: { [page: string | number]: Thread };
-};
+export type Forum = ForumItem[];
 
 export type ForumMessage = {
   id: number;
@@ -37,13 +31,17 @@ type ForumState = {
   forum: Forum;
   currentForumPage: number;
   currentThreadPage: number;
-  threads: Threads;
+  thread: Thread;
 };
 
 const initialState: ForumState = {
   count: 20,
-  forum: {},
-  threads: {},
+  forum: [],
+  thread: {
+    id: '',
+    title: '',
+    messages: [],
+  },
   currentForumPage: 1,
   currentThreadPage: 1,
 };
@@ -59,7 +57,7 @@ export const forumSlice = createSlice({
         data: ForumItem[];
       }>
     ) => {
-      state.forum[action.payload.page] = action.payload.data;
+      state.forum = action.payload.data;
     },
     setThread: (
       state,
@@ -69,14 +67,7 @@ export const forumSlice = createSlice({
         data: Thread;
       }>
     ) => {
-      if (state.threads[action.payload.threadId]) {
-        state.threads[action.payload.threadId][action.payload.page] =
-          action.payload.data;
-      } else {
-        state.threads[action.payload.threadId] = {
-          [action.payload.page]: action.payload.data,
-        };
-      }
+      state.thread = action.payload.data;
     },
     setCurrentForumPage: (state, action: PayloadAction<{ page: number }>) => {
       state.currentForumPage = action.payload.page;
