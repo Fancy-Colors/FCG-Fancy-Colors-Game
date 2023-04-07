@@ -134,9 +134,7 @@ async function bootstrap() {
   });
 }
 
-function createRequestHeaders(
-  requestHeaders: express.Request['headers']
-): Headers {
+function createRequestHeaders(requestHeaders: express.Request['headers']) {
   const headers = new Headers();
 
   for (const [key, values] of Object.entries(requestHeaders)) {
@@ -154,7 +152,7 @@ function createRequestHeaders(
   return headers;
 }
 
-function createFetchRequest(req: express.Request): Request {
+function createFetchRequest(req: express.Request) {
   const origin = `${req.protocol}://${req.get('host')}`;
   const url = new URL(req.originalUrl || req.url, origin);
 
