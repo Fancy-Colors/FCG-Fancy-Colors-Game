@@ -21,6 +21,7 @@ import { Forum } from 'pages/forum';
 import { gameApi } from './api';
 import { setLevels } from './services/level-slice';
 import { store } from './store';
+import { GamesListDTO } from 'api/types';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,7 +44,9 @@ const router = createBrowserRouter(
           loader={async () => {
             if (store.getState().level.levels.length === 0) {
               const res = await gameApi.readGames();
-              store.dispatch(setLevels(res));
+              if (Array.isArray(res)) {
+                store.dispatch(setLevels(res as GamesListDTO));
+              }
             }
             return null;
           }}
