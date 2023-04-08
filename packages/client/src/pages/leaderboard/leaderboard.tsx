@@ -1,49 +1,109 @@
-import styles from './leaderboard.module.pcss';
+import { useEffect } from 'react';
+import cn from 'classnames';
 import { Leader } from 'components/leader';
 import { ErrorBoundary } from 'utils/error-boundary';
-import { TLeader, LEADERS, FILTERED_LEADERS } from 'src/mock/leaders';
-import cn from 'classnames';
+import { useAppDispatch, useAppSelector, useAuth } from 'components/hooks';
+import { getLeaderboard, getFilteredPlayers } from 'src/actions';
+import styles from './leaderboard.module.pcss';
 
-const CURRENT_USER_LOGIN = 'user_login';
+// TODO как то обрабатывать если количество очков равное у нескольких игроков
 
 export const Leaderboard = () => {
+  const dispatch = useAppDispatch();
+  const { user } = useAuth();
+  const { leaderboard, filteredPlayers } = useAppSelector(
+    (state) => state.leaderboard
+  );
+
+  useEffect(() => {
+    dispatch(getLeaderboard());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (leaderboard.length > 0) {
+      const player = leaderboard.find((el) => el.data.id === user?.id);
+
+      if (!player) {
+        dispatch(getFilteredPlayers(user?.id as number));
+      }
+    }
+  }, [dispatch, leaderboard, user?.id]);
+
+  // TODO переделать верстку на гриды, все едет
   return (
     <section className={cn(styles.container, 'u-page')}>
       <div className={cn(styles.leaderboard, 'u-fancy-scrollbar')}>
         <div className={cn(styles.content)}>
           <div className={styles.topLeaders}>
             <ErrorBoundary>
-              {LEADERS.length > 1 && <Leader {...LEADERS[1]} size="small" />}
-              {LEADERS.length > 0 && <Leader {...LEADERS[0]} size="medium" />}
-              {LEADERS.length > 2 && <Leader {...LEADERS[2]} size="small" />}
+              {leaderboard.length > 1 && (
+                <Leader
+                  place={2}
+                  login={leaderboard[1].data.login}
+                  name={`${leaderboard[1].data.name} ${leaderboard[1].data.surname}`}
+                  score={leaderboard[1].data.score}
+                  avatar={leaderboard[1].data.avatar}
+                  size="small"
+                />
+              )}
+              {leaderboard.length > 0 && (
+                <Leader
+                  place={1}
+                  login={leaderboard[0].data.login}
+                  name={`${leaderboard[0].data.name} ${leaderboard[0].data.surname}`}
+                  score={leaderboard[0].data.score}
+                  avatar={leaderboard[0].data.avatar}
+                  size="medium"
+                />
+              )}
+              {leaderboard.length > 2 && (
+                <Leader
+                  place={3}
+                  login={leaderboard[2].data.login}
+                  name={`${leaderboard[2].data.name} ${leaderboard[2].data.surname}`}
+                  score={leaderboard[2].data.score}
+                  avatar={leaderboard[2].data.avatar}
+                  size="small"
+                />
+              )}
             </ErrorBoundary>
           </div>
           <div className={styles.leadersList}>
-            {LEADERS.slice(3).map((leader: TLeader, key: number) => {
+            {leaderboard.slice(3).map((leader, index) => {
               return (
-                <ErrorBoundary key={key}>
+                <ErrorBoundary key={leader.data.id}>
                   <Leader
-                    {...leader}
                     size="row"
-                    active={leader.login === CURRENT_USER_LOGIN}
+                    login={leader.data.login}
+                    name={`${leader.data.name} ${leader.data.surname}`}
+                    score={leader.data.score}
+                    avatar={leader.data.avatar}
+                    active={leader.data.id === user?.id}
+                    place={index + 4}
                   />
                 </ErrorBoundary>
               );
             })}
           </div>
-          <div className={styles.leadersList}>
-            {FILTERED_LEADERS.map((leader: TLeader, key: number) => {
-              return (
-                <ErrorBoundary key={key}>
-                  <Leader
-                    {...leader}
-                    size="row"
-                    active={leader.login === CURRENT_USER_LOGIN}
-                  />
-                </ErrorBoundary>
-              );
-            })}
-          </div>
+          {filteredPlayers && (
+            <div className={styles.leadersList}>
+              {filteredPlayers.map((leader) => {
+                return (
+                  <ErrorBoundary key={leader.id}>
+                    <Leader
+                      size="row"
+                      login={leader.login}
+                      name={`${leader.name} ${leader.surname}`}
+                      score={leader.score}
+                      avatar={leader.avatar}
+                      place={leader.place}
+                      active={user ? leader.id === user.id : false}
+                    />
+                  </ErrorBoundary>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>
