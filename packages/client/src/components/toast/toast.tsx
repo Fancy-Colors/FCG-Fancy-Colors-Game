@@ -7,7 +7,10 @@ import { Icon } from 'components/icon';
 import { Button } from 'components/button';
 import styles from './toast.module.pcss';
 
-const notificationRoot = document.querySelector('#notifications') as Element;
+// eslint-disable-next-line unicorn/prefer-query-selector
+const notificationRoot = document.getElementById(
+  'notifications'
+) as HTMLElement;
 
 export const Toast: FC = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +42,7 @@ export const Toast: FC = () => {
             >
               <div className={styles.content}>
                 <div className={styles.image}>
-                  <Icon type={`toast-${toast.type}`} size="small" />
+                  <Icon type={toast.type} size="small" />
                 </div>
                 <p className={styles.text}>{toast.text}</p>
               </div>

@@ -19,10 +19,10 @@ import { ReactComponent as StarIcon } from 'assets/icons/star.svg';
 import { ReactComponent as UserIcon } from 'assets/icons/user.svg';
 import { ReactComponent as ThemeToggleIcon } from 'assets/icons/theme-toggle.svg';
 import { ReactComponent as BurgerIcon } from 'assets/icons/burger.svg';
-import { ReactComponent as ToastSuccess } from 'assets/icons/toastSuccess.svg';
-import { ReactComponent as ToastError } from 'assets/icons/toastError.svg';
-import { ReactComponent as ToastInfo } from 'assets/icons/toastInfo.svg';
-import { ReactComponent as ToastWarning } from 'assets/icons/toastWarning.svg';
+import { ReactComponent as Success } from 'assets/icons/success.svg';
+import { ReactComponent as Error } from 'assets/icons/error.svg';
+import { ReactComponent as Info } from 'assets/icons/info.svg';
+import { ReactComponent as Warning } from 'assets/icons/warning.svg';
 
 type Props = {
   type: IconType;
@@ -70,14 +70,14 @@ export const Icon: FC<Props> = ({ type, size, color = 'currentColor' }) => {
       return <ThemeToggleIcon className={styles[size]} fill={color} />;
     case 'burger':
       return <BurgerIcon className={styles[size]} fill={color} />;
-    case 'toast-success':
-      return <ToastSuccess className={styles[size]} fill={color} />;
-    case 'toast-error':
-      return <ToastError className={styles[size]} fill={color} />;
-    case 'toast-info':
-      return <ToastInfo className={styles[size]} fill={color} />;
-    case 'toast-warning':
-      return <ToastWarning className={styles[size]} fill={color} />;
+    case 'success':
+      return <Success className={styles[size]} fill={color} />;
+    case 'error':
+      return <Error className={styles[size]} fill={color} />;
+    case 'info':
+      return <Info className={styles[size]} fill={color} />;
+    case 'warning':
+      return <Warning className={styles[size]} fill={color} />;
 
     default:
       return <span>NO ICON</span>;

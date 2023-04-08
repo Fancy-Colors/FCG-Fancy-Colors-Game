@@ -1,3 +1,4 @@
+import { setNotification } from 'src/services/app-slice';
 import { leaderboardApi, PlayerData } from '../api/leaderboard';
 import {
   setFilteredPlayers,
@@ -16,6 +17,9 @@ export const getLeaderboard = () => async (dispatch: AppDispatch) => {
   });
 
   if (hasApiError(response)) {
+    dispatch(
+      setNotification({ type: 'error', text: 'Не удалось получить данные' })
+    );
     throw new Error(response.reason);
   }
 
@@ -33,6 +37,9 @@ export const getFilteredPlayers =
     });
 
     if (hasApiError(response)) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось получить данные' })
+      );
       throw new Error(response.reason);
     }
 
@@ -84,6 +91,9 @@ export const getPlayer = (id: number) => async (dispatch: AppDispatch) => {
   });
 
   if (hasApiError(response)) {
+    dispatch(
+      setNotification({ type: 'error', text: 'Не удалось получить данные' })
+    );
     throw new Error(response.reason);
   }
 
@@ -114,6 +124,9 @@ export const setUserToLeaderboard =
         surname,
       });
     } catch (error) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось добавить игрока' })
+      );
       throw new Error('Не удалось добавить игрока ');
     } finally {
       dispatch(setLeaderboard([]));

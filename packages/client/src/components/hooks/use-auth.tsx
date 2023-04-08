@@ -42,15 +42,15 @@ export function AuthProvider({
       const response = await authApi.me();
 
       if (hasApiError(response)) {
-        dispatch(
-          setNotification({ type: 'error', text: 'Не удалось получить данные' })
-        );
         throw new Error(response.reason);
       }
 
       setUser(transformUser(response));
       navigate(RouterPaths.MAIN);
     } catch (err: unknown) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось получить данные' })
+      );
       if (err instanceof Error) {
         setError(err.message);
       }
@@ -67,27 +67,21 @@ export function AuthProvider({
       const response = await authApi.signUp(payload);
 
       if (hasApiError(response)) {
-        dispatch(
-          setNotification({
-            type: 'error',
-            text: 'Не удалось зарегистрироваться',
-          })
-        );
         throw new Error(response.reason);
       }
 
       const userResponse = await authApi.me();
 
       if (hasApiError(userResponse)) {
-        dispatch(
-          setNotification({ type: 'error', text: 'Не удалось получить данные' })
-        );
         throw new Error(userResponse.reason);
       }
 
       setUser(transformUser(userResponse));
       navigate(RouterPaths.MAIN);
     } catch (err: unknown) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось получить данные' })
+      );
       if (err instanceof Error) {
         setError(err.message);
       }

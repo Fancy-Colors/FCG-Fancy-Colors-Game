@@ -19,10 +19,10 @@ declare global {
     | 'user'
     | 'theme-toggle'
     | 'burger'
-    | 'toast-success'
-    | 'toast-error'
-    | 'toast-info'
-    | 'toast-warning';
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning';
 
   export type User = {
     id: number;
