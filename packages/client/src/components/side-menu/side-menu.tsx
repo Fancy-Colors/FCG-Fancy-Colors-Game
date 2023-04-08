@@ -104,11 +104,7 @@ export const SideMenu: FC = () => {
 
           {expanded && <div className={styles.delimiter} />}
 
-          <Link
-            to={RouterPaths.HOW_TO}
-            className="text-main"
-            state={{ fromOwnHost: true }}
-          >
+          <Link to={RouterPaths.HOW_TO} className="text-main">
             <p
               className={cn(styles.howToText, 'text-menu')}
               data-expanded={expanded}
