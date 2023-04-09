@@ -32,7 +32,8 @@ export const YandexOAuth: FC = () => {
       };
       signIn();
     }
-  }, [user, searchParams, setUser, setSearchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <>{outlet}</>;
 };
