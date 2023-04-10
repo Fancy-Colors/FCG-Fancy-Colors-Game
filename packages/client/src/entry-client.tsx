@@ -11,7 +11,7 @@ const store = createStore(initialState);
 const router = createBrowserRouter(createRoutes(store));
 
 ReactDOM.hydrateRoot(
-  document.querySelector('#root') as HTMLElement,
+  document.getElementById('root') as HTMLElement,
   <App store={store} initialState={initialState}>
     <RouterProvider router={router} />
   </App>
