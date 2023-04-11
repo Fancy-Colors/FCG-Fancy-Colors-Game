@@ -1,12 +1,9 @@
-import image from 'assets/canvas-fill-pattern.png';
 import { Path } from './types';
-
-const img = new Image();
-img.src = image;
 
 export const renderPath = (
   ctx: CanvasRenderingContext2D,
-  pathArg: Path
+  pathArg: Path,
+  patternImage: HTMLImageElement
 ): void => {
   const { path, color, chosen, completed } = pathArg;
 
@@ -17,7 +14,7 @@ export const renderPath = (
   }
 
   if (chosen) {
-    const pattern = ctx.createPattern(img, 'repeat');
+    const pattern = ctx.createPattern(patternImage, 'repeat');
     if (pattern) {
       ctx.fillStyle = pattern;
     }

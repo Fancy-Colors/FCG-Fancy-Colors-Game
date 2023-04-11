@@ -7,8 +7,8 @@ type GameCompletedData = {
   id: string;
 };
 
-interface Game {
-  readonly completedGame: Nullable<GameCompletedData>;
+export interface Game {
+  readonly completedGame: GameCompletedData | null;
   readonly gamesHistory: Array<
     Omit<GameCompletedData, 'completed'> & {
       completedAt: string;

@@ -6,7 +6,8 @@ const RENDER_SPEED = 300;
 export const drawHistory = (
   ctx: CanvasRenderingContext2D | null,
   gameData: GameData,
-  movesHistory: string[]
+  movesHistory: string[],
+  patternImage: HTMLImageElement
 ) => {
   ctx?.clearRect(0, 0, gameData.size, gameData.size);
 
@@ -20,7 +21,7 @@ export const drawHistory = (
 
     if (foundPath && ctx) {
       foundPath.completed = true;
-      renderPath(ctx, foundPath);
+      renderPath(ctx, foundPath, patternImage);
     }
 
     setTimeout(() => render(++move), RENDER_SPEED);

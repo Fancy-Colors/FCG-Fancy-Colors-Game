@@ -18,11 +18,13 @@ interface VendorElement extends HTMLElement {
   msRequestFullscreen?: () => void;
 }
 
-const vendorDocument = document as VendorDocument;
-const vendorDocumentElement = vendorDocument.documentElement as VendorElement;
+const isSSR = import.meta.env.SSR;
+
+const vendorDocument = isSSR ? null : (document as VendorDocument);
+const vendorDocumentElement = vendorDocument?.documentElement as VendorElement;
 
 function isFullScreenElement(el?: Nullable<VendorElement>) {
-  if (el) {
+  if (el && vendorDocument) {
     return Boolean(
       vendorDocument.fullscreenElement === el ||
         vendorDocument.mozFullScreenElement === el ||
@@ -31,15 +33,17 @@ function isFullScreenElement(el?: Nullable<VendorElement>) {
     );
   }
 
-  return Boolean(
-    vendorDocument.fullscreenElement ||
-      vendorDocument.mozFullScreenElement ||
-      vendorDocument.webkitFullscreenElement ||
-      vendorDocument.msFullscreenElement ||
-      vendorDocument.mozFullScreen ||
-      vendorDocument.webkitIsFullScreen ||
-      vendorDocument.fullScreenMode
-  );
+  return vendorDocument
+    ? Boolean(
+        vendorDocument.fullscreenElement ||
+          vendorDocument.mozFullScreenElement ||
+          vendorDocument.webkitFullscreenElement ||
+          vendorDocument.msFullscreenElement ||
+          vendorDocument.mozFullScreen ||
+          vendorDocument.webkitIsFullScreen ||
+          vendorDocument.fullScreenMode
+      )
+    : false;
 }
 
 export const useFullScreen = (fsEl: Nullable<VendorElement>) => {
@@ -61,12 +65,12 @@ export const useFullScreen = (fsEl: Nullable<VendorElement>) => {
 
   const closeFullScreen = () => {
     const exitFullScreen =
-      vendorDocument.exitFullscreen ||
-      vendorDocument.webkitExitFullscreen ||
-      vendorDocument.mozCancelFullScreen ||
-      vendorDocument.msExitFullscreen;
+      vendorDocument?.exitFullscreen ||
+      vendorDocument?.webkitExitFullscreen ||
+      vendorDocument?.mozCancelFullScreen ||
+      vendorDocument?.msExitFullscreen;
 
-    return exitFullScreen.call(document);
+    return exitFullScreen?.call(document);
   };
 
   const handleChange = useCallback(() => {
@@ -74,38 +78,44 @@ export const useFullScreen = (fsEl: Nullable<VendorElement>) => {
   }, [fsEl]);
 
   useEffect(() => {
-    vendorDocument.addEventListener(
+    if (isSSR) return;
+
+    vendorDocument?.addEventListener(
       'webkitfullscreenchange',
       handleChange,
       false
     );
-    vendorDocument.addEventListener('mozfullscreenchange', handleChange, false);
-    vendorDocument.addEventListener('msfullscreenchange', handleChange, false);
-    vendorDocument.addEventListener('MSFullscreenChange', handleChange, false);
-    vendorDocument.addEventListener('fullscreenchange', handleChange, false);
+    vendorDocument?.addEventListener(
+      'mozfullscreenchange',
+      handleChange,
+      false
+    );
+    vendorDocument?.addEventListener('msfullscreenchange', handleChange, false);
+    vendorDocument?.addEventListener('MSFullscreenChange', handleChange, false);
+    vendorDocument?.addEventListener('fullscreenchange', handleChange, false);
 
     return () => {
-      vendorDocument.removeEventListener(
+      vendorDocument?.removeEventListener(
         'webkitfullscreenchange',
         handleChange,
         false
       );
-      vendorDocument.removeEventListener(
+      vendorDocument?.removeEventListener(
         'mozfullscreenchange',
         handleChange,
         false
       );
-      vendorDocument.removeEventListener(
+      vendorDocument?.removeEventListener(
         'msfullscreenchange',
         handleChange,
         false
       );
-      vendorDocument.removeEventListener(
+      vendorDocument?.removeEventListener(
         'MSFullscreenChange',
         handleChange,
         false
       );
-      vendorDocument.removeEventListener(
+      vendorDocument?.removeEventListener(
         'fullscreenchange',
         handleChange,
         false

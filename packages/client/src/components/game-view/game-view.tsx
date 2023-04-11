@@ -12,19 +12,21 @@ import {
 } from './utils';
 import { useAppDispatch, useAuth } from 'components/hooks';
 import { setGameCompleted } from 'src/services/game-slice';
+import { usePatternImage } from './utils/use-pattern-image';
 import { getPlayer } from 'src/actions';
 
 // основная функция рисования
 const draw = (
   ctx: Nullable<CanvasRenderingContext2D>,
   size: number,
-  gameData: GameData
+  gameData: GameData,
+  patternImage: HTMLImageElement
 ): void => {
   if (!ctx) return;
   ctx.clearRect(0, 0, size, size);
-  renderPath(ctx, gameData.numbers);
+  renderPath(ctx, gameData.numbers, patternImage);
   gameData.paths.forEach((path) => {
-    renderPath(ctx, path);
+    renderPath(ctx, path, patternImage);
   });
 };
 
@@ -46,6 +48,7 @@ export const GameView: FC<{
     y: size,
     x: size,
   });
+  const patternImage = usePatternImage();
   const [points, setPoints] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [movesHistory, setMovesHistory] = useState<string[]>([]);
@@ -110,7 +113,7 @@ export const GameView: FC<{
         .sort(colorsSortComparator);
 
       setColors(renewedColors);
-      draw(ctx, size, gameData);
+      draw(ctx, size, gameData, patternImage);
       break;
     }
   };
@@ -146,7 +149,7 @@ export const GameView: FC<{
     setCtx(context);
 
     canvasElement.addEventListener('click', pathClickHandler);
-    draw(ctx, size, gameData);
+    draw(ctx, size, gameData, patternImage);
     return () => canvasElement.removeEventListener('click', pathClickHandler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathClickHandler, ctx, size]);
@@ -166,7 +169,7 @@ export const GameView: FC<{
         }),
       };
     });
-    draw(ctx, size, gameData);
+    draw(ctx, size, gameData, patternImage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeColorId]);
 

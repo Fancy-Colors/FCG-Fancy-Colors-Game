@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import Cookies from 'js-cookie';
 
 export enum Theme {
   LIGHT = 'light',
@@ -15,9 +16,9 @@ export enum Theme {
 const DEFAULT_THEME = Theme.LIGHT;
 
 function getStoredTheme() {
-  const storedTheme = localStorage.getItem('theme');
+  const storedTheme = Cookies.get('theme') as Theme;
 
-  if (!storedTheme || !Object.values(Theme).includes(storedTheme as Theme)) {
+  if (!storedTheme || !Object.values(Theme).includes(storedTheme)) {
     return DEFAULT_THEME;
   }
 
@@ -25,8 +26,11 @@ function getStoredTheme() {
 }
 
 function refreshCurrentTheme(theme: string) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
+  Cookies.set('theme', theme);
+
+  if (!import.meta.env.SSR) {
+    document.documentElement.setAttribute('data-theme', theme);
+  }
 }
 
 type ThemeContextType = {
@@ -36,8 +40,16 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
-export function ThemeProvider({ children }: { children: React.ReactElement }) {
-  const [theme, setTheme] = useState(getStoredTheme);
+export function ThemeProvider({
+  children,
+  initialValue,
+}: {
+  children: React.ReactElement;
+  initialValue: string;
+}) {
+  const [theme, setTheme] = useState(() => {
+    return import.meta.env.SSR ? initialValue : getStoredTheme();
+  });
 
   const toggleTheme = useCallback(() => {
     setTheme((currentTheme) =>

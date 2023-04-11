@@ -6,6 +6,30 @@ import cn from 'classnames';
 import { makeInitialData, gameData } from 'components/game-view/utils';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
+import { RawGameData } from 'components/game-view/utils/types';
+import { ClientOnly } from 'components/client-only';
+
+const GameViewWrapper = ({
+  rawGameData,
+  completedGame,
+}: {
+  rawGameData: RawGameData;
+  completedGame: boolean;
+}) => {
+  const [initColors, initGameData] = makeInitialData(rawGameData);
+
+  if (completedGame) {
+    return <GameViewCompleted data={initGameData} />;
+  }
+
+  return (
+    <GameView
+      initColors={initColors}
+      initGameData={initGameData}
+      size={initGameData.size}
+    />
+  );
+};
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -27,19 +51,14 @@ export const GamePage: FC = () => {
     dispatch(resetCompletedGame());
   }, [dispatch]);
 
-  const [initColors, initGameData] = makeInitialData(rawGameData);
-
   return (
     <div className={cn(styles.content, 'u-page')}>
-      {completedGame ? (
-        <GameViewCompleted data={initGameData} />
-      ) : (
-        <GameView
-          initColors={initColors}
-          initGameData={initGameData}
-          size={initGameData.size}
+      <ClientOnly>
+        <GameViewWrapper
+          rawGameData={rawGameData}
+          completedGame={Boolean(completedGame)}
         />
-      )}
+      </ClientOnly>
     </div>
   );
 };
