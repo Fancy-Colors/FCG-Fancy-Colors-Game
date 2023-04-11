@@ -13,10 +13,11 @@ import {
   validatePassword,
   validatePhone,
 } from 'utils/validation';
-import { useAuth } from 'components/hooks/use-auth';
+import { useAuth, useWindowSize } from 'components/hooks';
 import { userApi } from 'api/user';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
+import { ErrorBoundary } from 'utils/error-boundary';
 
 type ProfileFormFields = {
   email: string;
@@ -78,8 +79,8 @@ const ProfileForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.container}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.content}>
         <div className={styles.row}>
           <div className={styles.column}>
             <div className={styles.avatar}>
@@ -117,11 +118,11 @@ const ProfileForm = () => {
               })}
             />
             <TextField
-              placeholder="Никнейм"
-              error={errors.displayName?.message}
-              {...register('displayName', {
+              placeholder="Фамилия"
+              error={errors.secondName?.message}
+              {...register('secondName', {
                 required: { value: true, message: requiredFieldMessage },
-                validate: validateLogin,
+                validate: validateName,
               })}
             />
           </div>
@@ -135,11 +136,11 @@ const ProfileForm = () => {
               })}
             />
             <TextField
-              placeholder="Фамилия"
-              error={errors.secondName?.message}
-              {...register('secondName', {
+              placeholder="Никнейм"
+              error={errors.displayName?.message}
+              {...register('displayName', {
                 required: { value: true, message: requiredFieldMessage },
-                validate: validateName,
+                validate: validateLogin,
               })}
             />
             <TextField
@@ -189,8 +190,11 @@ const PasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.container}>
+    <form
+      className={cn(styles.form, styles.password)}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className={styles.content}>
         <h3 className={styles.title}>Изменить Пароль</h3>
         <div className={styles.row}>
           <div className={styles.column}>
@@ -241,10 +245,18 @@ const PasswordForm = () => {
 };
 
 export const Profile = () => {
+  const { width } = useWindowSize();
+
   return (
     <div className={cn(styles.profile, 'u-page')}>
-      <ProfileForm />
-      <PasswordForm />
+      <div className={cn(styles.container, width < 769 && 'u-fancy-scrollbar')}>
+        <ErrorBoundary>
+          <ProfileForm />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <PasswordForm />
+        </ErrorBoundary>
+      </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Button } from 'components/button';
 import { useAuth } from 'components/hooks/use-auth';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
+import { setUserToLeaderboard } from 'src/actions';
 import styles from './game-view.module.pcss';
 import cn from 'classnames';
 import { usePatternImage } from './utils/use-pattern-image';
@@ -18,6 +19,8 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const { completedGame } = useAppSelector((state) => state.game);
+  const { player } = useAppSelector((state) => state.leaderboard);
+
   if (!completedGame) {
     throw new Error('no completed game found');
   }
@@ -29,6 +32,29 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const size = data?.size || 1;
+
+  useEffect(() => {
+    if (completedGame) {
+      let allPoints = completedGame.points;
+
+      if (player) {
+        allPoints = completedGame.points + player.data.score;
+      }
+
+      if (user) {
+        dispatch(
+          setUserToLeaderboard(
+            user.id,
+            user.login,
+            allPoints,
+            user.avatar,
+            user.firstName,
+            user.secondName
+          )
+        );
+      }
+    }
+  }, [completedGame, dispatch, player, user]);
 
   useEffect(() => {
     const resizeCb = () =>

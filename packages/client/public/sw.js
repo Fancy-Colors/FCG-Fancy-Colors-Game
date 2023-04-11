@@ -18,7 +18,7 @@ const URLS = [
   '/assets/png/bg-image.png',
   '/assets/woff2/MontserratAlternates-Bold.woff2',
   '/assets/woff2/MontserratAlternates-Regular.woff2',
-  '/vite.svg',
+  '/favicon.svg',
 ]; 
 
 self.addEventListener('install', event => {

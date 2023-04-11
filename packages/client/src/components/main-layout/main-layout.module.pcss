@@ -1,14 +1,21 @@
 .layout {
   display: flex;
+  height: 100%;
 }
 
 .page {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 24px;
+  padding: var(--gap);
   overflow: hidden;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .layout {
+    flex-direction: column;
+  }
 }

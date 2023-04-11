@@ -29,12 +29,14 @@ export const Leader = ({
         [styles.active]: active,
       })}
     >
-      {size === 'row' && <div className={styles.place}>{place}</div>}
+      {size === 'row' && (
+        <div className={cn(styles.place, 'text-main-bold')}>{place}</div>
+      )}
       <div className={styles.avatar}>
         <Avatar size={avatarSize} name={name} avatar={avatar} />
         {size !== 'row' && <div className={styles.place}>{place}</div>}
       </div>
-      <div className={styles.login}>{login}</div>
+      <div className={cn(styles.login, 'text-main-bold')}>{login}</div>
       <div className={styles.name}>{name}</div>
       <div className={styles.points}>
         <Score score={score} />

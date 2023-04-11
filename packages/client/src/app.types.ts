@@ -1,6 +1,6 @@
 export enum RouterPaths {
   MAIN = '/',
-  HOW_TO = '/how-to',
+  HOW_TO = '?modal=howto',
   REGISTER = '/sign-up',
   LOGIN = '/login',
   PROFILE = '/profile',
