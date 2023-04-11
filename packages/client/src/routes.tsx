@@ -1,5 +1,4 @@
 import { ProtectedRoutes } from 'utils/protected-routes';
-import { HowToModal } from 'components/how-to-modal';
 import { MainLayout } from 'components/main-layout';
 import { NewThreadModal } from 'components/modal-new-thread';
 import { AuthLayout, getCurrentUser } from 'components/auth-layout';
@@ -30,10 +29,14 @@ export const createRoutes = (store: AppStore) => {
     >
       <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
       <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
-      <Route element={<MainLayout />}>
-        <Route path={RouterPaths.MAIN} element={<MainPage />}>
-          <Route path={RouterPaths.HOW_TO} element={<HowToModal />} />
-        </Route>
+      <Route
+        element={<MainLayout />}
+        loader={({ request }) => {
+          const url = new URL(request.url);
+          return url.searchParams.get('modal');
+        }}
+      >
+        <Route path={RouterPaths.MAIN} element={<MainPage />} />
         <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
         <Route path={RouterPaths.FORUM} element={<Forum />}>
           <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
