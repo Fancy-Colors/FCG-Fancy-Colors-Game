@@ -16,12 +16,12 @@ export type ForumItem = {
   text: string;
   name: string;
   date: string;
-  messageCount: number | string;
+  messageCount: string | number;
   avatar?: string;
 };
 
 export type Thread = {
-  id: string | number;
+  id: number;
   title: string;
   messages: ForumMessage[];
 };
@@ -38,7 +38,7 @@ const initialState: ForumState = {
   count: 20,
   forum: [],
   thread: {
-    id: '',
+    id: -1,
     title: '',
     messages: [],
   },
@@ -53,7 +53,7 @@ export const forumSlice = createSlice({
     setForum: (
       state,
       action: PayloadAction<{
-        page: string | number;
+        page: number;
         data: ForumItem[];
       }>
     ) => {
@@ -62,8 +62,8 @@ export const forumSlice = createSlice({
     setThread: (
       state,
       action: PayloadAction<{
-        threadId: string | number;
-        page: string | number;
+        threadId: number;
+        page: number;
         data: Thread;
       }>
     ) => {

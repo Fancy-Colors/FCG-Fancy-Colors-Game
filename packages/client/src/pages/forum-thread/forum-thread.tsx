@@ -24,7 +24,7 @@ export const ForumThread = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchThread(threadId, page));
+    dispatch(fetchThread(+threadId, page));
   }, [page, threadId, dispatch]);
 
   useEffect(() => {
