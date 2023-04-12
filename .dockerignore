@@ -1,0 +1,13 @@
+Dockerfile*
+docker-compose.yml
+.dockerignore
+tmp
+.github
+.git
+node_modules
+.editorconfig
+lefthook.yml
+.prettierignore
+.prettierrc
+README.md
+.gitignore
