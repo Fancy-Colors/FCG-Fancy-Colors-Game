@@ -6,11 +6,11 @@ type Toast = {
   type: 'success' | 'error' | 'info' | 'warning';
 };
 
-type State = {
+export type AppState = {
   notifications: Toast[];
 };
 
-const initialState: State = {
+const initialState: AppState = {
   notifications: [],
 };
 

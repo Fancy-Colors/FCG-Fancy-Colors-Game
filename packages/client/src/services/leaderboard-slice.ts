@@ -5,13 +5,13 @@ export type FilteredUser = {
   place: number;
 } & UserParams;
 
-type State = {
+export type LeaderboardState = {
   leaderboard: PlayerData[];
   filteredPlayers: FilteredUser[];
   player: PlayerData | null;
 };
 
-const initialState: State = {
+const initialState: LeaderboardState = {
   leaderboard: [],
   filteredPlayers: [],
   player: null,

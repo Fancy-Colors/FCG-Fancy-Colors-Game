@@ -22,8 +22,16 @@ export class AuthApi extends BaseApi {
     });
   }
 
-  me() {
-    return this.http.get<UserDTO | APIError>('/user');
+  me(request?: Request) {
+    const headers: Record<string, string> = {};
+
+    if (import.meta.env.SSR && request) {
+      headers.cookie = request.headers.get('cookie') as string;
+    }
+
+    return this.http.get<UserDTO | APIError>('/user', {
+      headers,
+    });
   }
 
   logout() {

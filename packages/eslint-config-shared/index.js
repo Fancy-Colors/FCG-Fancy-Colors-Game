@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    es2020: true,
+    es2022: true,
     node: true,
   },
   extends: [
@@ -164,7 +164,6 @@ module.exports = {
     'unicorn/prefer-date-now': 'error',
     'unicorn/prefer-keyboard-event-key': 'error',
     'unicorn/prefer-modern-math-apis': 'error',
-    'unicorn/prefer-query-selector': 'error',
     'unicorn/throw-new-error': 'error',
   },
 };

@@ -28,7 +28,7 @@ export type Thread = {
   messages: ForumMessage;
 };
 
-type ForumState = {
+export type ForumState = {
   count: number;
   forum: Threads;
   threads: {
