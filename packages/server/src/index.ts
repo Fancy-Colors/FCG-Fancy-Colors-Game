@@ -1,6 +1,4 @@
-import dotenv from 'dotenv';
 import cors from 'cors';
-dotenv.config();
 import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,14 +8,16 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import jsesc from 'jsesc';
 import { createStaticRouter } from 'react-router-dom/server.js';
+import { dbConnect } from './db.js';
+import { createFetchRequest } from './utils/request-adapter.js';
+import { router } from './router.js';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 async function bootstrap() {
+  await dbConnect();
   const app = express();
-  const port = Number(process.env.SERVER_PORT) || 3001;
-
-  app.use(cors());
+  const port = Number(process.env.SERVER_PORT) || 5000;
 
   const require = createRequire(import.meta.url);
   const templatePath = require.resolve('client/index.html');
@@ -25,6 +25,8 @@ async function bootstrap() {
   const clientRoot = path.dirname(require.resolve('client/package.json'));
 
   let vite = null as ViteDevServer | null;
+
+  app.use(cors());
 
   if (isDev) {
     vite = await createViteServer({
@@ -48,6 +50,8 @@ async function bootstrap() {
       target: 'https://ya-praktikum.tech',
     })
   );
+  app.use(express.json());
+  app.use('/api', router);
 
   if (!isDev) {
     app.use(express.static(staticPath, { index: false }));
@@ -93,7 +97,10 @@ async function bootstrap() {
         );
       }
 
-      const router = createStaticRouter(staticHandler.dataRoutes, context);
+      const staticRouter = createStaticRouter(
+        staticHandler.dataRoutes,
+        context
+      );
 
       const storedTheme = req.cookies.theme;
       // Получаем предпочитаемую пользователем тему из настроек браузера
@@ -103,7 +110,7 @@ async function bootstrap() {
       const detectedTheme = storedTheme || userPreferredTheme;
 
       const { initialState, renderResult } = render(
-        router,
+        staticRouter,
         context,
         detectedTheme
       );
@@ -112,10 +119,11 @@ async function bootstrap() {
         json: true,
         isScriptContext: true,
       });
+      const storeState = `<script>window.__INITIAL_STATE__ = ${initialStateSerialized}</script>`;
 
       const html = template
         .replace('<!--ssr-outlet-->', renderResult)
-        .replace('<!--store-data-->', initialStateSerialized)
+        .replace('<!--store-state-->', storeState)
         .replace('{{__THEME__}}', detectedTheme);
 
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -132,44 +140,6 @@ async function bootstrap() {
     // eslint-disable-next-line no-console
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });
-}
-
-function createRequestHeaders(requestHeaders: express.Request['headers']) {
-  const headers = new Headers();
-
-  for (const [key, values] of Object.entries(requestHeaders)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
-}
-
-function createFetchRequest(req: express.Request) {
-  const origin = `${req.protocol}://${req.get('host')}`;
-  const url = new URL(req.originalUrl || req.url, origin);
-
-  const controller = new AbortController();
-  req.on('close', () => controller.abort());
-
-  const requestInit: RequestInit = {
-    method: req.method,
-    headers: createRequestHeaders(req.headers),
-    signal: controller.signal,
-  };
-
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
-    requestInit.body = req.body;
-  }
-
-  return new Request(url.href, requestInit);
 }
 
 bootstrap();
