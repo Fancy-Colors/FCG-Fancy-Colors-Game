@@ -6,25 +6,24 @@
 }
 
 .leader {
-  display: flex;
+  display: grid;
 
   &.row {
-    padding: 3px var(--gap);
+    grid-template-columns: 40px 70px 180px auto 100px;
     align-items: center;
-    gap: var(--gap);
-    margin: 10px 0;
+    padding: 0 var(--gap);
 
     .place {
-      width: 36px;
       color: var(--color-accent-primary);
+      padding-right: 10px;
     }
 
     .login {
-      width: 150px;
+      padding-right: 10px;
     }
 
     .name {
-      flex-grow: 1;
+      padding-right: 10px;
     }
 
     &.active {
@@ -33,13 +32,14 @@
   }
 
   &.card {
-    flex-direction: column;
     justify-content: center;
     text-align: center;
 
     .avatar {
       margin-bottom: 14px;
       position: relative;
+      display: flex;
+      justify-content: center;
     }
 
     .place {
@@ -83,13 +83,7 @@
 
   .leader {
     &.row {
-      .place {
-        width: 30px;
-      }
-
-      .login {
-        width: 90px;
-      }
+      grid-template-columns: 30px 40px 150px auto 70px;
     }
 
     &.card {
@@ -103,24 +97,30 @@
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
   .name {
     display: none;
   }
 
   .leader {
     &.row {
-      .login {
-        flex-grow: 1;
-      }
+      grid-template-columns: 30px 40px auto 70px;
     }
 
     &.card {
+      display: flex;
+      flex-direction: column;
+
+      .avatar {
+        margin-bottom: 6px;
+      }
+
       .place {
         width: 30px;
         height: 30px;
         font-size: 16px;
         line-height: 18px;
+        right: calc(100% - 75%);
       }
     }
   }
