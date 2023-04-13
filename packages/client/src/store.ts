@@ -10,9 +10,7 @@ export type RootState = {
   leaderboard: LeaderboardState;
 };
 
-export type InitialState = Partial<RootState>;
-
-export function createStore(initialState?: InitialState) {
+export function createStore(initialState?: RootState) {
   return configureStore({
     reducer,
     preloadedState: initialState,
@@ -20,5 +18,4 @@ export function createStore(initialState?: InitialState) {
 }
 
 export type AppStore = ReturnType<typeof createStore>;
-
 export type AppDispatch = AppStore['dispatch'];

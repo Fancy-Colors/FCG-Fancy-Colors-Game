@@ -39,6 +39,7 @@ services:
 
   postgres:
     image: postgres:14
+    container_name: prakticum-db
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     environment:
@@ -61,7 +62,7 @@ services:
       retries: 3
 
   pgadmin:
-    container_name: pgadmin
+    container_name: prakticum-pgadmin
     image: dpage/pgadmin4:6.3
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}

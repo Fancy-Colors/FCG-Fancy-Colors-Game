@@ -32,7 +32,7 @@ async function bootstrap() {
       appType: 'custom',
     });
 
-    app.use(vite!.middlewares);
+    app.use(vite.middlewares);
   }
 
   app.use(
