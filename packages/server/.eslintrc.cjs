@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   settings: {
@@ -9,12 +9,26 @@ module.exports = {
       tryExtensions: ['.js', '.json', '.node', '.ts', '.d.ts'],
     },
   },
-  extends: ['shared', 'plugin:node/recommended'],
+  extends: ['shared', 'plugin:n/recommended-module'],
   rules: {
-    'node/no-unsupported-features/es-syntax': [
+    'new-cap': 'off',
+    'unicorn/prefer-node-protocol': 'error',
+    'unicorn/prefer-module': 'error',
+    'n/no-missing-import': 'off',
+    'n/no-extraneous-import': [
       'error',
-      { ignores: ['modules'] },
+      {
+        allowModules: ['@remix-run/router'],
+      },
     ],
-    'node/no-missing-import': 'off',
   },
+  overrides: [
+    {
+      files: '*.cjs',
+      globals: {
+        module: 'writable',
+        exports: 'writable',
+      },
+    },
+  ],
 };

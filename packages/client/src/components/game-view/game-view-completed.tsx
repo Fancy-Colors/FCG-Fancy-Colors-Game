@@ -6,8 +6,10 @@ import { Button } from 'components/button';
 import { useAuth } from 'components/hooks/use-auth';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
+import { setUserToLeaderboard } from 'src/actions';
 import styles from './game-view.module.pcss';
 import cn from 'classnames';
+import { usePatternImage } from './utils/use-pattern-image';
 
 type Props = {
   data: GameData;
@@ -17,16 +19,42 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const { completedGame } = useAppSelector((state) => state.game);
+  const { player } = useAppSelector((state) => state.leaderboard);
+
   if (!completedGame) {
     throw new Error('no completed game found');
   }
 
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
+  const patternImage = usePatternImage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resizableRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const size = data?.size || 1;
+
+  useEffect(() => {
+    if (completedGame) {
+      let allPoints = completedGame.points;
+
+      if (player) {
+        allPoints = completedGame.points + player.data.score;
+      }
+
+      if (user) {
+        dispatch(
+          setUserToLeaderboard(
+            user.id,
+            user.login,
+            allPoints,
+            user.avatar,
+            user.firstName,
+            user.secondName
+          )
+        );
+      }
+    }
+  }, [completedGame, dispatch, player, user]);
 
   useEffect(() => {
     const resizeCb = () =>
@@ -58,8 +86,8 @@ export const GameViewCompleted: FC<Props> = ({ data }) => {
 
   useEffect(() => {
     if (!ctx) return;
-    drawHistory(ctx, data, movesHistory);
-  }, [ctx, data, movesHistory]);
+    drawHistory(ctx, data, movesHistory, patternImage);
+  }, [ctx, data, movesHistory, patternImage]);
 
   const GameEndMessage = () => {
     return (

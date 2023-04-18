@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useWindowSize = () => {
-  const isSSR = typeof window !== 'undefined';
+  const isSSR = typeof window === 'undefined';
 
   const [windowSize, setWindowSize] = useState({
     width: isSSR ? 1440 : window.innerWidth,
