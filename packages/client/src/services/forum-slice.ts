@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Threads = {
-  [page: string | number]: ForumItem[];
-};
+export type Forum = ForumItem[];
 
 export type ForumMessage = {
   id: number;
@@ -18,28 +16,34 @@ export type ForumItem = {
   text: string;
   name: string;
   date: string;
-  messageCount: number | string;
+  messageCount: string | number;
   avatar?: string;
 };
 
 export type Thread = {
-  id: string | number;
+  id: number;
   title: string;
-  messages: ForumMessage;
+  messages: ForumMessage[];
 };
 
 export type ForumState = {
   count: number;
-  forum: Threads;
-  threads: {
-    [key: string]: Thread; // thread_id => thread entity
-  };
+  forum: Forum;
+  currentForumPage: number;
+  currentThreadPage: number;
+  thread: Thread;
 };
 
 const initialState: ForumState = {
   count: 20,
-  forum: {},
-  threads: {},
+  forum: [],
+  thread: {
+    id: -1,
+    title: '',
+    messages: [],
+  },
+  currentForumPage: 1,
+  currentThreadPage: 1,
 };
 
 export const forumSlice = createSlice({
@@ -49,18 +53,36 @@ export const forumSlice = createSlice({
     setForum: (
       state,
       action: PayloadAction<{
-        page: string | number;
+        page: number;
         data: ForumItem[];
       }>
     ) => {
-      state.forum = {
-        ...state.forum,
-        [action.payload.page]: action.payload.data,
-      };
+      state.forum = action.payload.data;
+    },
+    setThread: (
+      state,
+      action: PayloadAction<{
+        threadId: number;
+        page: number;
+        data: Thread;
+      }>
+    ) => {
+      state.thread = action.payload.data;
+    },
+    setCurrentForumPage: (state, action: PayloadAction<{ page: number }>) => {
+      state.currentForumPage = action.payload.page;
+    },
+    setCurrentThreadPage: (state, action: PayloadAction<{ page: number }>) => {
+      state.currentThreadPage = action.payload.page;
     },
   },
 });
 
-export const { setForum } = forumSlice.actions;
+export const {
+  setForum,
+  setThread,
+  setCurrentForumPage,
+  setCurrentThreadPage,
+} = forumSlice.actions;
 
 export default forumSlice.reducer;

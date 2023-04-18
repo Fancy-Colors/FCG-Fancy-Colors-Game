@@ -7,15 +7,12 @@ import { Icon } from 'components/icon';
 import { DateFormatted } from 'components/date-formatted';
 import { Button, ButtonColor } from 'components/button';
 import cn from 'classnames';
+import { ForumMessage as ForumMessageType } from 'src/services/forum-slice';
 
-export type ForumMessageProps = {
-  id: number;
-  avatar?: string;
-  name: string;
-  date: string;
-  text: string;
+export type ForumMessageProps = ForumMessageType & {
   handleReply: (id: number) => void;
 };
+
 export const ForumMessage: FC<ForumMessageProps> = ({
   id,
   avatar,
