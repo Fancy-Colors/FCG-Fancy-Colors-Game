@@ -19,9 +19,7 @@ export class ThemeService implements BaseService {
     }
 
     return Theme.findOne({
-      where: {
-        name: `%${name}%`,
-      },
+      where: { name },
     });
   }
 

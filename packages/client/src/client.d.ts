@@ -1,4 +1,4 @@
-import { RootState } from './store';
+import type { RootState } from './store';
 
 declare const __SERVER_PORT__: number;
 

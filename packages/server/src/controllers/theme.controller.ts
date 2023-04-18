@@ -5,11 +5,6 @@ import { ThemeService } from '../services/theme.service.js';
 export class ThemeController {
   static async create(req: Request, res: Response) {
     const result = await ThemeService.create(req.body);
-
-    if (!result) {
-      throw new ErrorResponse('Not found', 404);
-    }
-
     return res.status(200).send(result);
   }
 
@@ -17,6 +12,11 @@ export class ThemeController {
     const id = Number(req.params.id);
     const payload = req.body;
     const result = await ThemeService.update(id, payload);
+
+    if (!result) {
+      throw new ErrorResponse('Not found', 404);
+    }
+
     return res.status(201).send(result);
   }
 
@@ -32,6 +32,11 @@ export class ThemeController {
       name: req.query.name as string,
     };
     const result = await ThemeService.find(payload);
+
+    if (!result) {
+      throw new ErrorResponse('Not found', 404);
+    }
+
     return res.status(200).send(result);
   }
 }
