@@ -1,0 +1,17 @@
+*Dockerfile*
+*docker-compose*
+.dockerignore
+dist
+.vscode
+.idea
+*.log
+tmp
+.github
+.git
+node_modules
+.editorconfig
+lefthook.yml
+.prettierignore
+.prettierrc
+README.md
+.gitignore

@@ -11,8 +11,10 @@ module.exports = {
   },
   extends: ['shared', 'plugin:n/recommended-module'],
   rules: {
+    'new-cap': 'off',
     'unicorn/prefer-node-protocol': 'error',
     'unicorn/prefer-module': 'error',
+    'n/no-missing-import': 'off',
     'n/no-extraneous-import': [
       'error',
       {

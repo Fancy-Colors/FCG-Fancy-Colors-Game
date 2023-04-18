@@ -1,7 +1,7 @@
 import { ThemeProvider, Theme } from 'components/hooks/use-theme';
 import React from 'react';
 import { Provider as StoreProvider } from 'react-redux';
-import type { AppStore, InitialState } from './store';
+import type { AppStore, RootState } from './store';
 import './styles/index.pcss';
 
 function App({
@@ -13,7 +13,7 @@ function App({
   children: React.ReactNode;
   theme?: string;
   store: AppStore;
-  initialState?: InitialState;
+  initialState?: RootState;
 }) {
   return (
     <React.StrictMode>
