@@ -13,6 +13,7 @@ import { Profile } from 'pages/profile';
 import { createRoutesFromElements, defer, Route } from 'react-router-dom';
 import { RouterPaths } from './app.types';
 import { AppStore } from './store';
+import { YandexOAuth } from 'components/yandex-oauth';
 
 // Доступ к стору для лоадеров
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,29 +28,31 @@ export const createRoutes = (store: AppStore) => {
         });
       }}
     >
-      <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
-      <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
-      <Route
-        element={<MainLayout />}
-        loader={({ request }) => {
-          const url = new URL(request.url);
-          return url.searchParams.get('modal');
-        }}
-      >
-        <Route path={RouterPaths.MAIN} element={<MainPage />} />
-        <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
-        <Route path={RouterPaths.FORUM} element={<Forum />}>
-          <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
+      <Route element={<YandexOAuth />}>
+        <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
+        <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
+        <Route
+          element={<MainLayout />}
+          loader={({ request }) => {
+            const url = new URL(request.url);
+            return url.searchParams.get('modal');
+          }}
+        >
+          <Route path={RouterPaths.MAIN} element={<MainPage />} />
+          <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
+          <Route path={RouterPaths.FORUM} element={<Forum />}>
+            <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
+          </Route>
+          <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path={RouterPaths.PROFILE} element={<Profile />} />
+            <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
+          </Route>
         </Route>
-        <Route path={`${RouterPaths.FORUM}/:id`} element={<ForumThread />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path={RouterPaths.PROFILE} element={<Profile />} />
-          <Route path={`${RouterPaths.GAME}/:id`} element={<GamePage />} />
-        </Route>
+        <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
+        <Route path={RouterPaths.ERROR_404} element={<Error404 />} />
+        <Route path="*" element={<Error404 />} />
       </Route>
-      <Route path={RouterPaths.ERROR_500} element={<Error500 />} />
-      <Route path={RouterPaths.ERROR_404} element={<Error404 />} />
-      <Route path="*" element={<Error404 />} />
     </Route>
   );
 };
