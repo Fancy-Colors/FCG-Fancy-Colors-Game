@@ -37,6 +37,16 @@ export class ThreadController {
       limit: Number(req.query.limit || 20),
       offset: Number(req.query.offset || 0),
     };
+
+    if (isNaN(payload.limit) || isNaN(payload.offset)) {
+      return res
+        .status(400)
+        .send({
+          message:
+            'limit и/или offset query-запросы должны быть числами или должны быть опущены',
+        });
+    }
+
     const result = await ThreadService.findAll(payload);
 
     if (!result) {
