@@ -20,7 +20,6 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "lib": ["ESNext", "DOM"],
     "types": ["node", "jest"],
     "baseUrl": ".",
