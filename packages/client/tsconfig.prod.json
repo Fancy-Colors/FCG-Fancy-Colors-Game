@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist/server/assets/js/",
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["typings", "src/vite-env.d.ts", "src/entry-server.tsx"]
+}

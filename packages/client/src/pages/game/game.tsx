@@ -8,6 +8,29 @@ import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
 import { gameApi } from 'api/game';
 import { GameData, RawGameData, Color } from 'components/game-view/utils/types';
+import { ClientOnly } from 'components/client-only';
+
+const GameViewWrapper = ({
+  initGameData,
+  completedGame,
+  initColors,
+}: {
+  initGameData: GameData;
+  completedGame: boolean;
+  initColors: Color[];
+}) => {
+  if (completedGame) {
+    return <GameViewCompleted data={initGameData} />;
+  }
+
+  return (
+    <GameView
+      initColors={initColors}
+      initGameData={initGameData}
+      size={initGameData.size}
+    />
+  );
+};
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -42,15 +65,13 @@ export const GamePage: FC = () => {
     <>
       {initGameData && initColors && (
         <div className={cn(styles.content, 'u-page')}>
-          {completedGame ? (
-            <GameViewCompleted data={initGameData} />
-          ) : (
-            <GameView
-              initColors={initColors}
+          <ClientOnly>
+            <GameViewWrapper
               initGameData={initGameData}
-              size={initGameData.size}
+              initColors={initColors}
+              completedGame={Boolean(completedGame)}
             />
-          )}
+          </ClientOnly>
         </div>
       )}
     </>

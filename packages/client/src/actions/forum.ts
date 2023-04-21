@@ -1,7 +1,7 @@
 import { AppDispatch } from 'src/store';
 
 import { forumApi } from 'src/api';
-import { setForum } from 'src/services/forum-slice';
+import { setForum, setThread } from 'src/services/forum-slice';
 
 export const fetchForumPage =
   (page: number) => async (dispatch: AppDispatch) => {
@@ -11,6 +11,19 @@ export const fetchForumPage =
         setForum({
           page,
           data: threads,
+        })
+      );
+    } catch (e) {}
+  };
+export const fetchThread =
+  (threadId: number, page: number) => async (dispatch: AppDispatch) => {
+    try {
+      const thread = await forumApi.getThread(page);
+      dispatch(
+        setThread({
+          threadId,
+          page,
+          data: thread,
         })
       );
     } catch (e) {}

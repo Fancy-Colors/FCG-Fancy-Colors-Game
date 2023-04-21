@@ -32,7 +32,7 @@ export default defineConfig({
       output: {
         assetFileNames: 'assets/[ext]/[name][extname]',
         chunkFileNames: 'assets/[chunks]/[name].[hash].js',
-        entryFileNames: 'assets/js/main.js',
+        entryFileNames: 'assets/js/entry-server.js',
       },
     },
   },

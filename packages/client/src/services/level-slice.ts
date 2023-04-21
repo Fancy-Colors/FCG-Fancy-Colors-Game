@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GameRaw } from 'api/types';
 import { transformGameList } from 'utils/api-transformers';
 
-interface Level {
+export interface LevelState {
   levels: GameRaw[];
 }
 
-const initialState: Level = {
+const initialState: LevelState = {
   levels: [],
 };
 

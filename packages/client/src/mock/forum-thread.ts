@@ -1,10 +1,6 @@
-import { ForumMessageProps } from 'components/forum-message/forum-message';
+import { Thread } from 'src/services/forum-slice';
 
-export const thread: {
-  id: string | number;
-  title: string;
-  messages: Omit<ForumMessageProps, 'handleReply'>[];
-} = {
+export const thread: Thread = {
   id: 1,
   title: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
   messages: [

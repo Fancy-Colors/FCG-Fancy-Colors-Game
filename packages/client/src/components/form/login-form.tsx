@@ -8,6 +8,7 @@ import { useAuth } from 'components/hooks/use-auth';
 import { validateLogin, validatePassword } from 'utils/validation';
 import { RouterPaths } from 'src/app.types';
 import styles from './form.module.pcss';
+import { YandexOAuthButton } from 'components/yandex-oauth-button';
 
 type Props = JSX.IntrinsicElements['form'];
 
@@ -49,6 +50,7 @@ export const LoginForm: FC<Props> = (props) => {
       <Button size="large" color={ButtonColor.GRADIENT} type="submit">
         Вход
       </Button>
+      <YandexOAuthButton />
       <Link to={RouterPaths.REGISTER} className={cn(styles.link, 'text-main')}>
         Нет аккаунта? Зарегистрироваться
       </Link>

@@ -14,7 +14,7 @@ const URLS = [
   '/game/village',
   '/index.html',
   '/assets/css/index.css',
-  '/assets/js/main.js',
+  '/assets/js/entry-server.js',
   '/assets/png/bg-image.png',
   '/assets/woff2/MontserratAlternates-Bold.woff2',
   '/assets/woff2/MontserratAlternates-Regular.woff2',
@@ -59,13 +59,15 @@ self.addEventListener('fetch', event => {
 function tryNetwork (request, timeout) {
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(reject, timeout);
+    // NOTE: https://github.com/w3c/ServiceWorker/issues/693
+    const allowedMethods = ['GET', 'HEAD'];
 
     fetch(request).then(response => {
       clearTimeout(timeoutId);
       const responseClone = response.clone();
       
       caches.open(CACHE_NAME).then(cache => {
-        if (request.url.match('^(http|https)://')) { 
+        if (request.url.match('^(http|https)://') && allowedMethods.includes(request.method)) { 
           cache.put(request, responseClone); 
         }
       })
