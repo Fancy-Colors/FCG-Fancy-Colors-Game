@@ -6,4 +6,4 @@ export const threadRouter = Router();
 threadRouter.get('/', ThreadController.findAll);
 threadRouter.post('/', ThreadController.create);
 threadRouter.get('/count', ThreadController.count);
-threadRouter.get('/find/:id', ThreadController.find);
+threadRouter.get('/:id/common', ThreadController.find);
