@@ -7,8 +7,9 @@ import { makeInitialData } from 'components/game-view/utils';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
 import { gameApi } from 'api/game';
-import { GameData, RawGameData, Color } from 'components/game-view/utils/types';
+import { GameData, Color } from 'components/game-view/utils/types';
 import { ClientOnly } from 'components/client-only';
+import { hasApiError } from 'utils/has-api-error';
 
 const GameViewWrapper = ({
   initGameData,
@@ -46,19 +47,18 @@ export const GamePage: FC = () => {
 
   useEffect(() => {
     dispatch(resetCompletedGame());
+
     gameApi
       .readGameData(id)
       .then((res) => {
-        if (Object.hasOwn(res, 'reason')) {
-          throw new Error(`no game found by id: ${id}`);
+        if (hasApiError(res)) {
+          throw new Error(res.reason);
         }
-        const [colors, gameData] = makeInitialData(res as RawGameData);
+        const [colors, gameData] = makeInitialData(res);
         setInitColors(colors);
         setInitGameData(gameData);
       })
-      .catch((e) => {
-        return new Error(e);
-      });
+      .catch((e) => console.error(e));
   }, [dispatch, id]);
 
   return (
