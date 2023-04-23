@@ -10,6 +10,7 @@ import { gameApi } from 'api/game';
 import { GameData, Color } from 'components/game-view/utils/types';
 import { ClientOnly } from 'components/client-only';
 import { hasApiError } from 'utils/has-api-error';
+import { setNotification } from 'src/services/app-slice';
 
 const GameViewWrapper = ({
   initGameData,
@@ -58,7 +59,9 @@ export const GamePage: FC = () => {
         setInitColors(colors);
         setInitGameData(gameData);
       })
-      .catch((e) => console.error(e));
+      .catch((errorMessage) => {
+        dispatch(setNotification({ type: 'error', text: errorMessage }));
+      });
   }, [dispatch, id]);
 
   return (
