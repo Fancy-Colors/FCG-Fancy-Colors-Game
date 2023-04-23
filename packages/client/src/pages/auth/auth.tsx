@@ -3,6 +3,7 @@ import { ReactComponent as Logo } from 'assets/logo.svg';
 import { LoginForm, RegisterForm } from 'components/form';
 import cn from 'classnames';
 import styles from './auth.module.pcss';
+import { Toast } from 'components/toast';
 
 type Props = {
   children: JSX.Element;
@@ -23,6 +24,7 @@ const AuthLayout: FC<Props> = ({ children }) => {
           </div>
         </div>
       </div>
+      <Toast />
     </main>
   );
 };
