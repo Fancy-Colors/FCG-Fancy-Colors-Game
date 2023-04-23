@@ -3,6 +3,7 @@ import { HowToModal } from 'components/how-to-modal';
 import { SideMenu } from 'components/side-menu';
 import { Outlet, useLoaderData } from 'react-router-dom';
 import styles from './main-layout.module.pcss';
+import { Toast } from 'components/toast';
 
 export const MainLayout = () => {
   const modal = useLoaderData();
@@ -13,6 +14,7 @@ export const MainLayout = () => {
       <main className={styles.page}>
         <Outlet />
       </main>
+      <Toast />
     </div>
   );
 };

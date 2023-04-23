@@ -3,11 +3,13 @@ import reducer from './services';
 import { ForumState } from './services/forum-slice';
 import { Game } from './services/game-slice';
 import { LeaderboardState } from './services/leaderboard-slice';
+import { AppState } from './services/app-slice';
 
 export type RootState = {
   game: Game;
   forum: ForumState;
   leaderboard: LeaderboardState;
+  app: AppState;
 };
 
 export function createStore(initialState?: RootState) {

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { RouterPaths } from 'src/app.types';
 import { transformUser } from 'utils/api-transformers';
 import { hasApiError } from 'utils/has-api-error';
+import { useAppDispatch } from './use-app-dispatch';
+import { setNotification } from 'src/services/app-slice';
 
 type AuthContextType = {
   user: User | null;
@@ -28,6 +30,7 @@ export function AuthProvider({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const signIn = async (login: string, password: string) => {
@@ -45,6 +48,9 @@ export function AuthProvider({
       setUser(transformUser(response));
       navigate(RouterPaths.MAIN);
     } catch (err: unknown) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось получить данные' })
+      );
       if (err instanceof Error) {
         setError(err.message);
       }
@@ -73,6 +79,9 @@ export function AuthProvider({
       setUser(transformUser(userResponse));
       navigate(RouterPaths.MAIN);
     } catch (err: unknown) {
+      dispatch(
+        setNotification({ type: 'error', text: 'Не удалось получить данные' })
+      );
       if (err instanceof Error) {
         setError(err.message);
       }

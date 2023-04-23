@@ -18,7 +18,11 @@ declare global {
     | 'star'
     | 'user'
     | 'theme-toggle'
-    | 'burger';
+    | 'burger'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning';
 
   export type User = {
     id: number;
