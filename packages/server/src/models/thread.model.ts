@@ -14,11 +14,6 @@ import {
   tableName: 'thread',
 })
 export class Thread extends Model {
-  // default id (primary key) will be inherited from base class Model
-  // default createdAt
-  // default deletedAt
-  // default updatedAt
-
   @Index
   @AllowNull(false)
   @Unique

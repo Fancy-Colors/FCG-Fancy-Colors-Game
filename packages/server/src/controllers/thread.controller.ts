@@ -6,17 +6,17 @@ export class ThreadController {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(400).send({ message: 'id is not provided' });
+      return res.status(400).send({ message: 'id не предоставлен' });
     }
 
     if (isNaN(Number(id))) {
-      return res.status(400).send({ message: 'id should be integer' });
+      return res.status(400).send({ message: 'id должен быть целым числом' });
     }
 
     const result = await ThreadService.find({ id });
 
     if (!result) {
-      return res.status(404).send({ message: `Thread not found by id ${id}` });
+      return res.status(404).send({ message: `Тред не найден по id ${id}` });
     }
 
     return res.send(result);
@@ -39,18 +39,16 @@ export class ThreadController {
     };
 
     if (isNaN(payload.limit) || isNaN(payload.offset)) {
-      return res
-        .status(400)
-        .send({
-          message:
-            'limit и/или offset query-запросы должны быть числами или должны быть опущены',
-        });
+      return res.status(400).send({
+        message:
+          'limit и/или offset query-запросы должны быть числами или должны быть опущены',
+      });
     }
 
     const result = await ThreadService.findAll(payload);
 
     if (!result) {
-      return res.status(404).send({ message: 'No threads found' });
+      return res.status(404).send({ message: 'Не найдены треды' });
     }
 
     return res.send(result);
