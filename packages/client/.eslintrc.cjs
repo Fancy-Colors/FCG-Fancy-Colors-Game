@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     'react/hook-use-state': ['error', { allowDestructuredState: true }],
     'react/jsx-boolean-value': ['error', 'never'],
+    'promise/prefer-await-to-then': 'off',
     'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
   },
   overrides: [

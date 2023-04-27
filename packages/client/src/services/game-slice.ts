@@ -7,7 +7,7 @@ type GameCompletedData = {
   id: string;
 };
 
-export interface Game {
+export interface GameState {
   readonly completedGame: GameCompletedData | null;
   readonly gamesHistory: Array<
     Omit<GameCompletedData, 'completed'> & {
@@ -16,7 +16,7 @@ export interface Game {
   >;
 }
 
-const initialState: Game = {
+const initialState: GameState = {
   completedGame: null,
   gamesHistory: [],
 };
