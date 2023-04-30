@@ -5,6 +5,7 @@ type CreatePayload = {
   title: string;
   createdBy: number;
   firstMessage: string;
+
 };
 
 type FindPayload = {

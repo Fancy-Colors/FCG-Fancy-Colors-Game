@@ -1,4 +1,4 @@
-import { RawGameData } from 'components/game-view/utils/types';
+import { GameRaw } from 'api/types';
 
 // тут чуть позже надо типизировать возможные темы enum'ом
 const TAGS_LABELS: { [key: string]: string } = {
@@ -20,7 +20,7 @@ type GameCardsType = {
 type Tabs = { key: string; label: string };
 
 export const catalogGameCards = (
-  data: RawGameData[]
+  data: GameRaw[]
 ): {
   images: GameCardsType;
   tabs: Tabs[];

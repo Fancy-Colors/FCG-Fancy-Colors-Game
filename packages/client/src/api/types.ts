@@ -13,3 +13,31 @@ export type UserDTO = {
   phone: string;
   email: string;
 };
+
+export type GameRaw = {
+  gameId: string;
+  tags: string[];
+  preview: string;
+  name: string;
+};
+
+export type GamesListDTO = GameRaw[];
+
+export type Path = {
+  path: string;
+  color: string;
+  chosen: false;
+  completed: boolean;
+  id: string;
+  colorId: number;
+};
+
+export type GameDataDTO = {
+  numbers: Path;
+  paths: Path[];
+  gameId: string;
+  tags: string[];
+  size: number;
+  preview: string;
+  name: string;
+};

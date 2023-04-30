@@ -14,6 +14,7 @@ import { createRoutesFromElements, defer, Route } from 'react-router-dom';
 import { RouterPaths } from './app.types';
 import { AppStore } from './store';
 import { YandexOAuth } from 'components/yandex-oauth';
+import { levelLoader } from 'utils/level-loader';
 
 // Доступ к стору для лоадеров
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,7 +39,11 @@ export const createRoutes = (store: AppStore) => {
             return url.searchParams.get('modal');
           }}
         >
-          <Route path={RouterPaths.MAIN} element={<MainPage />} />
+          <Route
+            path={RouterPaths.MAIN}
+            element={<MainPage />}
+            loader={() => levelLoader(store)}
+          />
           <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
           <Route path={RouterPaths.FORUM} element={<Forum />}>
             <Route path={RouterPaths.NEW_THREAD} element={<NewThreadModal />} />
