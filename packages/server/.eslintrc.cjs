@@ -15,6 +15,7 @@ module.exports = {
     'unicorn/prefer-node-protocol': 'error',
     'unicorn/prefer-module': 'error',
     'n/no-missing-import': 'off',
+    'promise/prefer-await-to-then': 'off',
     'n/no-extraneous-import': [
       'error',
       {
