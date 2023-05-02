@@ -1,19 +1,23 @@
 import { AppDispatch } from 'src/store';
 
 import { forumApi } from 'src/api';
-import { setForum, setThread } from 'src/services/forum-slice';
+import { setCount, setForum, setThread } from 'src/services/forum-slice';
 
 export const fetchForumPage =
-  (page: number) => async (dispatch: AppDispatch) => {
+  (page: number, limit: number) => async (dispatch: AppDispatch) => {
     try {
-      const threads = await forumApi.getForum(page);
+      const threadsCount = await forumApi.getThreadsCount();
+      dispatch(setCount(threadsCount));
+      const threads = await forumApi.getForum(limit, (page - 1) * limit);
       dispatch(
         setForum({
           page,
           data: threads,
         })
       );
-    } catch (e) {}
+    } catch (e) {
+      // console.log(e)
+    }
   };
 export const fetchThread =
   (threadId: number, page: number) => async (dispatch: AppDispatch) => {
