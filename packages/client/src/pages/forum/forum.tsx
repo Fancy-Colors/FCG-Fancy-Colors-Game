@@ -5,7 +5,7 @@ import { ForumItem } from 'components/forum-item';
 import style from './forum.module.pcss';
 import { Icon } from 'components/icon';
 import { RouterPaths } from 'src/app.types';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Pagination } from 'components/pagination';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import {
@@ -18,13 +18,16 @@ export const Forum = () => {
   const {
     forum,
     count,
+    limit,
     currentForumPage: page,
   } = useAppSelector((state) => state.forum);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchForumPage(page));
-  }, [page, dispatch]);
+    dispatch(fetchForumPage(page, limit));
+  }, [page, dispatch, limit]);
+
+  const pages = useMemo(() => Math.floor(count / limit) + 1, [count, limit]);
 
   const handlePageChange = (num: number) => {
     dispatch(setCurrentForumPage({ page: num }));
@@ -58,7 +61,7 @@ export const Forum = () => {
           ))}
           <Pagination
             currentPage={page}
-            pages={count}
+            pages={pages}
             onChange={handlePageChange}
           />
         </article>

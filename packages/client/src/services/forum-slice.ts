@@ -28,6 +28,7 @@ export type Thread = {
 
 export type ForumState = {
   count: number;
+  limit: number;
   forum: Forum;
   currentForumPage: number;
   currentThreadPage: number;
@@ -36,6 +37,7 @@ export type ForumState = {
 
 const initialState: ForumState = {
   count: 0,
+  limit: 5,
   forum: [],
   thread: {
     id: -1,
