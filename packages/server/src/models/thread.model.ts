@@ -3,7 +3,6 @@ import {
   Model,
   Column,
   AllowNull,
-  Unique,
   Index,
   DataType,
 } from 'sequelize-typescript';
@@ -16,7 +15,6 @@ import {
 export class Thread extends Model {
   @Index
   @AllowNull(false)
-  @Unique
   @Column(DataType.STRING(120))
   title: string;
 
@@ -25,4 +23,8 @@ export class Thread extends Model {
     type: DataType.INTEGER,
   })
   createdBy: number;
+
+  @AllowNull(false)
+  @Column(DataType.TEXT)
+  firstMessage: string;
 }

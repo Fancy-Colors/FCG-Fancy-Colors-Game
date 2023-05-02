@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+
 import { UserTheme, Theme, Thread, Message } from './models/index.js';
 
 const {

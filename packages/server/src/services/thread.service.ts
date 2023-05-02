@@ -1,9 +1,10 @@
-import { Thread } from '../models/index.js';
+import { Message, Thread } from '../models/index.js';
 import type { BaseService } from './base.service.js';
 
 type CreatePayload = {
   title: string;
   createdBy: number;
+  firstMessage: string;
 };
 
 type FindPayload = {
@@ -21,7 +22,17 @@ export class ThreadService implements BaseService {
   }
 
   static create(payload: CreatePayload) {
-    return Thread.create(payload);
+    return Thread.create(payload).then((thread) => {
+      const { id, firstMessage, createdBy } = thread.dataValues;
+      return Message.create({
+        text: firstMessage,
+        createdBy,
+        repliedTo: null,
+        threadId: id,
+      }).then(() => {
+        return thread.dataValues;
+      });
+    });
   }
 
   static count() {
