@@ -1,12 +1,23 @@
-import { threads } from 'src/mock/forum-threads';
 import { thread } from 'src/mock/forum-thread';
-import { ForumItem as ForumItemProps, Thread } from 'src/services/forum-slice';
+import { HTTPClient } from 'api/http-client';
+import { ForumItem, Thread } from 'src/services/forum-slice';
 
 class ForumApi {
+  http: HTTPClient;
+
+  constructor(protected readonly endnpoint: string) {
+    this.http = new HTTPClient(
+      import.meta.env.VITE_LOCAL_API_BASE_URL + endnpoint
+    );
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getForum = (pageNumber: string | number = 1): Promise<ForumItemProps[]> => {
-    return new Promise<ForumItemProps[]>((resolve) => {
-      resolve(threads);
+  getForum = (limit = 20, offset = 0) => {
+    return this.http.get<ForumItem[]>(`/threads`, {
+      data: {
+        limit,
+        offset,
+      },
     });
   };
 
@@ -16,6 +27,10 @@ class ForumApi {
       resolve(thread);
     });
   };
+
+  getThreadsCount = () => {
+    return this.http.get<{ threadsCount: number }>(`/threads/count`);
+  };
 }
 
-export const forumApi = new ForumApi();
+export const forumApi = new ForumApi('');

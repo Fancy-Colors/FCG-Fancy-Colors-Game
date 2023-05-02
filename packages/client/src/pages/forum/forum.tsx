@@ -48,10 +48,10 @@ export const Forum = () => {
           {forum?.map((t: ForumItemProps) => (
             <ForumItem
               title={t.title}
-              text={t.text}
-              date={t.date}
-              name={t.name}
-              messageCount={t.messageCount}
+              firstMessage={t.firstMessage}
+              createdAt={t.createdAt}
+              name={t.name ?? ''}
+              messageCount="50+"
               id={t.id}
               key={t.id}
             />
