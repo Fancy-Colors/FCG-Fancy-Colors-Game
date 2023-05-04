@@ -11,7 +11,12 @@ type Props = {
 export const GameCard: FC<Props> = ({ id, name, preview }) => {
   return (
     <Link to={`/game/${id}`} className={styles.gameCard}>
-      <img className={styles.image} alt={name} src={preview} />
+      <img
+        className={styles.image}
+        alt={name}
+        src={preview}
+        crossOrigin="anonymous"
+      />
     </Link>
   );
 };

@@ -1,23 +1,26 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './game.module.pcss';
 import { useParams } from 'react-router-dom';
 import { GameView, GameViewCompleted } from 'components/game-view';
 import cn from 'classnames';
-import { makeInitialData, gameData } from 'components/game-view/utils';
+import { makeInitialData } from 'components/game-view/utils';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import { resetCompletedGame } from 'src/services/game-slice';
-import { RawGameData } from 'components/game-view/utils/types';
+import { gameApi } from 'api/game';
+import { GameData, Color } from 'components/game-view/utils/types';
 import { ClientOnly } from 'components/client-only';
+import { hasApiError } from 'utils/has-api-error';
+import { setNotification } from 'src/services/app-slice';
 
 const GameViewWrapper = ({
-  rawGameData,
+  initGameData,
   completedGame,
+  initColors,
 }: {
-  rawGameData: RawGameData;
+  initGameData: GameData;
   completedGame: boolean;
+  initColors: Color[];
 }) => {
-  const [initColors, initGameData] = makeInitialData(rawGameData);
-
   if (completedGame) {
     return <GameViewCompleted data={initGameData} />;
   }
@@ -33,32 +36,47 @@ const GameViewWrapper = ({
 
 export const GamePage: FC = () => {
   const { id } = useParams<{ id?: string }>();
+  if (!id) {
+    throw new Error('game id is not provided');
+  }
 
   const dispatch = useAppDispatch();
   const { completedGame } = useAppSelector((state) => state.game);
 
-  if (!id) {
-    throw new Error('game id is not provided');
-  }
-  // вот здесь будет логика извлечения из стора или подзагрузки с сервера данных игры
-  const rawGameData = gameData.find((game) => game.gameId === id);
-
-  if (!rawGameData) {
-    throw new Error(`no game found by id: ${id}`);
-  }
+  const [initGameData, setInitGameData] = useState<Nullable<GameData>>(null);
+  const [initColors, setInitColors] = useState<Nullable<Color[]>>(null);
 
   useEffect(() => {
     dispatch(resetCompletedGame());
-  }, [dispatch]);
+
+    gameApi
+      .readGameData(id)
+      .then((res) => {
+        if (hasApiError(res)) {
+          throw new Error(res.reason);
+        }
+        const [colors, gameData] = makeInitialData(res);
+        setInitColors(colors);
+        setInitGameData(gameData);
+      })
+      .catch((errorMessage) => {
+        dispatch(setNotification({ type: 'error', text: errorMessage }));
+      });
+  }, [dispatch, id]);
 
   return (
-    <div className={cn(styles.content, 'u-page')}>
-      <ClientOnly>
-        <GameViewWrapper
-          rawGameData={rawGameData}
-          completedGame={Boolean(completedGame)}
-        />
-      </ClientOnly>
-    </div>
+    <>
+      {initGameData && initColors && (
+        <div className={cn(styles.content, 'u-page')}>
+          <ClientOnly>
+            <GameViewWrapper
+              initGameData={initGameData}
+              initColors={initColors}
+              completedGame={Boolean(completedGame)}
+            />
+          </ClientOnly>
+        </div>
+      )}
+    </>
   );
 };
