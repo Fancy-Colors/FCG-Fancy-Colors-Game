@@ -5,7 +5,6 @@ type CreatePayload = {
   title: string;
   createdBy: number;
   firstMessage: string;
-
 };
 
 type FindPayload = {
@@ -22,18 +21,21 @@ export class ThreadService implements BaseService {
     return Thread.findByPk(id);
   }
 
-  static create(payload: CreatePayload) {
-    return Thread.create(payload).then((thread) => {
-      const { id, firstMessage, createdBy } = thread.dataValues;
-      return Message.create({
-        text: firstMessage,
-        createdBy,
-        repliedTo: null,
-        threadId: id,
-      }).then(() => {
-        return thread.dataValues;
-      });
+  static async create(payload: CreatePayload) {
+    const thread = await Thread.create(payload);
+
+    const { id, firstMessage, createdBy } = thread.dataValues;
+
+    const message = await Message.create({
+      text: firstMessage,
+      createdBy,
+      repliedTo: null,
+      threadId: id,
     });
+
+    if (thread && message) {
+      return Promise.resolve(thread.dataValues);
+    }
   }
 
   static count() {
