@@ -2,10 +2,8 @@ import { Message } from '../models/index.js';
 import type { BaseService } from './base.service.js';
 
 type CreatePayload = {
-  text: string;
+  title: string;
   createdBy: number;
-  repliedTo: number | null;
-  threadId: number;
 };
 
 type FindAllPayload = {
