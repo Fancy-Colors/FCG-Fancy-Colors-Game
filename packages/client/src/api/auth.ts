@@ -7,7 +7,7 @@ export type SignUpPayload = Omit<UserDTO, 'id' | 'display_name' | 'avatar'> & {
 
 export class AuthApi extends BaseApi {
   constructor() {
-    super('/auth');
+    super('/v2/auth');
   }
 
   signIn(payload: { login: string; password: string }) {

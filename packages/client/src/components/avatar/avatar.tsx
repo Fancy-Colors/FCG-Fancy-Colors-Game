@@ -9,7 +9,7 @@ type Props = {
   label?: string;
 };
 
-const IMAGE_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/resources`;
+const IMAGE_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/v2/resources`;
 
 export const Avatar: FC<Props> = ({ avatar, name, label, size }) => {
   const imageUrl = avatar

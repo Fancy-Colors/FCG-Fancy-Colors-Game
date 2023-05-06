@@ -4,7 +4,7 @@ import { APIError } from 'api/types';
 
 export class OAuthAPI extends BaseApi {
   constructor() {
-    super('/oauth');
+    super('/v2/oauth');
   }
 
   signIn(payload: { code: string; redirect_uri: string }) {

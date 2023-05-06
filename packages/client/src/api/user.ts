@@ -5,7 +5,7 @@ export type UpdateUserPayload = Omit<UserDTO, 'id' | 'avatar'>;
 
 export class UserApi extends BaseApi {
   constructor() {
-    super('/user');
+    super('/v2/user');
   }
 
   read(id: number) {

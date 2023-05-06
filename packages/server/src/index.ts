@@ -1,13 +1,20 @@
 import cors from 'cors';
-import express from 'express';
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from 'express';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { createServer as createViteServer, type ViteDevServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
+import httpContext from 'express-http-context';
 import { dbConnect } from './db.js';
 import { router } from './router.js';
 import { createSSRController } from './controllers/ssr.controller.js';
+import { ErrorResponse } from './utils/error-response.js';
+import { authContext } from './middlewares/auth.js';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -48,13 +55,25 @@ async function bootstrap() {
     })
   );
   app.use(express.json());
+  app.use(httpContext.middleware);
+  app.use(cookieParser());
+  app.use(authContext);
   app.use('/api', router);
 
   if (!isDev) {
     app.use(express.static(staticPath, { index: false }));
   }
 
-  app.use('*', cookieParser(), createSSRController(vite));
+  app.use('*', createSSRController(vite));
+
+  app.use((_req: Request, _res: Response, next: NextFunction) => {
+    next(new ErrorResponse('Not Found', 404));
+  });
+
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
+  app.use((err: ErrorResponse, _req: Request, res: Response) => {
+    res.status(err.statusCode || 400).send(err.message || 'Bad Request');
+  });
 
   app.listen(port, () => {
     // eslint-disable-next-line no-console

@@ -27,7 +27,7 @@ export type PlayerData = {
 
 export class LeaderboardApi extends BaseApi {
   constructor() {
-    super('/leaderboard');
+    super('/v2/leaderboard');
   }
 
   getLeaders(payload: LeadersReq) {
