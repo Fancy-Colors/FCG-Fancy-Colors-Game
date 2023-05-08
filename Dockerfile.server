@@ -34,7 +34,7 @@ COPY --from=builder /app/packages/client/index.html /app/packages/client/index.h
 COPY lerna.json ./
 
 RUN lerna bootstrap --scope server --scope client -- --production &&\
-  lerna clean -y
+  yarn cache clean
 
 EXPOSE $SERVER_PORT
 CMD [ "node", "-r", "dotenv/config", "/app/packages/server/index.js" ]
