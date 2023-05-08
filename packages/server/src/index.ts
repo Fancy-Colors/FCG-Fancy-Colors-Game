@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser';
 import { dbConnect } from './db.js';
 import { router } from './router.js';
 import { createSSRController } from './controllers/ssr.controller.js';
+import helmet from 'helmet';
+import { cspNonce } from './middlewares/csp-nonce.js';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -23,6 +25,7 @@ async function bootstrap() {
 
   let vite: ViteDevServer | undefined;
 
+  app.disable('x-powered-by');
   app.use(cors());
 
   if (isDev) {
@@ -54,6 +57,36 @@ async function bootstrap() {
     app.use(express.static(staticPath, { index: false }));
   }
 
+  app.use(cspNonce);
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          scriptSrc: !isDev
+            ? [
+                "'self'",
+                (_, res) =>
+                  `'nonce-${(res as express.Response).locals.cspNonce}'`,
+                // service worker inline-script
+                "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
+              ]
+            : null,
+          imgSrc: [
+            "'self'",
+            'data:',
+            'avatars.mds.yandex.net',
+            'fancy-api.kurkov.online',
+          ],
+          objectSrc: "'none'",
+          connectSrc: !isDev
+            ? ["'self'", 'fancy-api.kurkov.online', 'ya-praktikum.tech']
+            : null,
+        },
+      },
+      xDnsPrefetchControl: { allow: true },
+      xPoweredBy: false,
+    })
+  );
   app.use('*', cookieParser(), createSSRController(vite));
 
   app.listen(port, () => {
