@@ -5,8 +5,8 @@
   "description": "",
   "scripts": {
     "build": "rimraf dist && tsc --p ./tsconfig.prod.json",
-    "preview": "cross-env NODE_ENV=production node -r dotenv/config ./dist/src/index.js",
-    "start": "yarn build && yarn preview",
+    "serve": "cross-env NODE_ENV=production node -r dotenv/config ./dist/src/index.js",
+    "start": "yarn build && yarn serve",
     "dev": "cross-env NODE_ENV=development nodemon -x ts-node --esm -r dotenv/config src/index.ts",
     "lint": "eslint .",
     "format": "prettier --write .",

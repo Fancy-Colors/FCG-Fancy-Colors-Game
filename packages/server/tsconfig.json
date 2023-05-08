@@ -28,5 +28,5 @@
     },
     "outDir": "dist"
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./app.d.ts"]
 }

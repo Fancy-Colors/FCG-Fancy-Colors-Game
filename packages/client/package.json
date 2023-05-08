@@ -5,8 +5,7 @@
   "main": "./dist/server/assets/js/entry-server.js",
   "exports": {
     ".": {
-      "import": "./dist/server/assets/js/entry-server.js",
-      "types": "./dist/server/assets/js/entry-server.d.ts"
+      "import": "./dist/server/assets/js/entry-server.js"
     },
     "./index.html": "./dist/client/index.html",
     "./dev/index.html": "./index.html",
@@ -15,9 +14,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --outDir dist/client && yarn build:types",
-    "build:types": "tsc --p tsconfig.prod.json",
-    "build:ssr": "vite build --outDir dist/server --ssr ./src/entry-server.tsx && yarn build:types",
+    "build": "vite build --outDir dist/client",
+    "build:ssr": "vite build --outDir dist/server --ssr ./src/entry-server.tsx",
     "preview": "vite preview --host",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location ./node_modules/.cache/eslint",
