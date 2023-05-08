@@ -3,28 +3,27 @@ ARG SERVER_PORT=5000
 
 FROM node:$NODE_VERSION-buster as base
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
 
 FROM base as builder
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --ignore-scripts
+
 COPY . .
 
-RUN yarn lerna bootstrap
+RUN yarn lerna bootstrap --scope server --scope client
 
 RUN rm -rf /app/packages/server/dist/ &&\
   yarn build --scope=server
-
-RUN rm -rf /app/packages/client/dist/ &&\
-  yarn build --scope=client &&\
-  yarn build:ssr --scope=client
 
 FROM node:$NODE_VERSION-buster-slim as production
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV PATH="${PATH}:/app/node_modules/.bin"
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 COPY --from=builder /app/packages/server/dist/src /app/packages/server/
 COPY --from=builder /app/packages/server/package.json /app/packages/server/package.json
@@ -34,12 +33,8 @@ COPY --from=builder /app/packages/client/index.html /app/packages/client/index.h
 
 COPY lerna.json ./
 
-RUN ./node_modules/.bin/lerna bootstrap --scope server --scope client -- --production &&\
-  yarn cache clean
-
-# COPY --from=builder /app/node_modules/client /.yarn-local/client
-
-# RUN sed -i -r 's/"(.*)":.*"\*"(.*$)/"\1": "link:\/\.yarn-local\/\1"\2/' /app/package.json
+RUN lerna bootstrap --scope server --scope client -- --production &&\
+  lerna clean -y
 
 EXPOSE $SERVER_PORT
 CMD [ "node", "-r", "dotenv/config", "/app/packages/server/index.js" ]
