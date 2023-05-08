@@ -17,6 +17,7 @@
     "build": "vite build --outDir dist/client",
     "build:ssr": "vite build --outDir dist/server --ssr ./src/entry-server.tsx",
     "preview": "vite preview --host",
+    "prepare": "run-p build build:ssr",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location ./node_modules/.cache/eslint",
     "lint:tsc": "tsc --noEmit",
