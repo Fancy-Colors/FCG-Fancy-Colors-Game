@@ -70,7 +70,7 @@ async function bootstrap() {
                 // service worker inline-script
                 "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
               ]
-            : null,
+            : ["'self'", "'unsafe-inline'"],
           imgSrc: [
             "'self'",
             'data:',
@@ -78,9 +78,14 @@ async function bootstrap() {
             'fancy-api.kurkov.online',
           ],
           objectSrc: "'none'",
-          connectSrc: !isDev
-            ? ["'self'", 'fancy-api.kurkov.online', 'ya-praktikum.tech']
-            : null,
+          connectSrc: [
+            "'self'",
+            'fancy-api.kurkov.online',
+            'ya-praktikum.tech',
+            // vite dev server
+            isDev ? 'http://localhost:24678' : '',
+            isDev ? 'ws://localhost:24678' : '',
+          ],
         },
       },
       xDnsPrefetchControl: { allow: true },
