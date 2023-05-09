@@ -72,7 +72,7 @@ async function bootstrap() {
                   // service worker inline-script
                   "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
                 ]
-              : ["'unsafe-inline'"]), // Vite не подерживает nonce
+              : ["'unsafe-inline'"]), // Vite не поддерживает nonce
           ],
           imgSrc: [
             "'self'",
