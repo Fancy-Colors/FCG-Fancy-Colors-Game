@@ -3,6 +3,7 @@
   padding: 20px 10px 20px 20px;
   background-color: var(--bg-color-secondary);
   border: 1px solid var(--text-color-subtle);
+  position: relative;
 
   &:focus-within {
     outline: 1px solid var(--text-color-primary);
@@ -20,4 +21,11 @@
   line-height: 1.5;
   outline: 0;
   resize: none;
+}
+
+.error {
+  position: absolute;
+  top: calc(100% + 2px);
+  margin: 0;
+  color: var(--color-error);
 }

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Avatar } from 'components/avatar';
 
@@ -8,32 +8,54 @@ import { DateFormatted } from 'components/date-formatted';
 import { Button, ButtonColor } from 'components/button';
 import cn from 'classnames';
 import { ForumMessage as ForumMessageType } from 'src/services/forum-slice';
+import { userApi } from 'src/api';
+import { hasApiError } from 'utils/has-api-error';
+import { transformUser } from 'utils/api-transformers';
 
 export type ForumMessageProps = ForumMessageType & {
-  handleReply: (id: number) => void;
+  handleReply: (id: number, userName: string) => void;
 };
 
 export const ForumMessage: FC<ForumMessageProps> = ({
   id,
-  avatar,
-  name,
-  date,
+  createdBy,
+  createdAt,
   text,
   handleReply,
 }) => {
+  const [user, setUser] = useState<User | null>(null);
+
   const onClickHandler = () => {
-    handleReply(id);
+    handleReply(id, `${user?.firstName} ${user?.secondName}`);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await userApi.read(createdBy);
+      if (hasApiError(response)) {
+        throw new Error(response.reason);
+      }
+      setUser(transformUser(response));
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <article className={style.message}>
       <div className={style.avatar}>
-        <Avatar avatar={avatar} name={name} size="small" />
-        <h4 className={style.logo}>{name}</h4>
+        <Avatar
+          avatar={user?.avatar}
+          name={user?.firstName ?? ''}
+          size="small"
+        />
+        <h4
+          className={style.logo}
+        >{`${user?.firstName} ${user?.secondName}`}</h4>
       </div>
       <div className={style.content}>
         <div className={cn('text-main', style.date)}>
-          <DateFormatted date={date} />
+          <DateFormatted date={createdAt} />
         </div>
         <div className={style.text}>
           <p>{text}</p>
