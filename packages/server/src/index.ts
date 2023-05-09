@@ -10,6 +10,7 @@ import { router } from './router.js';
 import { createSSRController } from './controllers/ssr.controller.js';
 import helmet from 'helmet';
 import { cspNonce } from './middlewares/csp-nonce.js';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -62,15 +63,17 @@ async function bootstrap() {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          scriptSrc: !isDev
-            ? [
-                "'self'",
-                (_, res) =>
-                  `'nonce-${(res as express.Response).locals.cspNonce}'`,
-                // service worker inline-script
-                "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
-              ]
-            : ["'self'", "'unsafe-inline'"],
+          scriptSrc: [
+            "'self'",
+            ...(!isDev
+              ? [
+                  (_: IncomingMessage, res: ServerResponse) =>
+                    `'nonce-${(res as express.Response).locals.cspNonce}'`,
+                  // service worker inline-script
+                  "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
+                ]
+              : ["'unsafe-inline'"]), // Vite не подерживает nonce
+          ],
           imgSrc: [
             "'self'",
             'data:',
@@ -82,9 +85,8 @@ async function bootstrap() {
             "'self'",
             'fancy-api.kurkov.online',
             'ya-praktikum.tech',
-            // vite dev server
-            isDev ? 'http://localhost:24678' : '',
-            isDev ? 'ws://localhost:24678' : '',
+            // Vite dev server
+            ...(isDev ? ['ws:', 'http:'] : []),
           ],
         },
       },
