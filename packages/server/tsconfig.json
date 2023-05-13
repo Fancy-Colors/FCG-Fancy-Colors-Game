@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
     "composite": true,
     "target": "ESNext",
@@ -28,5 +31,5 @@
     },
     "outDir": "dist"
   },
-  "include": ["./src/**/*", "./app.d.ts"]
+  "include": ["./src/**/*", "typings"]
 }
