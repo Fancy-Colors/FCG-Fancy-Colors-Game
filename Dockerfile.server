@@ -7,11 +7,12 @@ WORKDIR /app
 FROM base as builder
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn lerna bootstrap --scope server --scope client
+RUN yarn lerna bootstrap --scope server --scope client &&\
+  yarn lerna run prepare --scope client
 
 RUN rm -rf /app/packages/server/dist/ &&\
   yarn build --scope=server
@@ -23,7 +24,7 @@ ENV NODE_ENV=production
 ENV PATH="${PATH}:/app/node_modules/.bin"
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn install --frozen-lockfile
 
 COPY --from=builder /app/packages/server/dist/src /app/packages/server/
 COPY --from=builder /app/packages/server/package.json /app/packages/server/package.json

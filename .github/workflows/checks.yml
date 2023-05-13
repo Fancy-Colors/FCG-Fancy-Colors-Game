@@ -18,11 +18,7 @@ jobs:
       - name: Install main deps
         run: yarn
       - name: Initialize
-        run: yarn lerna bootstrap
-      - name: Build client
-        run: yarn build --scope=client
-      - name: Build ssr
-        run: yarn build:ssr
+        run: yarn lerna bootstrap && yarn lerna run prepare
       - name: Lint
         run: yarn lint
       - name: Test
