@@ -1,24 +1,19 @@
 .container {
-  padding-top: var(--gap);
+  padding: var(--gap);
 }
 
 .panel {
-  padding: 24px;
-  max-width: 930px;
-  margin: 0 auto;
-  border-radius: 12px;
-  background-color: var(--bg-color-secondary-faded);
-  height: calc(100vh - 2 * var(--gap));
+  height: 100%;
 }
 
 .controls {
-  padding: 0 73px 24px;
+  padding: 0 var(--gap) 0;
   display: flex;
   justify-content: space-between;
 }
 
 .threads {
-  padding: 0 73px;
+  padding: 0 var(--gap) 0;
   width: 100%;
 }
 
@@ -30,4 +25,11 @@
 .create {
   display: inline-flex;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column-reverse;
+    gap: var(--gap);
+  }
 }

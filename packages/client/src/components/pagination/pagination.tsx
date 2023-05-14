@@ -48,40 +48,50 @@ export const Pagination: FC<Props> = ({ currentPage = 1, pages, onChange }) => {
 
   return (
     <div className={styles.pagination}>
-      {showNavControls && hasPrevPage && (
-        <button className={styles.control} type="button" onClick={firstPage}>
-          &lsaquo;
-        </button>
-      )}
-      {showNavControls && hasPrevPage && (
-        <button className={styles.control} type="button" onClick={prevPage}>
-          Назад
-        </button>
-      )}
-      {pagesToRender.map((page) => (
-        <button
-          key={page}
-          className={cn(styles.page, {
-            [styles.current]: page === currentPage,
-          })}
-          disabled={page === currentPage}
-          type="button"
-          onClick={() => onChange(page)}
-        >
-          {page}
-        </button>
-      ))}
-      {showNavControls && hasNextPage && (
-        <button className={styles.control} type="button" onClick={nextPage}>
-          Далее
-        </button>
-      )}
-      {showNavControls && hasNextPage && (
-        <button className={styles.control} type="button" onClick={lastPage}>
-          &rsaquo;
-        </button>
-      )}
-      <p className={styles.results}>
+      <div className={styles.controls}>
+        {showNavControls && hasPrevPage && (
+          <button className={styles.control} type="button" onClick={firstPage}>
+            &lsaquo;
+          </button>
+        )}
+        {showNavControls && hasPrevPage && (
+          <button className={styles.control} type="button" onClick={prevPage}>
+            Назад
+          </button>
+        )}
+        {pagesToRender.map((page) => (
+          <button
+            key={page}
+            className={cn(styles.page, {
+              [styles.current]: page === currentPage,
+            })}
+            disabled={page === currentPage}
+            type="button"
+            onClick={() => onChange(page)}
+          >
+            {page}
+          </button>
+        ))}
+        {showNavControls && hasNextPage && (
+          <button
+            className={cn(styles.control, 'text-main')}
+            type="button"
+            onClick={nextPage}
+          >
+            Далее
+          </button>
+        )}
+        {showNavControls && hasNextPage && (
+          <button
+            className={cn(styles.control, 'text-main')}
+            type="button"
+            onClick={lastPage}
+          >
+            &rsaquo;
+          </button>
+        )}
+      </div>
+      <p className={cn(styles.results, 'text-main')}>
         Страница {currentPage} из {pages}
       </p>
     </div>
