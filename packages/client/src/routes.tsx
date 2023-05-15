@@ -1,7 +1,7 @@
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { MainLayout } from 'components/main-layout';
 import { NewThreadModal } from 'components/modal-new-thread';
-import { AuthLayout, getCurrentUser } from 'components/auth-layout';
+import { AuthLayout } from 'components/auth-layout';
 import { RegisterPage, LoginPage } from 'pages/auth';
 import { Error500, Error404 } from 'pages/error';
 import { Forum } from 'pages/forum';
@@ -10,24 +10,19 @@ import { GamePage } from 'pages/game';
 import { Leaderboard } from 'pages/leaderboard';
 import { MainPage } from 'pages/main';
 import { Profile } from 'pages/profile';
-import { createRoutesFromElements, defer, Route } from 'react-router-dom';
+import { createRoutesFromElements, json, Route } from 'react-router-dom';
 import { RouterPaths } from './app.types';
 import { AppStore } from './store';
 import { YandexOAuth } from 'components/yandex-oauth';
 import { levelLoader } from 'utils/level-loader';
+import { UserDTO } from 'api/types';
+import { transformUser } from 'utils/api-transformers';
 
-// Доступ к стору для лоадеров
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const createRoutes = (store: AppStore) => {
+export const createRoutes = (store: AppStore, user?: Nullable<UserDTO>) => {
   return createRoutesFromElements(
     <Route
       element={<AuthLayout />}
-      loader={async ({ request }) => {
-        const user = await getCurrentUser(request);
-        return defer({
-          user,
-        });
-      }}
+      loader={() => json({ user: user ? transformUser(user) : null })}
     >
       <Route element={<YandexOAuth />}>
         <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />

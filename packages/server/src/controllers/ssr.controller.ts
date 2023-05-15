@@ -60,8 +60,9 @@ export function createSSRController(vite?: ViteDevServer) {
         ssrEntry = await import('client');
       }
 
+      const serverContext = { user };
       const { createRenderer } = ssrEntry;
-      const { render, staticHandler } = createRenderer();
+      const { render, staticHandler } = createRenderer(serverContext);
       const fetchRequest = createFetchRequest(req);
       const context = await staticHandler.query(fetchRequest);
 
