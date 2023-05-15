@@ -71,7 +71,7 @@ export const SideMenu: FC = () => {
           </Link>
 
           {expanded && <p className={cn(styles.textMenu, 'text-menu')}>Меню</p>}
-          {LINKS.map(({ iconType, text, link, informer }) => (
+          {LINKS.map(({ iconType, text, link }) => (
             <NavLink key={iconType} to={link}>
               {({ isActive }) => (
                 <NavigationLink
@@ -79,7 +79,6 @@ export const SideMenu: FC = () => {
                   iconType={iconType}
                   active={isActive}
                   expanded={expanded}
-                  informer={informer}
                 />
               )}
             </NavLink>

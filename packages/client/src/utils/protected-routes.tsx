@@ -4,5 +4,5 @@ import { RouterPaths } from 'src/app.types';
 
 export const ProtectedRoutes = () => {
   const { user } = useAuth();
-  return user ? <Outlet /> : <Navigate to={RouterPaths.LOGIN} />;
+  return user ? <Outlet /> : <Navigate replace to={RouterPaths.LOGIN} />;
 };
