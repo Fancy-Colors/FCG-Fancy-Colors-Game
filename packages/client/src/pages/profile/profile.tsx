@@ -56,13 +56,13 @@ const ProfileForm = () => {
     /* eslint-enable */
 
     if (hasApiError(response)) {
-      dispatch(
+      return dispatch(
         setNotification({ type: 'error', text: 'Не удалось обновить данные' })
       );
-      return console.error(response.reason);
     }
 
     setUser(transformUser(response));
+    dispatch(setNotification({ type: 'success', text: 'Данные обновлены' }));
   };
 
   const onAvatarChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -75,13 +75,13 @@ const ProfileForm = () => {
       const response = await userApi.updateAvatar(formData);
 
       if (hasApiError(response)) {
-        dispatch(
+        return dispatch(
           setNotification({ type: 'error', text: 'Не удалось обновить данные' })
         );
-        return console.error(response.reason);
       }
 
       setUser(transformUser(response));
+      dispatch(setNotification({ type: 'success', text: 'Данные обновлены' }));
     }
   };
 
@@ -191,13 +191,13 @@ const PasswordForm = () => {
     const response = await userApi.updatePassword({ oldPassword, newPassword });
 
     if (hasApiError(response)) {
-      dispatch(
+      return dispatch(
         setNotification({ type: 'error', text: 'Не удалось обновить пароль' })
       );
-      return console.error(response.reason);
     }
 
     reset();
+    dispatch(setNotification({ type: 'success', text: 'Пароль обновлён' }));
   };
 
   return (
