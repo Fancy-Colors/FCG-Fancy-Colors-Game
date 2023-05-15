@@ -66,7 +66,7 @@ const ProfileForm = () => {
   };
 
   const onAvatarChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
-    const { files } = e.target as HTMLInputElement;
+    const { files } = e.target;
 
     if (files && files.length > 0) {
       // TODO: Сделать валидацию размера файла 1MB
@@ -234,15 +234,8 @@ const PasswordForm = () => {
               error={errors.newPasswordRepeat?.message}
               {...register('newPasswordRepeat', {
                 required: { value: true, message: requiredFieldMessage },
-                validate: (value) => {
-                  const { newPassword } = getValues();
-
-                  if (value !== newPassword) {
-                    return 'Пароли не совпадают';
-                  }
-
-                  return true;
-                },
+                validate: (value) =>
+                  getValues('newPassword') === value || 'Пароли не совпадают',
               })}
             />
             <Button disabled={!isDirty} type="submit" className={styles.submit}>
