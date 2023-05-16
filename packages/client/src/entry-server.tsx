@@ -17,11 +17,16 @@ export function createRenderer() {
   const render = (
     router: Router,
     context: StaticHandlerContext,
-    theme: string
+    theme: string,
+    cspNonce: string
   ) => {
     const renderResult = ReactDOMServer.renderToString(
       <App theme={theme} store={store}>
-        <StaticRouterProvider router={router} context={context} />
+        <StaticRouterProvider
+          router={router}
+          context={context}
+          nonce={cspNonce}
+        />
       </App>
     );
     return { renderResult, initialState: store.getState() };
