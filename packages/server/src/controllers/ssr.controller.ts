@@ -86,7 +86,7 @@ export function createSSRController(vite?: ViteDevServer) {
       const { initialState, renderResult } = render(
         staticRouter,
         context,
-        theme
+        theme,
         cspNonce
       );
 
