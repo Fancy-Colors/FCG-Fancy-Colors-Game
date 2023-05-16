@@ -1,13 +1,10 @@
+import { practicumHttpClient } from './api-clients';
 import { BaseApi } from './base';
 import { APIError, UserDTO } from './types';
 
 export type UpdateUserPayload = Omit<UserDTO, 'id' | 'avatar'>;
 
 export class UserApi extends BaseApi {
-  constructor() {
-    super('/v2/user');
-  }
-
   read(id: number) {
     return this.http.get<UserDTO | APIError>(`/${id}`);
   }
@@ -31,4 +28,4 @@ export class UserApi extends BaseApi {
   }
 }
 
-export const userApi = new UserApi();
+export const userApi = new UserApi(practicumHttpClient('/user'));
