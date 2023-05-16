@@ -1,12 +1,9 @@
 import { ForumMessage } from 'src/services/forum-slice';
 import { BaseApi } from 'api/base';
 import { APIError } from 'api/types';
+import { localHttpClient } from './api-clients';
 
 class MessagesApi extends BaseApi {
-  constructor() {
-    super('/messages', import.meta.env.VITE_LOCAL_API_BASE_URL);
-  }
-
   getMessages(id: number, page = 1, limit = 20) {
     const offset = limit * (page - 1);
     return this.http.get<ForumMessage[]>(`/${id}`, {
@@ -33,4 +30,4 @@ class MessagesApi extends BaseApi {
   }
 }
 
-export const messagesApi = new MessagesApi();
+export const messagesApi = new MessagesApi(localHttpClient('/messages'));
