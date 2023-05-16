@@ -15,7 +15,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 const isDev = process.env.NODE_ENV === 'development';
 
 async function bootstrap() {
-  await dbConnect();
+  const db = await dbConnect();
   const app = express();
   const port = Number(process.env.SERVER_PORT) || 5000;
 
@@ -28,6 +28,9 @@ async function bootstrap() {
 
   app.disable('x-powered-by');
   app.use(cors());
+  app.use('/healthz', (_req, res) => {
+    res.send('ok');
+  });
 
   if (isDev) {
     vite = await createViteServer({
@@ -48,7 +51,7 @@ async function bootstrap() {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '*': '',
       },
-      target: 'https://ya-praktikum.tech',
+      target: process.env.PRAKTIKUM_API_URL,
     })
   );
   app.use(express.json());
@@ -96,10 +99,24 @@ async function bootstrap() {
   );
   app.use('*', cookieParser(), createSSRController(vite));
 
-  app.listen(port, () => {
-    // eslint-disable-next-line no-console
+  /* eslint-disable no-console */
+  const server = app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });
+
+  process.on('SIGINT', gracefulShutdown);
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('unhandledRejection', gracefulShutdown);
+
+  function gracefulShutdown(signal: string | number) {
+    console.log(`  ➜ Received signal to terminate: ${signal}`);
+    server.close(async () => {
+      await vite?.close();
+      await db.close();
+      process.kill(process.pid, signal);
+    });
+  }
+  /* eslint-enable no-console */
 }
 
 bootstrap();

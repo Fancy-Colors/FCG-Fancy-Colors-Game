@@ -1,5 +1,5 @@
 ARG NODE_VERSION=18
-ARG CLIENT_PORT=3001
+ARG CLIENT_PORT=3000
 
 FROM node:$NODE_VERSION-buster as base
 
@@ -7,14 +7,12 @@ WORKDIR /app
 
 FROM base as builder
 
-COPY package.json yarn.lock
-RUN yarn install --frozen-lockfile
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 COPY . .
 
-RUN yarn lerna bootstrap
-RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
-
+RUN yarn lerna bootstrap --scope client
 
 FROM nginx:latest as production
 WORKDIR /app
