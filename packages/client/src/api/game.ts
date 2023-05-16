@@ -1,7 +1,8 @@
-import { GameBaseApi } from './game-base-api';
+import { remoteHttpClient } from './api-clients';
+import { BaseApi } from './base';
 import { GamesListDTO, GameDataDTO, APIError } from './types';
 
-export class GameApi extends GameBaseApi {
+export class GameApi extends BaseApi {
   readGames() {
     return this.http.get<GamesListDTO | APIError>(`/games`);
   }
@@ -11,4 +12,4 @@ export class GameApi extends GameBaseApi {
   }
 }
 
-export const gameApi = new GameApi();
+export const gameApi = new GameApi(remoteHttpClient());

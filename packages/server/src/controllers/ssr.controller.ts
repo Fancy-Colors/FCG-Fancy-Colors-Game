@@ -5,8 +5,27 @@ import jsesc from 'jsesc';
 import { createStaticRouter } from 'react-router-dom/server.js';
 import { createFetchRequest } from '../utils/request-adapter.js';
 import type { ViteDevServer } from 'vite';
+import httpContext from 'express-http-context';
+import { ThemeService } from '../services/theme.service.js';
 
 type SSREntry = typeof import('client');
+
+async function getUserTheme(req: Request, userId?: number) {
+  if (userId) {
+    const userTheme = await ThemeService.find(userId);
+
+    if (userTheme) {
+      return userTheme.getDataValue('name');
+    }
+  }
+
+  const storedTheme = req.cookies.theme;
+  // Получаем предпочитаемую пользователем тему из настроек браузера
+  // https://web.dev/user-preference-media-features-headers/
+  const userPreferredTheme =
+    req.headers['sec-ch-prefers-color-scheme'] ?? 'light';
+  return storedTheme || userPreferredTheme;
+}
 
 export function createSSRController(vite?: ViteDevServer) {
   const require = createRequire(import.meta.url);
@@ -33,6 +52,7 @@ export function createSSRController(vite?: ViteDevServer) {
     const { cspNonce } = res.locals;
     const url = req.originalUrl;
     let ssrEntry: SSREntry;
+    const user = httpContext.get('user');
 
     try {
       if (vite) {
@@ -61,17 +81,12 @@ export function createSSRController(vite?: ViteDevServer) {
         context
       );
 
-      const storedTheme = req.cookies.theme;
-      // Получаем предпочитаемую пользователем тему из настроек браузера
-      // https://web.dev/user-preference-media-features-headers/
-      const userPreferredTheme =
-        req.headers['sec-ch-prefers-color-scheme'] ?? 'light';
-      const detectedTheme = storedTheme || userPreferredTheme;
+      const theme = await getUserTheme(req, user?.id);
 
       const { initialState, renderResult } = render(
         staticRouter,
         context,
-        detectedTheme,
+        theme,
         cspNonce
       );
 
@@ -84,11 +99,11 @@ export function createSSRController(vite?: ViteDevServer) {
       const html = template
         .replace('<!--ssr-outlet-->', renderResult)
         .replace('<!--store-state-->', storeState)
-        .replace('{{__THEME__}}', detectedTheme);
+        .replace('{{__THEME__}}', theme);
 
       // eslint-disable-next-line @typescript-eslint/naming-convention
       res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
-    } catch (e) {
+    } catch (e: unknown) {
       if (vite && e instanceof Error) {
         vite.ssrFixStacktrace(e);
       }

@@ -1,25 +1,15 @@
-import { ErrorResponse } from '../utils/error-response.js';
 import { Theme } from '../models/index.js';
 import type { BaseService } from './base.service.js';
 
 type ThemeInput = {
-  colors: string;
+  userId: number;
   name: string;
 };
 
-type FindPayload = {
-  id?: number;
-  name?: string;
-};
-
 export class ThemeService implements BaseService {
-  static find({ id, name }: FindPayload) {
-    if (id) {
-      return Theme.findByPk(id);
-    }
-
+  static find(userId: number) {
     return Theme.findOne({
-      where: { name },
+      where: { userId },
     });
   }
 
@@ -35,13 +25,13 @@ export class ThemeService implements BaseService {
     return Theme.create(payload);
   }
 
-  static async update(id: number, payload: Partial<ThemeInput>) {
-    const theme = await Theme.findByPk(id);
+  static async updateOrCreate(userId: number, name: string) {
+    const theme = await Theme.findOne({ where: { userId } });
 
     if (!theme) {
-      throw new ErrorResponse('Not found', 404);
+      return Theme.create({ userId, name });
     }
 
-    return theme.update(payload);
+    return theme.update({ name });
   }
 }
