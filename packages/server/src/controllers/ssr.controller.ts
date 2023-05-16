@@ -10,7 +10,16 @@ type SSREntry = typeof import('client');
 
 export function createSSRController(vite?: ViteDevServer) {
   const require = createRequire(import.meta.url);
-  const templatePath = require.resolve('client/index.html');
+  let template: string;
+
+  if (vite) {
+    template = fs.readFileSync(
+      require.resolve('client/dev/index.html'),
+      'utf-8'
+    );
+  } else {
+    template = fs.readFileSync(require.resolve('client/index.html'), 'utf-8');
+  }
 
   return async function ssrController(
     req: Request,
@@ -23,21 +32,15 @@ export function createSSRController(vite?: ViteDevServer) {
 
     const { cspNonce } = res.locals;
     const url = req.originalUrl;
-    let template: string;
     let ssrEntry: SSREntry;
 
     try {
       if (vite) {
-        template = fs.readFileSync(
-          require.resolve('client/dev/index.html'),
-          'utf-8'
-        );
         template = await vite.transformIndexHtml(url, template);
         ssrEntry = (await vite.ssrLoadModule(
           require.resolve('client/dev/entry-server')
         )) as SSREntry;
       } else {
-        template = fs.readFileSync(templatePath, 'utf-8');
         ssrEntry = await import('client');
       }
 

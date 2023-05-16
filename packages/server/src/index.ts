@@ -20,8 +20,6 @@ async function bootstrap() {
   const port = Number(process.env.SERVER_PORT) || 5000;
 
   const require = createRequire(import.meta.url);
-  const templatePath = require.resolve('client/index.html');
-  const staticPath = path.dirname(templatePath);
   const clientRoot = path.dirname(require.resolve('client/package.json'));
 
   let vite: ViteDevServer | undefined;
@@ -56,11 +54,6 @@ async function bootstrap() {
   );
   app.use(express.json());
   app.use('/api', router);
-
-  if (!isDev) {
-    app.use(express.static(staticPath, { index: false }));
-  }
-
   app.use(cspNonce);
   app.use(
     helmet({
