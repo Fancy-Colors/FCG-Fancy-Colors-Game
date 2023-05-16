@@ -5,6 +5,7 @@ dist
 .vscode
 .idea
 *.log
+.env*
 tmp
 .github
 .git

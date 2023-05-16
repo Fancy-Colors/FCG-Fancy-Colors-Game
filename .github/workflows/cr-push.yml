@@ -1,0 +1,30 @@
+name: Push To Yandex Cloud CR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Login to Yandex Cloud Container Registry
+        uses: yc-actions/yc-cr-login@v1
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+      - name: Build, tag, and push image to Yandex Cloud Container Registry
+        env:
+          CR_REGISTRY: crp41b91o3r3c96nqqic
+          CR_REPOSITORY: practicum-cr-repo
+          IMAGE_TAG: ${{ github.sha }}
+          SERVER_PORT: 5000
+          APP_HOSTNAME: localhost
+        run: |
+          docker compose build server nginx
+          docker tag practicum-server:latest cr.yandex/$CR_REGISTRY/practicum-server:$IMAGE_TAG
+          docker push cr.yandex/$CR_REGISTRY/practicum-server:$IMAGE_TAG
+          docker tag practicum-nginx:latest cr.yandex/$CR_REGISTRY/practicum-nginx:$IMAGE_TAG
+          docker push cr.yandex/$CR_REGISTRY/practicum-nginx:$IMAGE_TAG
