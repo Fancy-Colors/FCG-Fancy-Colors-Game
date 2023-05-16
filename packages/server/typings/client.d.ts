@@ -9,7 +9,8 @@ declare module 'client' {
     render: (
       router: Router,
       context: StaticHandlerContext,
-      theme: string
+      theme: string,
+      cspNonce: string
     ) => {
       renderResult: string;
       initialState: Record<string, unknown>;

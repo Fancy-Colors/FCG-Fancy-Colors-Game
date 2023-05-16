@@ -30,6 +30,7 @@ export function createSSRController(vite?: ViteDevServer) {
       return next();
     }
 
+    const { cspNonce } = res.locals;
     const url = req.originalUrl;
     let ssrEntry: SSREntry;
 
@@ -70,14 +71,15 @@ export function createSSRController(vite?: ViteDevServer) {
       const { initialState, renderResult } = render(
         staticRouter,
         context,
-        detectedTheme
+        detectedTheme,
+        cspNonce
       );
 
       const initialStateSerialized = jsesc(initialState, {
         json: true,
         isScriptContext: true,
       });
-      const storeState = `<script>window.__INITIAL_STATE__ = ${initialStateSerialized}</script>`;
+      const storeState = `<script nonce="${cspNonce}">window.__INITIAL_STATE__ = ${initialStateSerialized}</script>`;
 
       const html = template
         .replace('<!--ssr-outlet-->', renderResult)

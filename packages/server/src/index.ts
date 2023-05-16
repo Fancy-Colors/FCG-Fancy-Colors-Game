@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser';
 import { dbConnect } from './db.js';
 import { router } from './router.js';
 import { createSSRController } from './controllers/ssr.controller.js';
+import helmet from 'helmet';
+import { cspNonce } from './middlewares/csp-nonce.js';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -21,6 +24,7 @@ async function bootstrap() {
 
   let vite: ViteDevServer | undefined;
 
+  app.disable('x-powered-by');
   app.use(cors());
   app.use('/healthz', (_req, res) => {
     res.send('ok');
@@ -50,7 +54,42 @@ async function bootstrap() {
   );
   app.use(express.json());
   app.use('/api', router);
-
+  app.use(cspNonce);
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          scriptSrc: [
+            "'self'",
+            ...(!isDev
+              ? [
+                  (_: IncomingMessage, res: ServerResponse) =>
+                    `'nonce-${(res as express.Response).locals.cspNonce}'`,
+                  // service worker inline-script
+                  "'sha256-JKlrQLtbQcmSH0oVBT5qIkf0mOtxyMfcbvu+h4lHFeE='",
+                ]
+              : ["'unsafe-inline'"]), // Vite не поддерживает nonce
+          ],
+          imgSrc: [
+            "'self'",
+            'data:',
+            'avatars.mds.yandex.net',
+            'fancy-api.kurkov.online',
+          ],
+          objectSrc: "'none'",
+          connectSrc: [
+            "'self'",
+            'fancy-api.kurkov.online',
+            'ya-praktikum.tech',
+            // Vite dev server
+            ...(isDev ? ['ws:', 'http:'] : []),
+          ],
+        },
+      },
+      xDnsPrefetchControl: { allow: true },
+      xPoweredBy: false,
+    })
+  );
   app.use('*', cookieParser(), createSSRController(vite));
 
   /* eslint-disable no-console */
