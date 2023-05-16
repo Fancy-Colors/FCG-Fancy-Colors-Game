@@ -16,7 +16,6 @@ export type ForumItem = {
   text: string;
   name: string;
   date: string;
-  messageCount: string | number;
   avatar?: string;
 };
 
