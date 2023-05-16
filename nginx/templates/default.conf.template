@@ -1,0 +1,71 @@
+upstream backend {
+  server practicum-server:${SERVER_PORT};
+}
+
+map $sent_http_content_type $expires {
+  default off;
+  ~text/html epoch;
+  ~text/css max;
+  ~application/ico max;
+  ~application/javascript max;
+  ~application/x-javascript max;
+  application/x-font-woff max;
+  ~application/font-woff2 max;
+  ~image/ max;
+  ~font/ max;
+}
+
+map $sent_http_content_type $cacheControl {
+  default "no-cache, no-store, max-age=0, must-revalidate";
+  ~text/css "public, immutable";
+  ~application/ico "public, immutable";
+  ~application/javascript "public, immutable";
+  ~application/x-javascript "public, immutable";
+  application/x-font-woff "public, immutable";
+  ~application/font-woff2 "public, immutable";
+  ~image/ "public, immutable";
+  ~font/ "public, immutable";
+}
+
+server {
+  set $static /var/www/static;
+
+  listen 80;
+  server_name ${APP_HOSTNAME};
+
+  client_max_body_size 100m;
+
+  add_header Cache-Control $cacheControl;
+  expires $expires;
+
+  if ( $host ~ ^www\.(.*)$ ) {
+    return 301 http://$1$request_uri;
+  }
+
+  location / {
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $http_host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_pass_request_headers on;
+    proxy_pass http://backend;
+  }
+
+  location = /favicon.svg {
+    root $static;
+  }
+
+  location = /sw.js {
+    root $static;
+  }
+
+  location ^~ /assets/ {
+    root $static;
+  }
+}
+

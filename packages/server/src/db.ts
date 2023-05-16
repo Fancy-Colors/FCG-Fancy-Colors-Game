@@ -24,7 +24,9 @@ export async function dbConnect() {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ alter: NODE_ENV === 'development' });
+    return sequelize;
   } catch (error) {
     console.error('Unable to connect to the database: ', error);
+    throw new Error('Unable to connect to the database');
   }
 }
