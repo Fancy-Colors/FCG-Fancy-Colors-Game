@@ -10,8 +10,8 @@ services:
       args:
         ENABLED_MODULES: brotli
     restart: unless-stopped
-    volumes:
-      - static-assets:/var/www/static/
+    volumes_from:
+      - server:ro
     depends_on:
       server:
         condition: service_started
@@ -39,7 +39,7 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - static-assets:/app/packages/client/dist/client
+      - /app/packages/client/dist/client
     networks:
       - isolated
     ports:
@@ -98,7 +98,6 @@ services:
 
 volumes:
   pgadmin-data:
-  static-assets:
 
 networks:
   isolated:
