@@ -25,8 +25,10 @@ export const createRoutes = (store: AppStore, user?: Nullable<UserDTO>) => {
       loader={() => json({ user: user ? transformUser(user) : null })}
     >
       <Route element={<YandexOAuth />}>
-        <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
-        <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
+        <Route element={<ProtectedRoutes reverse />}>
+          <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
+          <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
+        </Route>
         <Route
           element={<MainLayout />}
           loader={({ request }) => {

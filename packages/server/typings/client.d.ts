@@ -5,7 +5,7 @@ declare module 'client' {
     StaticHandler,
   } from '@remix-run/router';
 
-  function createRenderer(): {
+  function createRenderer(serverContext: Record<string, unknown>): {
     render: (
       router: Router,
       context: StaticHandlerContext,
