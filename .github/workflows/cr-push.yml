@@ -28,7 +28,7 @@ jobs:
           APP_HOSTNAME: localhost
         run: |
           docker compose build server nginx
-          docker tag practicum-server:latest cr.yandex/$CR_REGISTRY/practicum-server:$IMAGE_TAG
-          docker push cr.yandex/$CR_REGISTRY/practicum-server:$IMAGE_TAG
-          docker tag practicum-nginx:latest cr.yandex/$CR_REGISTRY/practicum-nginx:$IMAGE_TAG
-          docker push cr.yandex/$CR_REGISTRY/practicum-nginx:$IMAGE_TAG
+          docker tag practicum-server:latest cr.yandex/$CR_REGISTRY/practicum-server:latest
+          docker push cr.yandex/$CR_REGISTRY/practicum-server:latest
+          docker tag practicum-nginx:latest cr.yandex/$CR_REGISTRY/practicum-nginx:latest
+          docker push cr.yandex/$CR_REGISTRY/practicum-nginx:latest
