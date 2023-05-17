@@ -11,6 +11,7 @@ import { ProfileLink } from 'components/profile-link';
 import { Footer } from 'components/footer';
 import { BurgerMenu } from 'components/burger-menu';
 import { ErrorBoundary } from 'utils/error-boundary';
+import { HowToModal } from 'components/how-to-modal';
 import { RouterPaths } from 'src/app.types';
 import { LINKS, SOCIAL_LINKS } from 'src/mock/side-menu-links';
 import styles from './side-menu.module.pcss';
@@ -23,6 +24,7 @@ export const SideMenu: FC = () => {
 
   const [expanded, setExpanded] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [showFaqModal, setShowFaqModal] = useState(false);
 
   const handleMenuOpen = useCallback(() => {
     if (width > 500) {
@@ -103,14 +105,22 @@ export const SideMenu: FC = () => {
 
           {expanded && <div className={styles.delimiter} />}
 
-          <Link to={RouterPaths.HOW_TO} className="text-main">
+          <button
+            type="button"
+            className={cn(styles.faqButton, 'text-main')}
+            onClick={() => setShowFaqModal(true)}
+          >
             <p
               className={cn(styles.howToText, 'text-menu')}
               data-expanded={expanded}
             >
               {expanded ? 'Как играть в Fancy Colors?' : '?'}
             </p>
-          </Link>
+          </button>
+          <HowToModal
+            show={showFaqModal}
+            onClose={() => setShowFaqModal(false)}
+          />
 
           <button
             type="button"

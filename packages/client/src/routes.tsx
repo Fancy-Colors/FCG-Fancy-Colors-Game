@@ -1,6 +1,5 @@
 import { ProtectedRoutes } from 'utils/protected-routes';
 import { MainLayout } from 'components/main-layout';
-import { NewThreadModal } from 'components/modal-new-thread';
 import { AuthLayout } from 'components/auth-layout';
 import { RegisterPage, LoginPage } from 'pages/auth';
 import { Error500, Error404 } from 'pages/error';
@@ -29,13 +28,7 @@ export const createRoutes = (store: AppStore, user?: Nullable<UserDTO>) => {
           <Route path={RouterPaths.REGISTER} element={<RegisterPage />} />
           <Route path={RouterPaths.LOGIN} element={<LoginPage />} />
         </Route>
-        <Route
-          element={<MainLayout />}
-          loader={({ request }) => {
-            const url = new URL(request.url);
-            return url.searchParams.get('modal');
-          }}
-        >
+        <Route element={<MainLayout />}>
           <Route
             path={RouterPaths.MAIN}
             element={<MainPage />}
@@ -43,12 +36,7 @@ export const createRoutes = (store: AppStore, user?: Nullable<UserDTO>) => {
           />
           <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path={RouterPaths.FORUM} element={<Forum />}>
-              <Route
-                path={RouterPaths.NEW_THREAD}
-                element={<NewThreadModal />}
-              />
-            </Route>
+            <Route path={RouterPaths.FORUM} element={<Forum />} />
             <Route
               path={`${RouterPaths.FORUM}/:id`}
               element={<ForumThread />}

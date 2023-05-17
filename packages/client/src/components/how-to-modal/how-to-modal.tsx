@@ -1,16 +1,19 @@
-import { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Modal } from 'components/modal';
 import { howToTextData } from 'src/mock/how-to-data';
 import cn from 'classnames';
 import styles from './how-to-modal.module.pcss';
 
-export const HowToModal: FC = () => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
+export const HowToModal = ({
+  onClose,
+  show,
+}: {
+  onClose: () => void;
+  show: boolean;
+}) => {
+  if (!show) return null;
 
   return (
-    <Modal onClose={() => navigate(pathname)}>
+    <Modal onClose={onClose}>
       <div className={cn(styles.content, 'u-fancy-scrollbar', 'w-6')}>
         {howToTextData.map(({ title, text }, idx) => {
           return (
