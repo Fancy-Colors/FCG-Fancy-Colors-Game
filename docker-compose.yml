@@ -1,45 +1,61 @@
 version: '3.9'
 
 services:
-  client:
-    container_name: prakticum-client
-    image: prakticum-client
+  nginx:
+    container_name: practicum-nginx
+    image: practicum-nginx
     build:
       context: .
-      dockerfile: Dockerfile.client
+      dockerfile: Dockerfile.nginx
       args:
-        CLIENT_PORT: ${CLIENT_PORT}
-    restart: always
+        ENABLED_MODULES: brotli
+    restart: unless-stopped
+    volumes:
+      - static-assets:/var/www/static/
+    depends_on:
+      server:
+        condition: service_started
     ports:
-      - '${CLIENT_PORT}:80'
+      - '3000:80'
     networks:
       - isolated
     environment:
-      - CLIENT_PORT=${CLIENT_PORT}
-      - SERVER_PORT=${SERVER_PORT}
+      SERVER_PORT: ${SERVER_PORT}
+      APP_HOSTNAME: ${APP_HOSTNAME}
 
   server:
-    container_name: prakticum-server
-    image: prackicum-server
+    container_name: practicum-server
+    image: practicum-server
     build:
       context: .
       dockerfile: Dockerfile.server
       args:
         SERVER_PORT: ${SERVER_PORT}
-    restart: always
+        VITE_TEAM_NAME: ${VITE_TEAM_NAME}
+        VITE_API_BASE_URL: ${PRACTICUM_API_URL}/api/v2
+        VITE_YANDEX_OAUTH_REDIRECT_URI: ${VITE_YANDEX_OAUTH_REDIRECT_URI}
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - static-assets:/app/packages/client/dist/client
     networks:
       - isolated
     ports:
       - '${SERVER_PORT}:${SERVER_PORT}'
     environment:
       SERVER_PORT: ${SERVER_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      PRACTICUM_API_URL: ${PRACTICUM_API_URL}
 
   postgres:
     image: postgres:14
-    container_name: prakticum-db
+    container_name: practicum-db
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     environment:
@@ -50,7 +66,7 @@ services:
       - ./tmp/pgdata:/var/lib/postgresql/data
     networks:
       - isolated
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test:
         [
@@ -62,14 +78,14 @@ services:
       retries: 3
 
   pgadmin:
-    container_name: prakticum-pgadmin
+    container_name: practicum-pgadmin
     image: dpage/pgadmin4:6.3
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'False'
       PGADMIN_LISTEN_PORT: 80
-    restart: always
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
@@ -82,6 +98,7 @@ services:
 
 volumes:
   pgadmin-data:
+  static-assets:
 
 networks:
   isolated:

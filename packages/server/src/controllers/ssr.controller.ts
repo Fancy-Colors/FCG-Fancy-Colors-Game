@@ -29,7 +29,16 @@ async function getUserTheme(req: Request, userId?: number) {
 
 export function createSSRController(vite?: ViteDevServer) {
   const require = createRequire(import.meta.url);
-  const templatePath = require.resolve('client/index.html');
+  let template: string;
+
+  if (vite) {
+    template = fs.readFileSync(
+      require.resolve('client/dev/index.html'),
+      'utf-8'
+    );
+  } else {
+    template = fs.readFileSync(require.resolve('client/index.html'), 'utf-8');
+  }
 
   return async function ssrController(
     req: Request,
@@ -40,23 +49,18 @@ export function createSSRController(vite?: ViteDevServer) {
       return next();
     }
 
+    const { cspNonce } = res.locals;
     const url = req.originalUrl;
-    let template: string;
     let ssrEntry: SSREntry;
     const user = httpContext.get('user');
 
     try {
       if (vite) {
-        template = fs.readFileSync(
-          require.resolve('client/dev/index.html'),
-          'utf-8'
-        );
         template = await vite.transformIndexHtml(url, template);
         ssrEntry = (await vite.ssrLoadModule(
           require.resolve('client/dev/entry-server')
         )) as SSREntry;
       } else {
-        template = fs.readFileSync(templatePath, 'utf-8');
         ssrEntry = await import('client');
       }
 
@@ -83,14 +87,15 @@ export function createSSRController(vite?: ViteDevServer) {
       const { initialState, renderResult } = render(
         staticRouter,
         context,
-        theme
+        theme,
+        cspNonce
       );
 
       const initialStateSerialized = jsesc(initialState, {
         json: true,
         isScriptContext: true,
       });
-      const storeState = `<script>window.__INITIAL_STATE__ = ${initialStateSerialized}</script>`;
+      const storeState = `<script nonce="${cspNonce}">window.__INITIAL_STATE__ = ${initialStateSerialized}</script>`;
 
       const html = template
         .replace('<!--ssr-outlet-->', renderResult)

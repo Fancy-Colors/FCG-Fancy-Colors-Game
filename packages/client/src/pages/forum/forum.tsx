@@ -1,9 +1,9 @@
 import { ButtonLink } from 'components/button';
 import { TextField } from 'components/text-field';
 import { ForumItem } from 'components/forum-item';
+import cn from 'classnames';
 
 import style from './forum.module.pcss';
-import { Icon } from 'components/icon';
 import { RouterPaths } from 'src/app.types';
 import { useEffect } from 'react';
 import { Pagination } from 'components/pagination';
@@ -31,8 +31,8 @@ export const Forum = () => {
   };
 
   return (
-    <main className={style.container}>
-      <div className={style.panel}>
+    <section className={cn(style.container, 'u-page')}>
+      <div className={cn(style.panel, 'u-fancy-scrollbar')}>
         <div className={style.controls}>
           <div>
             <ButtonLink to={RouterPaths.NEW_THREAD} className={style.create}>
@@ -40,7 +40,6 @@ export const Forum = () => {
             </ButtonLink>
           </div>
           <div className={style.search}>
-            <Icon type="search" size="xs" color="#6d7076" />
             <TextField placeholder="Поиск" />
           </div>
         </div>
@@ -51,7 +50,6 @@ export const Forum = () => {
               text={t.text}
               date={t.date}
               name={t.name}
-              messageCount={t.messageCount}
               id={t.id}
               key={t.id}
             />
@@ -63,6 +61,6 @@ export const Forum = () => {
           />
         </article>
       </div>
-    </main>
+    </section>
   );
 };

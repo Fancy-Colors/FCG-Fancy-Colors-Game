@@ -1,3 +1,4 @@
+import { practicumHttpClient } from './api-clients';
 import { BaseApi } from './base';
 import { APIError } from './types';
 
@@ -26,10 +27,6 @@ export type PlayerData = {
 };
 
 export class LeaderboardApi extends BaseApi {
-  constructor() {
-    super('/v2/leaderboard');
-  }
-
   getLeaders(payload: LeadersReq) {
     return this.http.post<PlayerData[] | APIError>(
       `/${import.meta.env.VITE_TEAM_NAME}`,
@@ -51,4 +48,6 @@ export class LeaderboardApi extends BaseApi {
   }
 }
 
-export const leaderboardApi = new LeaderboardApi();
+export const leaderboardApi = new LeaderboardApi(
+  practicumHttpClient('/leaderboard')
+);

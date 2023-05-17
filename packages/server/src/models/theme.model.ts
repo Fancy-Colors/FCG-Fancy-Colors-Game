@@ -14,7 +14,6 @@ import {
 })
 export class Theme extends Model {
   @AllowNull(false)
-  @Unique
   @Column
   name: string;
 

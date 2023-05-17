@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { UserTheme, Theme, Thread, Message } from './models/index.js';
+import { Theme, Thread, Message } from './models/index.js';
 
 const {
   POSTGRES_USER,
@@ -17,14 +17,16 @@ const sequelize = new Sequelize({
   password: POSTGRES_PASSWORD,
   port: Number(POSTGRES_PORT),
   dialect: 'postgres',
-  models: [UserTheme, Theme, Thread, Message],
+  models: [Theme, Thread, Message],
 });
 
 export async function dbConnect() {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ alter: NODE_ENV === 'development' });
+    return sequelize;
   } catch (error) {
     console.error('Unable to connect to the database: ', error);
+    throw new Error('Unable to connect to the database');
   }
 }
