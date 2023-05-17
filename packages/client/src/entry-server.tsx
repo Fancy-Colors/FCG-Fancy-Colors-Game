@@ -8,10 +8,15 @@ import {
 } from '@remix-run/router';
 import { createRoutes } from './routes';
 import { createStore } from './store';
+import { UserDTO } from 'api/types';
 
-export function createRenderer() {
+type ServerContext = {
+  user: Nullable<UserDTO>;
+};
+
+export function createRenderer({ user }: ServerContext) {
   const store = createStore();
-  const routes = createRoutes(store);
+  const routes = createRoutes(store, user);
   const staticHandler = createStaticHandler(routes);
 
   const render = (

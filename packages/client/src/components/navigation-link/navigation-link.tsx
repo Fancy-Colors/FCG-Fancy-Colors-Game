@@ -8,14 +8,12 @@ type Props = {
   iconType: IconType;
   active: boolean;
   text: string;
-  informer?: string;
 };
 
 export const NavigationLink: FC<Props> = ({
   iconType,
   active,
   text,
-  informer,
   expanded = true,
 }) => {
   return (
@@ -29,7 +27,6 @@ export const NavigationLink: FC<Props> = ({
       {expanded && (
         <div className={styles.textAndInfoWrap}>
           <p className={cn(styles.text, 'text-main')}>{text}</p>
-          {informer && <div className={styles.informer}>{informer}</div>}
         </div>
       )}
     </div>

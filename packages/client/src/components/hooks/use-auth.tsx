@@ -23,7 +23,7 @@ export function AuthProvider({
   children,
   userData,
 }: {
-  children: React.ReactElement | null;
+  children: React.ReactNode | null;
   userData: User | null;
 }) {
   const [user, setUser] = useState<User | null>(userData);
@@ -38,14 +38,19 @@ export function AuthProvider({
       setLoading(true);
       setError(null);
 
-      await authApi.signIn({ login, password });
-      const response = await authApi.me();
+      const signInResponse = await authApi.signIn({ login, password });
 
-      if (hasApiError(response)) {
-        throw new Error(response.reason);
+      if (hasApiError(signInResponse)) {
+        throw new Error(signInResponse.reason);
       }
 
-      setUser(transformUser(response));
+      const userResponse = await authApi.me();
+
+      if (hasApiError(userResponse)) {
+        throw new Error(userResponse.reason);
+      }
+
+      setUser(transformUser(userResponse));
       navigate(RouterPaths.MAIN);
     } catch (err: unknown) {
       dispatch(
