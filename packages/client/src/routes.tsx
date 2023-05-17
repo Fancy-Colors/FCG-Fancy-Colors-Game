@@ -34,8 +34,8 @@ export const createRoutes = (store: AppStore, user?: Nullable<UserDTO>) => {
             element={<MainPage />}
             loader={() => levelLoader(store)}
           />
-          <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
           <Route element={<ProtectedRoutes />}>
+            <Route path={RouterPaths.LEADERBOARD} element={<Leaderboard />} />
             <Route path={RouterPaths.FORUM} element={<Forum />} />
             <Route
               path={`${RouterPaths.FORUM}/:id`}
