@@ -5,21 +5,24 @@ FROM node:$NODE_VERSION-buster as base
 WORKDIR /app
 
 FROM base as builder
+ARG VITE_TEAM_NAME
+ARG VITE_API_BASE_URL
+ARG VITE_YANDEX_OAUTH_REDIRECT_URI
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn lerna bootstrap --scope server --scope client &&\
-  yarn lerna run prepare --scope client
+ENV VITE_TEAM_NAME=$VITE_TEAM_NAME
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_YANDEX_OAUTH_REDIRECT_URI=$VITE_YANDEX_OAUTH_REDIRECT_URI
 
-RUN rm -rf /app/packages/server/dist/ &&\
+RUN yarn lerna bootstrap --scope server --scope client &&\
+  yarn lerna run prepare --scope client &&\
   yarn build --scope=server
 
-FROM node:$NODE_VERSION-buster-slim as production
-WORKDIR /app
-
+FROM base as bootstrap
 ENV NODE_ENV=production
 ENV PATH="${PATH}:/app/node_modules/.bin"
 
@@ -34,8 +37,18 @@ COPY --from=builder /app/packages/client/index.html /app/packages/client/index.h
 
 COPY lerna.json ./
 
-RUN lerna bootstrap --scope server --scope client -- --production &&\
-  yarn cache clean
+RUN lerna bootstrap --scope server --scope client -- --frozen-lockfile &&\
+  yarn cache clean &&\
+  # уменьшаем размер образа на ~400мб
+  yarn remove lerna -W --frozen-lockfile
+
+FROM node:$NODE_VERSION-buster-slim as production
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY --from=bootstrap /app/packages /app/packages/
+COPY --from=bootstrap /app/node_modules /app/node_modules
 
 EXPOSE $SERVER_PORT
 CMD [ "node", "-r", "dotenv/config", "/app/packages/server/index.js" ]

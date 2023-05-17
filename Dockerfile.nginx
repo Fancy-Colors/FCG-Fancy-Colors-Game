@@ -69,6 +69,7 @@ RUN set -ex \
     && echo "BUILT_MODULES=\"$BUILT_MODULES\"" > /tmp/packages/modules.env
 
 FROM nginx:mainline
+
 COPY --from=builder /tmp/packages /tmp/packages
 RUN set -ex \
     && apt update \
@@ -78,3 +79,7 @@ RUN set -ex \
        done \
     && rm -rf /tmp/packages \
     && rm -rf /var/lib/apt/lists/
+
+COPY nginx/modules-enabled /etc/nginx/modules-enabled
+COPY nginx/templates /etc/nginx/templates
+COPY nginx/nginx.conf /etc/nginx/nginx.conf

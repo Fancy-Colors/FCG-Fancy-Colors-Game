@@ -56,7 +56,7 @@ async function bootstrap() {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         '*': '',
       },
-      target: process.env.PRAKTIKUM_API_URL,
+      target: process.env.PRACTICUM_API_URL,
     })
   );
   app.use(express.json());
@@ -85,6 +85,7 @@ async function bootstrap() {
             'data:',
             'avatars.mds.yandex.net',
             'fancy-api.kurkov.online',
+            'ya-praktikum.tech',
           ],
           objectSrc: "'none'",
           connectSrc: [
@@ -118,7 +119,9 @@ async function bootstrap() {
 
   process.on('SIGINT', gracefulShutdown);
   process.on('SIGTERM', gracefulShutdown);
-  process.on('unhandledRejection', gracefulShutdown);
+  process.on('unhandledRejection', (reason) => {
+    console.error('unhandledRejection: ', reason);
+  });
 
   function gracefulShutdown(signal: string | number) {
     console.log(`  ➜ Received signal to terminate: ${signal}`);
