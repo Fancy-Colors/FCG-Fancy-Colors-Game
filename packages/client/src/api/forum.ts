@@ -5,7 +5,7 @@ import { localHttpClient } from './api-clients';
 class ForumApi extends BaseApi {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getForum = (limit = 20, offset = 0) => {
-    return this.http.get<ForumItem[]>(`/threads`, {
+    return this.http.get<ForumItem[]>('/', {
       data: {
         limit,
         offset,
@@ -13,8 +13,18 @@ class ForumApi extends BaseApi {
     });
   };
 
-  getThreadsCount = () => {
-    return this.http.get<{ threadsCount: number }>(`/threads/count`);
+  createThread = (payload: {
+    firstMessage: string;
+    createdBy: number;
+    title: string;
+  }) => {
+    return this.http.post<Thread>('/', {
+      data: payload,
+    });
+  };
+
+  count = () => {
+    return this.http.get<{ threadsCount: number }>(`/count`);
   };
 
   getThread = (id: number) => {

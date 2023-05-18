@@ -28,7 +28,10 @@ export const Forum = () => {
     dispatch(fetchForumPage(page, limit));
   }, [page, dispatch, limit]);
 
-  const pages = useMemo(() => Math.floor(count / limit) + 1, [count, limit]);
+  const pages = useMemo(
+    () => Math.floor((count - 1) / limit) + 1,
+    [count, limit]
+  );
 
   const handlePageChange = (num: number) => {
     dispatch(setCurrentForumPage({ page: num }));

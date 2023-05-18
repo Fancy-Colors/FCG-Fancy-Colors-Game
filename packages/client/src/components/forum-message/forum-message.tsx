@@ -49,9 +49,11 @@ export const ForumMessage: FC<ForumMessageProps> = ({
           name={user?.firstName ?? ''}
           size="small"
         />
-        <h4
-          className={style.logo}
-        >{`${user?.firstName} ${user?.secondName}`}</h4>
+        {user && (
+          <h4 className={style.logo}>
+            {`${user.firstName} ${user.secondName}`}
+          </h4>
+        )}
       </div>
       <div className={style.content}>
         <div className={cn('text-main', style.date)}>
