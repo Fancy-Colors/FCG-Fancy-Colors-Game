@@ -11,9 +11,10 @@ import style from './forum-item.module.pcss';
 export const ForumItem: FC<ForumItemProps> = ({
   id,
   title,
-  text,
+  firstMessage,
   name,
-  date,
+  createdAt,
+  // messageCount,
   avatar,
 }) => {
   return (
@@ -21,7 +22,7 @@ export const ForumItem: FC<ForumItemProps> = ({
       <section className={style.thread}>
         <div>
           <h4 className={style.header}>{title}</h4>
-          <p className={style.text}>{text}</p>
+          <p className={style.text}>{firstMessage}</p>
         </div>
         <div className={style.info}>
           <div className={style.left}>
@@ -31,7 +32,7 @@ export const ForumItem: FC<ForumItemProps> = ({
             </div>
           </div>
           <div className={cn(style.date, 'text-main')}>
-            <DateFormatted date={date} />
+            <DateFormatted date={createdAt} />
           </div>
         </div>
       </section>

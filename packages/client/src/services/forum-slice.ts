@@ -13,11 +13,12 @@ export type ForumMessage = {
 };
 
 export type ForumItem = {
+  createdAt: string;
+  firstMessage: string;
   id: number;
   title: string;
-  text: string;
   name: string;
-  date: string;
+  messageCount?: string | number;
   avatar?: string;
 };
 
@@ -31,6 +32,7 @@ export type Thread = {
 
 export type ForumState = {
   count: number;
+  limit: number;
   forum: Forum;
   currentForumPage: number;
   currentThreadPage: number;
@@ -41,7 +43,8 @@ export type ForumState = {
 };
 
 const initialState: ForumState = {
-  count: 20,
+  count: 0,
+  limit: 5,
   forum: [],
   thread: {
     id: -1,
@@ -112,6 +115,9 @@ export const forumSlice = createSlice({
     setCurrentThreadPage: (state, action: PayloadAction<{ page: number }>) => {
       state.currentThreadPage = action.payload.page;
     },
+    setCount: (state, action: PayloadAction<{ threadsCount: number }>) => {
+      state.count = action.payload.threadsCount;
+    },
   },
 });
 
@@ -123,6 +129,7 @@ export const {
   setMessagesPagesCount,
   setCurrentForumPage,
   setCurrentThreadPage,
+  setCount,
 } = forumSlice.actions;
 
 export default forumSlice.reducer;

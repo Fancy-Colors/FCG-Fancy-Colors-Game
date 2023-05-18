@@ -4,7 +4,7 @@ import { ForumItem } from 'components/forum-item';
 import cn from 'classnames';
 
 import style from './forum.module.pcss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Pagination } from 'components/pagination';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import {
@@ -18,14 +18,17 @@ export const Forum = () => {
   const {
     forum,
     count,
+    limit,
     currentForumPage: page,
   } = useAppSelector((state) => state.forum);
   const dispatch = useAppDispatch();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchForumPage(page));
-  }, [page, dispatch]);
+    dispatch(fetchForumPage(page, limit));
+  }, [page, dispatch, limit]);
+
+  const pages = useMemo(() => Math.floor(count / limit) + 1, [count, limit]);
 
   const handlePageChange = (num: number) => {
     dispatch(setCurrentForumPage({ page: num }));
@@ -56,16 +59,17 @@ export const Forum = () => {
           {forum?.map((t: ForumItemProps) => (
             <ForumItem
               title={t.title}
-              text={t.text}
-              date={t.date}
-              name={t.name}
+              firstMessage={t.firstMessage}
+              createdAt={t.createdAt}
+              name={t.name ?? ''}
+              messageCount="50+"
               id={t.id}
               key={t.id}
             />
           ))}
           <Pagination
             currentPage={page}
-            pages={count}
+            pages={pages}
             onChange={handlePageChange}
           />
         </article>

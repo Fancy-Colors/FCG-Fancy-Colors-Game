@@ -34,7 +34,7 @@ export class ThreadService implements BaseService {
     });
 
     if (thread && message) {
-      return Promise.resolve(thread.dataValues);
+      return thread.dataValues;
     }
   }
 

@@ -67,7 +67,7 @@ map $sent_http_content_type $cacheControl {
 }
 
 server {
-  set $static /var/www/static;
+  set $static /app/packages/client/dist/client;
 
   listen 80;
   server_name ${APP_HOSTNAME};
