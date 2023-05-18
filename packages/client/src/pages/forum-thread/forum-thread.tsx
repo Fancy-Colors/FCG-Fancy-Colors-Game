@@ -32,6 +32,7 @@ export const ForumThread = () => {
     messagesPagesCount,
     currentThreadPage: page,
   } = useAppSelector((state) => state.forum);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { id: threadId } = useParams();
 
@@ -40,9 +41,12 @@ export const ForumThread = () => {
   }
 
   const fetchData = useCallback(async () => {
-    await dispatch(fetchThread(+threadId, page));
-    await dispatch(fetchMessages(+threadId, page, LIMIT));
-    await dispatch(fetchThreadMessagesCount(+threadId, LIMIT));
+    await Promise.all([
+      dispatch(fetchThread(+threadId, page)),
+      dispatch(fetchMessages(+threadId, page, LIMIT)),
+      dispatch(fetchThreadMessagesCount(+threadId, LIMIT)),
+    ]);
+    setIsLoading(false);
   }, [page, threadId, dispatch]);
 
   useEffect(() => {
@@ -97,56 +101,62 @@ export const ForumThread = () => {
         <span className={styles.text}>К темам</span>
       </Link>
       <div className={styles.wrapper}>
-        <h3 className={styles.title}>{thread?.title}</h3>
-        <div className={cn(styles.posts, 'u-fancy-scrollbar')}>
-          {messages?.map((m) => (
-            <ForumMessage
-              createdBy={m.createdBy}
-              createdAt={m.createdAt}
-              updatedAt={m.updatedAt}
-              repliedTo={m.repliedTo}
-              threadId={m.threadId}
-              text={m.text}
-              id={m.id}
-              key={m.id}
-              handleReply={onClickReply}
+        {isLoading ? (
+          'Загрузка...'
+        ) : (
+          <>
+            <h3 className={styles.title}>{thread?.title}</h3>
+            <div className={cn(styles.posts, 'u-fancy-scrollbar')}>
+              {messages?.map((m) => (
+                <ForumMessage
+                  createdBy={m.createdBy}
+                  createdAt={m.createdAt}
+                  updatedAt={m.updatedAt}
+                  repliedTo={m.repliedTo}
+                  threadId={m.threadId}
+                  text={m.text}
+                  id={m.id}
+                  key={m.id}
+                  handleReply={onClickReply}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={page}
+              pages={messagesPagesCount}
+              onChange={handlePageChange}
             />
-          ))}
-        </div>
-        <Pagination
-          currentPage={page}
-          pages={messagesPagesCount}
-          onChange={handlePageChange}
-        />
-        {reply && (
-          <div className={styles.replyInfo}>
-            <div className={styles.replyInfoText}>
-              Вы отвечаете пользователю <span>{reply.userName}</span>
-            </div>
-            <div className={styles.replyInfoCancel}>
-              <Button
-                color={ButtonColor.ICON}
-                size="small"
-                onClick={cancelReply}
-              >
-                <Icon type="close" size="xs" color="#6d7076" />
-              </Button>
-            </div>
-          </div>
+            {reply && (
+              <div className={styles.replyInfo}>
+                <div className={styles.replyInfoText}>
+                  Вы отвечаете пользователю <span>{reply.userName}</span>
+                </div>
+                <div className={styles.replyInfoCancel}>
+                  <Button
+                    color={ButtonColor.ICON}
+                    size="small"
+                    onClick={cancelReply}
+                  >
+                    <Icon type="close" size="xs" color="#6d7076" />
+                  </Button>
+                </div>
+              </div>
+            )}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <TextArea
+                {...register('replyText', {
+                  required: 'Обязательное поле',
+                })}
+                error={errors.replyText?.message as string}
+              />
+              <div className={styles.formButtons}>
+                <Button size="medium" color={ButtonColor.COLORED} type="submit">
+                  Отправить
+                </Button>
+              </div>
+            </form>
+          </>
         )}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextArea
-            {...register('replyText', {
-              required: 'Обязательное поле',
-            })}
-            error={errors.replyText?.message as string}
-          />
-          <div className={styles.formButtons}>
-            <Button size="medium" color={ButtonColor.COLORED} type="submit">
-              Отправить
-            </Button>
-          </div>
-        </form>
       </div>
     </div>
   );

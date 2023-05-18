@@ -25,7 +25,6 @@ jobs:
           PRACTICUM_API_URL: https://ya-praktikum.tech
           SERVER_PORT: 5000
           POSTGRES_PORT: 5432
-          APP_HOSTNAME: localhost
         run: |
           docker compose build server nginx
           docker tag practicum-server:latest cr.yandex/$CR_REGISTRY/practicum-server:latest
