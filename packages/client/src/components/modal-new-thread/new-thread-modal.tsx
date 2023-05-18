@@ -1,5 +1,3 @@
-import { FC } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Modal } from 'components/modal';
 import { TextField } from 'components/text-field';
@@ -15,12 +13,12 @@ type FormField = {
   message: string;
 };
 
-type Props = JSX.IntrinsicElements['form'];
+type Props = {
+  onClose: () => void;
+  show: boolean;
+};
 
-export const NewThreadModal: FC<Props> = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
+export const NewThreadModal = ({ onClose, show }: Props) => {
   const {
     register,
     handleSubmit,
@@ -33,23 +31,11 @@ export const NewThreadModal: FC<Props> = (props) => {
     // API форума. Cоздание темы
   };
 
-  const onClose = () => {
-    if (location.state?.fromOwnHost) {
-      navigate(-1);
-    } else {
-      setTimeout(() => {
-        navigate('/');
-      }, 0);
-    }
-  };
+  if (!show) return null;
 
   return (
     <Modal onClose={onClose}>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit(onSubmit)}
-        {...props}
-      >
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
           placeholder="Название темы"
           type="text"

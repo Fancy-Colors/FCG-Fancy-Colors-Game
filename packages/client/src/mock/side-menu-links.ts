@@ -1,9 +1,9 @@
 import { RouterPaths } from 'src/app.types';
+
 export type LinkType = {
   iconType: IconType;
   link: RouterPaths;
   text: string;
-  informer?: string;
 };
 
 export const LINKS: LinkType[] = [
@@ -21,7 +21,6 @@ export const LINKS: LinkType[] = [
     iconType: 'forum',
     link: RouterPaths.FORUM,
     text: 'Форум',
-    informer: '23',
   },
 ];
 

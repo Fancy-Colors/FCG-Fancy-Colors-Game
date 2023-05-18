@@ -4,10 +4,12 @@ export type Forum = ForumItem[];
 
 export type ForumMessage = {
   id: number;
-  avatar?: string;
-  name: string;
-  date: string;
   text: string;
+  createdAt: string;
+  updatedAt: string;
+  threadId: string;
+  repliedTo: string;
+  createdBy: number;
 };
 
 export type ForumItem = {
@@ -23,7 +25,9 @@ export type ForumItem = {
 export type Thread = {
   id: number;
   title: string;
-  messages: ForumMessage[];
+  createdBy: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ForumState = {
@@ -33,6 +37,9 @@ export type ForumState = {
   currentForumPage: number;
   currentThreadPage: number;
   thread: Thread;
+  messages: ForumMessage[];
+  messagesCount: number;
+  messagesPagesCount: number;
 };
 
 const initialState: ForumState = {
@@ -42,8 +49,13 @@ const initialState: ForumState = {
   thread: {
     id: -1,
     title: '',
-    messages: [],
+    createdBy: -1,
+    createdAt: '',
+    updatedAt: '',
   },
+  messages: [],
+  messagesCount: 0,
+  messagesPagesCount: 0,
   currentForumPage: 1,
   currentThreadPage: 1,
 };
@@ -71,6 +83,32 @@ export const forumSlice = createSlice({
     ) => {
       state.thread = action.payload.data;
     },
+    setMessages: (
+      state,
+      action: PayloadAction<{
+        threadId: number;
+        page: number;
+        data: ForumMessage[];
+      }>
+    ) => {
+      state.messages = action.payload.data;
+    },
+    setMessagesCount: (
+      state,
+      action: PayloadAction<{
+        count: number;
+      }>
+    ) => {
+      state.messagesCount = action.payload.count;
+    },
+    setMessagesPagesCount: (
+      state,
+      action: PayloadAction<{
+        count: number;
+      }>
+    ) => {
+      state.messagesPagesCount = action.payload.count;
+    },
     setCurrentForumPage: (state, action: PayloadAction<{ page: number }>) => {
       state.currentForumPage = action.payload.page;
     },
@@ -86,6 +124,9 @@ export const forumSlice = createSlice({
 export const {
   setForum,
   setThread,
+  setMessages,
+  setMessagesCount,
+  setMessagesPagesCount,
   setCurrentForumPage,
   setCurrentThreadPage,
   setCount,

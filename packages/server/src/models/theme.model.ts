@@ -13,14 +13,13 @@ import {
   tableName: 'theme',
 })
 export class Theme extends Model {
+  @AllowNull(false)
+  @Column
+  name: string;
+
   @Index
   @AllowNull(false)
   @Unique
   @Column
-  name: string;
-
-  @AllowNull(false)
-  @Unique
-  @Column
-  colors: string;
+  userId: number;
 }

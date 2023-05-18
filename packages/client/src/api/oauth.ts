@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { BaseApi } from 'api/base';
 import { APIError } from 'api/types';
+import { practicumHttpClient } from './api-clients';
 
 export class OAuthAPI extends BaseApi {
-  constructor() {
-    super('/oauth');
-  }
-
   signIn(payload: { code: string; redirect_uri: string }) {
     return this.http.post<void | APIError>('/yandex', {
       data: payload,
@@ -23,4 +20,4 @@ export class OAuthAPI extends BaseApi {
   }
 }
 
-export const oAuthApi = new OAuthAPI();
+export const oAuthApi = new OAuthAPI(practicumHttpClient('/oauth'));

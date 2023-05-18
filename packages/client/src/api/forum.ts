@@ -1,16 +1,8 @@
-import { thread } from 'src/mock/forum-thread';
-import { HTTPClient } from 'api/http-client';
 import { ForumItem, Thread } from 'src/services/forum-slice';
+import { BaseApi } from 'api/base';
+import { localHttpClient } from './api-clients';
 
-class ForumApi {
-  http: HTTPClient;
-
-  constructor(protected readonly endnpoint: string) {
-    this.http = new HTTPClient(
-      import.meta.env.VITE_LOCAL_API_BASE_URL + endnpoint
-    );
-  }
-
+class ForumApi extends BaseApi {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getForum = (limit = 20, offset = 0) => {
     return this.http.get<ForumItem[]>(`/threads`, {
@@ -21,16 +13,13 @@ class ForumApi {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getThread = (pageNumber: string | number = 1): Promise<Thread> => {
-    return new Promise<Thread>((resolve) => {
-      resolve(thread);
-    });
-  };
-
   getThreadsCount = () => {
     return this.http.get<{ threadsCount: number }>(`/threads/count`);
   };
+
+  getThread = (id: number) => {
+    return this.http.get<Thread>(`/${id}/common`);
+  };
 }
 
-export const forumApi = new ForumApi('');
+export const forumApi = new ForumApi(localHttpClient('/threads'));

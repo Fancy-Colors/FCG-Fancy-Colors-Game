@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react';
 import Cookies from 'js-cookie';
+import { themeApi } from 'api/theme';
+import { useIsMounted } from 'components/hooks';
 
 export enum Theme {
   LIGHT = 'light',
@@ -25,14 +27,6 @@ function getStoredTheme() {
   return storedTheme;
 }
 
-function refreshCurrentTheme(theme: string) {
-  Cookies.set('theme', theme);
-
-  if (!import.meta.env.SSR) {
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-}
-
 type ThemeContextType = {
   theme: string;
   toggleTheme: () => void;
@@ -47,19 +41,22 @@ export function ThemeProvider({
   children: React.ReactElement;
   initialValue: string;
 }) {
+  const isMounted = useIsMounted();
   const [theme, setTheme] = useState(() => {
     return import.meta.env.SSR ? initialValue : getStoredTheme();
   });
 
-  const toggleTheme = useCallback(() => {
-    setTheme((currentTheme) =>
-      currentTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
-    );
-  }, []);
+  const toggleTheme = useCallback(async () => {
+    const updatedThemeName = theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
+    await themeApi.update(updatedThemeName);
+    setTheme(updatedThemeName);
+  }, [theme]);
 
   useEffect(() => {
-    refreshCurrentTheme(theme);
-  }, [theme]);
+    if (!import.meta.env.SSR && isMounted()) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }, [theme, isMounted]);
 
   const value = useMemo(
     () => ({

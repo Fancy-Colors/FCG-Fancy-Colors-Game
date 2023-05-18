@@ -1,11 +1,10 @@
-import { ButtonLink } from 'components/button';
+import { Button } from 'components/button';
 import { TextField } from 'components/text-field';
 import { ForumItem } from 'components/forum-item';
+import cn from 'classnames';
 
 import style from './forum.module.pcss';
-import { Icon } from 'components/icon';
-import { RouterPaths } from 'src/app.types';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Pagination } from 'components/pagination';
 import { useAppDispatch, useAppSelector } from 'components/hooks';
 import {
@@ -13,6 +12,7 @@ import {
   setCurrentForumPage,
 } from 'src/services/forum-slice';
 import { fetchForumPage } from 'src/actions';
+import { NewThreadModal } from 'components/modal-new-thread';
 
 export const Forum = () => {
   const {
@@ -22,6 +22,7 @@ export const Forum = () => {
     currentForumPage: page,
   } = useAppSelector((state) => state.forum);
   const dispatch = useAppDispatch();
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchForumPage(page, limit));
@@ -34,16 +35,23 @@ export const Forum = () => {
   };
 
   return (
-    <main className={style.container}>
-      <div className={style.panel}>
+    <section className={cn(style.container, 'u-page')}>
+      <div className={cn(style.panel, 'u-fancy-scrollbar')}>
         <div className={style.controls}>
           <div>
-            <ButtonLink to={RouterPaths.NEW_THREAD} className={style.create}>
+            <Button
+              onClick={() => setShowCreateModal(true)}
+              type="button"
+              className={style.create}
+            >
               Создать тему
-            </ButtonLink>
+            </Button>
+            <NewThreadModal
+              show={showCreateModal}
+              onClose={() => setShowCreateModal(false)}
+            />
           </div>
           <div className={style.search}>
-            <Icon type="search" size="xs" color="#6d7076" />
             <TextField placeholder="Поиск" />
           </div>
         </div>
@@ -66,6 +74,6 @@ export const Forum = () => {
           />
         </article>
       </div>
-    </main>
+    </section>
   );
 };

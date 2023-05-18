@@ -56,17 +56,17 @@ const ProfileForm = () => {
     /* eslint-enable */
 
     if (hasApiError(response)) {
-      dispatch(
+      return dispatch(
         setNotification({ type: 'error', text: 'Не удалось обновить данные' })
       );
-      return console.error(response.reason);
     }
 
     setUser(transformUser(response));
+    dispatch(setNotification({ type: 'success', text: 'Данные обновлены' }));
   };
 
   const onAvatarChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
-    const { files } = e.target as HTMLInputElement;
+    const { files } = e.target;
 
     if (files && files.length > 0) {
       // TODO: Сделать валидацию размера файла 1MB
@@ -75,13 +75,13 @@ const ProfileForm = () => {
       const response = await userApi.updateAvatar(formData);
 
       if (hasApiError(response)) {
-        dispatch(
+        return dispatch(
           setNotification({ type: 'error', text: 'Не удалось обновить данные' })
         );
-        return console.error(response.reason);
       }
 
       setUser(transformUser(response));
+      dispatch(setNotification({ type: 'success', text: 'Данные обновлены' }));
     }
   };
 
@@ -191,13 +191,13 @@ const PasswordForm = () => {
     const response = await userApi.updatePassword({ oldPassword, newPassword });
 
     if (hasApiError(response)) {
-      dispatch(
+      return dispatch(
         setNotification({ type: 'error', text: 'Не удалось обновить пароль' })
       );
-      return console.error(response.reason);
     }
 
     reset();
+    dispatch(setNotification({ type: 'success', text: 'Пароль обновлён' }));
   };
 
   return (
@@ -234,15 +234,8 @@ const PasswordForm = () => {
               error={errors.newPasswordRepeat?.message}
               {...register('newPasswordRepeat', {
                 required: { value: true, message: requiredFieldMessage },
-                validate: (value) => {
-                  const { newPassword } = getValues();
-
-                  if (value !== newPassword) {
-                    return 'Пароли не совпадают';
-                  }
-
-                  return true;
-                },
+                validate: (value) =>
+                  getValues('newPassword') === value || 'Пароли не совпадают',
               })}
             />
             <Button disabled={!isDirty} type="submit" className={styles.submit}>
