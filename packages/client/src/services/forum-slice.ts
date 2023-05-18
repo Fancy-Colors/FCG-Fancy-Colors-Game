@@ -18,7 +18,7 @@ export type ForumItem = {
   id: number;
   title: string;
   name: string;
-  messageCount: string | number;
+  messageCount?: string | number;
   avatar?: string;
 };
 
